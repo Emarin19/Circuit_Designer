@@ -20,7 +20,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("GUI.fxml"));
-        Scene scene = new Scene(root,1000,650);
+        Scene scene = new Scene(root,990,640);
         stage.setTitle("Circuit Designer");
         stage.setResizable(false);
         stage.setScene(scene);
