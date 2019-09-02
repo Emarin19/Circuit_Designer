@@ -7,27 +7,37 @@ package circuitdesigner;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
+import java.awt.geom.Point2D;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 
 /**
  *
  * @author Emanuel
  */
-public class GUIController implements Initializable {
+public class GUIController extends AnchorPane implements Initializable {
     
     @FXML
     private AnchorPane mainAnchorPane;
     
+    @FXML
+    private AnchorPane leftpane;
+    
+    @FXML
+    private VBox rightpane;
+ 
     @FXML
     private JFXButton newFileButton;
 
@@ -85,6 +95,11 @@ public class GUIController implements Initializable {
     @FXML
     private JFXCheckBox checkboxGrid;
     
+    private AnchorPane mDragOverGate = null;
+    private EventHandler gateDragOverRoot = null;
+    private EventHandler gateDragDropped = null;
+    private EventHandler gateDragOverLeftPane = null;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         buttons();
@@ -113,6 +128,32 @@ public class GUIController implements Initializable {
             ColumnConstraints colum = new ColumnConstraints(20);
             gridpane.getColumnConstraints().add(colum);   
         }
+    }
+    
+    private void addDragDetection(AnchorPane anchorpane){
+        anchorpane.setOnDragDetected(new EventHandler <MouseEvent> (){
+            @Override
+            public void handle(MouseEvent event){
+                mainAnchorPane.setOnDragOver(gateDragOverRoot);
+                leftpane.setOnDragOver(gateDragOverLeftPane);
+                leftpane.setOnDragDropped(gateDragDropped);
+                
+                AnchorPane anchor = (AnchorPane)event.getSource();
+                mDragOverGate = anchor;
+                mDragOverGate.relocateToPoint(new Point2D(event.getSceneX(),event.getSceneY()));
+            }
+        });
+    }
+    
+    public void relocateToPoint (Point2D p){
+        Point2D localCoords = new Point2D(getParent().sceneToLocal(p));
+            
+        
+                
+        relocate(
+          (int) (localCoords.getX() - (getBoundsInLocal().getWidth() / 2)),
+          (int) (localCoords.getY()) -(getBoundsInLocal().getHeight() / 2)
+        );
     }
 
     @FXML

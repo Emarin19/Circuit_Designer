@@ -136,14 +136,14 @@
                <children>
                   <ScrollPane prefHeight="557.0" prefWidth="125.0">
                      <content>
-                        <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="108.0" spacing="10.0" style="-fx-background-color: #FFFFFF;">
+                        <VBox fx:id="rigthpane" alignment="TOP_CENTER" prefHeight="600.0" prefWidth="108.0" spacing="10.0" style="-fx-background-color: #FFFFFF;">
                            <padding>
                               <Insets top="10.0" />
                            </padding>
                            <children>
-                              <AnchorPane maxHeight="50.0" maxWidth="80.0" minHeight="50.0" minWidth="80.0" prefHeight="50.0" prefWidth="80.0">
+                              <AnchorPane maxHeight="50.0" maxWidth="80.0" minHeight="50.0" minWidth="80.0" onDragDetected="#onDragDetected" prefHeight="50.0" prefWidth="80.0">
                                  <children>
-                                    <ImageView fitHeight="50.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="50.0" fitWidth="80.0" onDragDetected="#onDragDetected" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../resources/images/AND.png" />
                                        </image>
@@ -174,11 +174,11 @@
             </VBox>
          </right>
          <center>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #9C9C9C; -fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
+            <AnchorPane fx:id="leftpane" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #9C9C9C; -fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
                <children>
                   <ScrollPane prefHeight="555.0" prefWidth="873.0">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1000.0" prefWidth="1200.0">
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="500.0">
                            <children>
                               <GridPane fx:id="gridpane" gridLinesVisible="true">
                                 <columnConstraints>
