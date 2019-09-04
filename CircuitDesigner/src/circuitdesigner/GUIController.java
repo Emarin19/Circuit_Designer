@@ -8,6 +8,8 @@ package circuitdesigner;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import java.awt.geom.Point2D;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -23,11 +25,28 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javafx.fxml.FXML;
+
+import javafx.fxml.Initializable;
+import javafx.scene.Group;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+
+
+
 /**
  *
  * @author Emanuel
  */
-public class GUIController extends AnchorPane implements Initializable {
+public class GUIController implements Initializable {
     
     @FXML
     private AnchorPane mainAnchorPane;
@@ -84,6 +103,15 @@ public class GUIController extends AnchorPane implements Initializable {
     private ImageView exitIcon;
     
     @FXML
+    private ImageView AndTwoImage;
+    
+    @FXML
+    private ImageView OrTwoImage;
+    
+    @FXML
+    private ImageView NotImage;
+    
+    @FXML
     private ImageView runIcon;
     
     @FXML
@@ -95,16 +123,12 @@ public class GUIController extends AnchorPane implements Initializable {
     @FXML
     private JFXCheckBox checkboxGrid;
     
-    private AnchorPane mDragOverGate = null;
-    private EventHandler gateDragOverRoot = null;
-    private EventHandler gateDragDropped = null;
-    private EventHandler gateDragOverLeftPane = null;
-    
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL location, ResourceBundle rb) {
         buttons();
         gridDimensions();
         checkboxGrid.setSelected(true);
+        //AndTwoImage.setOnMouseClicked(createAndTwo);
     }
     
     private void buttons() {
@@ -130,34 +154,34 @@ public class GUIController extends AnchorPane implements Initializable {
         }
     }
     
-    private void addDragDetection(AnchorPane anchorpane){
-        anchorpane.setOnDragDetected(new EventHandler <MouseEvent> (){
-            @Override
-            public void handle(MouseEvent event){
-                mainAnchorPane.setOnDragOver(gateDragOverRoot);
-                leftpane.setOnDragOver(gateDragOverLeftPane);
-                leftpane.setOnDragDropped(gateDragDropped);
-                
-                AnchorPane anchor = (AnchorPane)event.getSource();
-                mDragOverGate = anchor;
-                mDragOverGate.relocateToPoint(new Point2D(event.getSceneX(),event.getSceneY()));
-            }
-        });
+    @FXML
+    void OnGateClicked(MouseEvent event) {
+        if(event.getSource().equals(AndTwoImage)){
+            System.out.println("AND");
+            DrawGate draw = new DrawGate("C:\\Users\\Emanuel\\Desktop\\Circuit_Designer\\CircuitDesigner\\src\\resources\\images\\AND.png");
+            leftpane.getChildren().add(draw.setImage());
+        }
+        else if(event.getSource().equals(OrTwoImage)){
+            System.out.println("OR");
+        }
+        else{
+            System.out.println("Ninguna");
+        }
     }
     
-    public void relocateToPoint (Point2D p){
-        Point2D localCoords = new Point2D(getParent().sceneToLocal(p));
-            
-        
-                
-        relocate(
-          (int) (localCoords.getX() - (getBoundsInLocal().getWidth() / 2)),
-          (int) (localCoords.getY()) -(getBoundsInLocal().getHeight() / 2)
-        );
-    }
-
+    
     @FXML
     void newFile(ActionEvent event) {
+        try {
+            Image image = new Image(new FileInputStream("C:\\Users\\Emanuel\\Desktop\\Circuit_Designer\\CircuitDesigner\\src\\resources\\images\\AND.png"));
+            ImageView imageGate = new ImageView(image);
+            imageGate.setFitWidth(80);
+            imageGate.setFitHeight(50);
+            leftpane.getChildren().add(imageGate);
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GUIController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         System.out.println("Craeting a new file...");
     }
     
@@ -231,6 +255,22 @@ public class GUIController extends AnchorPane implements Initializable {
             gridOption.setSelected(false);
             gridpane.setVisible(false);
         }
+    }
+    
+    public AnchorPane getRoot(){
+        return leftpane;
+    }
+    
+    public AnchorPane getMain(){
+        return mainAnchorPane;
+    }
+    
+    public void sayHi(){
+        System.out.println("Hi");
+    }
+    
+    public void check(){
+        checkboxGrid.setSelected(false);
     }
     
 }
