@@ -163,6 +163,13 @@ public class GUIController implements Initializable {
         }
         else if(event.getSource().equals(OrTwoImage)){
             System.out.println("OR");
+            DrawGate draw = new DrawGate("C:\\Users\\Emanuel\\Desktop\\Circuit_Designer\\CircuitDesigner\\src\\resources\\images\\OR.png");
+            leftpane.getChildren().add(draw.setImage());
+        }
+        else if(event.getSource().equals(NotImage)){
+            System.out.println("NOT");
+            DrawGate draw = new DrawGate("C:\\Users\\Emanuel\\Desktop\\Circuit_Designer\\CircuitDesigner\\src\\resources\\images\\NOT.png");
+            leftpane.getChildren().add(draw.setImage());
         }
         else{
             System.out.println("Ninguna");
@@ -173,11 +180,14 @@ public class GUIController implements Initializable {
     @FXML
     void newFile(ActionEvent event) {
         try {
+            AnchorPane baseP = new AnchorPane();
             Image image = new Image(new FileInputStream("C:\\Users\\Emanuel\\Desktop\\Circuit_Designer\\CircuitDesigner\\src\\resources\\images\\AND.png"));
             ImageView imageGate = new ImageView(image);
             imageGate.setFitWidth(80);
             imageGate.setFitHeight(50);
-            leftpane.getChildren().add(imageGate);
+            baseP.getChildren().add(imageGate);
+            leftpane.getChildren().add(baseP);
+            
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(GUIController.class.getName()).log(Level.SEVERE, null, ex);
@@ -187,12 +197,24 @@ public class GUIController implements Initializable {
     
     @FXML
     void openFile(ActionEvent event) {
+        AnchorPane prueba = new AnchorPane();
+        prueba.setPrefSize(80, 50);
+        prueba.setStyle("-fx-background-color: #9c9c9c;");
+        leftpane.getChildren().add(prueba);
+        try {
+            Image image = new Image(new FileInputStream("C:\\Users\\Emanuel\\Desktop\\Circuit_Designer\\CircuitDesigner\\src\\resources\\images\\AND.png"));
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GUIController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         System.out.println("Open file...");
 
     }
 
     @FXML
     void saveFile(ActionEvent event) {
+        DrawGate draw1 = new DrawGate("C:\\Users\\Emanuel\\Desktop\\Circuit_Designer\\CircuitDesigner\\src\\resources\\images\\AND.png");
+        leftpane.getChildren().add(draw1.setAnchor());
         System.out.println("Saving file...");
     }
 
