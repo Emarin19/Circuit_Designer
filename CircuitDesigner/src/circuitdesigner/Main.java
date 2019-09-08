@@ -8,7 +8,6 @@ package circuitdesigner;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import static javafx.application.Application.launch;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -28,11 +27,18 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("Circuit Designer");
-        Parent root = FXMLLoader.load(getClass().getResource("GUI.fxml"));
-        Scene scene = new Scene(root);
-        stage.setResizable(false);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI.fxml"));
+        loader.setController(controller);
+        Scene scene = (new Scene(loader.load()));
         stage.setScene(scene);
         stage.show();
+        
+    }
+    
+    static GUIController controller = new GUIController();
+    
+    public static GUIController getController(){
+        return controller;
     }
  
 }

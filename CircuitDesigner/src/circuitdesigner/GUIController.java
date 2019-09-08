@@ -26,9 +26,13 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import javafx.fxml.FXML;
 
@@ -39,6 +43,9 @@ import javafx.scene.image.Image;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 
 
 
@@ -47,6 +54,10 @@ import javafx.scene.input.MouseEvent;
  * @author Emanuel
  */
 public class GUIController implements Initializable {
+    
+    private Line currentLine;
+    
+    AnchorPane base;
     
     @FXML
     private AnchorPane mainAnchorPane;
@@ -157,19 +168,19 @@ public class GUIController implements Initializable {
     @FXML
     void OnGateClicked(MouseEvent event) {
         if(event.getSource().equals(AndTwoImage)){
-            System.out.println("AND");
-            DrawGate draw = new DrawGate("C:\\Users\\Emanuel\\Desktop\\Circuit_Designer\\CircuitDesigner\\src\\resources\\images\\AND.png");
-            leftpane.getChildren().add(draw.setImage());
+            System.out.println("AND.png");
+            DrawGate draw = new DrawGate("AND.png");
+            draw.setGate(); 
         }
         else if(event.getSource().equals(OrTwoImage)){
             System.out.println("OR");
-            DrawGate draw = new DrawGate("C:\\Users\\Emanuel\\Desktop\\Circuit_Designer\\CircuitDesigner\\src\\resources\\images\\OR.png");
-            leftpane.getChildren().add(draw.setImage());
+            DrawGate draw = new DrawGate("OR.png");
+            draw.setGate();
         }
         else if(event.getSource().equals(NotImage)){
             System.out.println("NOT");
             DrawGate draw = new DrawGate("C:\\Users\\Emanuel\\Desktop\\Circuit_Designer\\CircuitDesigner\\src\\resources\\images\\NOT.png");
-            leftpane.getChildren().add(draw.setImage());
+            //leftpane.getChildren().add(draw.setImage());
         }
         else{
             System.out.println("Ninguna");
@@ -214,13 +225,18 @@ public class GUIController implements Initializable {
     @FXML
     void saveFile(ActionEvent event) {
         DrawGate draw1 = new DrawGate("C:\\Users\\Emanuel\\Desktop\\Circuit_Designer\\CircuitDesigner\\src\\resources\\images\\AND.png");
-        leftpane.getChildren().add(draw1.setAnchor());
+        //leftpane.getChildren().add(draw1.setAnchor());
         System.out.println("Saving file...");
     }
 
     @FXML
     void saveasFile(ActionEvent event) {
         System.out.println("Saving as file...");
+        Circle circle = new Circle(10);
+        circle.setLayoutX(50);
+        circle.setLayoutY(50);
+        circle.setFill(Color.BLUE);
+        leftpane.getChildren().add(circle);
     }
 
     @FXML

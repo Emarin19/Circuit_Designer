@@ -5,16 +5,17 @@
  */
 package circuitdesigner;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.StrokeLineCap;
 
 
 /**
@@ -23,15 +24,32 @@ import javafx.scene.shape.Line;
  */
 public class DrawGate {
     
-    Line currentLine;
+    //private Line currentLine;
+    
     private String image;
-    static double X = 100;
-    static double Y = 50;
-    double orgSceneX, orgSceneY;
-    double orgTranslateX, orgTranslateY;
-    //AnchorPane base;
     Image gateImage;
     ImageView logicGateImage;
+    
+    static double X = 100;
+    static double Y = 50;
+    
+    double orgSceneX, orgSceneY;
+    double orgTranslateX, orgTranslateY;
+    
+    Anchor startFirstInput;
+    Anchor endFirstInput;
+    Line lineFirstInput;
+    
+    Anchor startSecondInput;
+    Anchor endSecondInput;
+    Line lineSecondInput; 
+    
+    Anchor start;
+    Anchor end;
+    Line line;
+    
+    double newTranslateX;
+    double newTranslateY;
     
     public DrawGate(String image){
         this.image = image;
@@ -51,63 +69,27 @@ public class DrawGate {
         this.image = image;
     }
     
-    public AnchorPane setImage(){
-        AnchorPane baseT = new AnchorPane();
-        try {
-            gateImage = new Image(new FileInputStream(getImage()));
-            logicGateImage = new ImageView(gateImage);
-            logicGateImage.setFitWidth(80);
-            logicGateImage.setFitHeight(50);
-            
-            AnchorPane firstInput = new AnchorPane();
-            firstInput.setPrefSize(10, 10);
-            firstInput.setStyle(("-fx-background-color: #007e8f;"));
-            firstInput.setLayoutX(0);
-            firstInput.setLayoutY(8.5);
-            firstInput.setOnMouseClicked(e -> {
-                System.out.println("FirstInputClicked");
-                if (currentLine == null) {
-                    currentLine = new Line(e.getX(), e.getY(), e.getX(), e.getY());
-                    firstInput.getChildren().add(currentLine);
-                } else {
-                    currentLine = null ;
-                }
-            });
-            
-            firstInput.setOnMouseMoved(e -> {
-                if (currentLine != null) {
-                    currentLine.setEndX(e.getX());
-                    currentLine.setEndY(e.getY());
-                }
-            });
-            
-            AnchorPane secondInput = new AnchorPane();
-            secondInput.setPrefSize(10, 10);
-            secondInput.setStyle(("-fx-background-color: #007e8f;"));
-            secondInput.setLayoutX(0);
-            secondInput.setLayoutY(32.5);
-            
-            AnchorPane ouput = new AnchorPane();
-            ouput.setPrefSize(10, 10);
-            ouput.setStyle(("-fx-background-color: #007e8f;"));
-            ouput.setLayoutX(70);
-            ouput.setLayoutY(20);
-            
-            baseT.setPrefSize(80, 50);
-            baseT.setLayoutX(X);
-            baseT.setLayoutY(Y);
-            baseT.getChildren().addAll(logicGateImage,firstInput,secondInput,ouput);
-            baseT.setOnMouseClicked(clicked);
-            baseT.setOnMousePressed(gateOnMousePressed);
-            baseT.setOnMouseDragged(gateOnMouseDragged);
-            Y = Y + 100;
-            
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(DrawGate.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void setGate(){
         
-        return baseT;
+        gateImage = new Image(getImage());
+        logicGateImage = new ImageView(gateImage);
         
+        logicGateImage.setFitWidth(80);
+        logicGateImage.setFitHeight(50);
+        
+        logicGateImage.setX(X);
+        logicGateImage.setY(Y);
+        
+        logicGateImage.setOnMouseClicked(clicked);
+        logicGateImage.setOnMousePressed(gateOnMousePressed);
+        logicGateImage.setOnMouseDragged(gateOnMouseDragged);
+
+        Main.getController().getRoot().getChildren().addAll(logicGateImage);
+        setOutput();
+        setFirstInput();
+        setSecondInput();
+        
+        Y = Y + 100;
     }
     
     EventHandler<MouseEvent> clicked = 
@@ -126,12 +108,13 @@ public class DrawGate {
         public void handle(MouseEvent t) {
             orgSceneX = t.getSceneX();
             orgSceneY = t.getSceneY();
-            orgTranslateX = ((AnchorPane)(t.getSource())).getTranslateX();
-            orgTranslateY = ((AnchorPane)(t.getSource())).getTranslateY();
+            orgTranslateX = ((ImageView)(t.getSource())).getTranslateX();
+            orgTranslateY = ((ImageView)(t.getSource())).getTranslateY();
         }
     };
     
     EventHandler<MouseEvent> gateOnMouseDragged = 
+        
         new EventHandler<MouseEvent>() {
  
         @Override
@@ -140,30 +123,149 @@ public class DrawGate {
             double offsetY = t.getSceneY() - orgSceneY;
             double newTranslateX = orgTranslateX + offsetX;
             double newTranslateY = orgTranslateY + offsetY;
-             
-            ((AnchorPane)(t.getSource())).setTranslateX(newTranslateX);
-            ((AnchorPane)(t.getSource())).setTranslateY(newTranslateY);
+
+            ((ImageView)(t.getSource())).setTranslateX(newTranslateX);
+            ((ImageView)(t.getSource())).setTranslateY(newTranslateY);
+            
+            startFirstInput.setTranslateX(newTranslateX);
+            startFirstInput.setTranslateY(newTranslateY);
+            endFirstInput.setTranslateX(newTranslateX);
+            endFirstInput.setTranslateY(newTranslateY);
+            lineFirstInput.setTranslateX(newTranslateX);
+            lineFirstInput.setTranslateY(newTranslateY);
+            
+            startSecondInput.setTranslateX(newTranslateX);
+            startSecondInput.setTranslateY(newTranslateY);
+            endSecondInput.setTranslateX(newTranslateX);
+            endSecondInput.setTranslateY(newTranslateY);
+            lineSecondInput.setTranslateX(newTranslateX);
+            lineSecondInput.setTranslateY(newTranslateY);
+            
+            start.setTranslateX(newTranslateX);
+            start.setTranslateY(newTranslateY);
+            end.setTranslateX(newTranslateX);
+            end.setTranslateY(newTranslateY);
+            line.setTranslateX(newTranslateX);
+            line.setTranslateY(newTranslateY);
         }
     };
-    
-    public AnchorPane setAnchor(){
-        AnchorPane prueba = new AnchorPane();
-        //prueba.setPrefSize(80, 50);
-        try {
-            Image image1 = new Image(new FileInputStream("C:\\Users\\Emanuel\\Desktop\\Circuit_Designer\\CircuitDesigner\\src\\resources\\images\\AND.png"));
-            ImageView gateImage1 = new ImageView(image1);
-            gateImage1.setFitWidth(80);
-            gateImage1.setFitHeight(50);
-            gateImage1.setOnMouseClicked(clicked);
-            gateImage1.setOnMousePressed(gateOnMousePressed);
-            gateImage1.setOnMouseDragged(gateOnMouseDragged);
-            prueba.setPrefSize(80, 50);
-            prueba.getChildren().add(gateImage1);
-            
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(DrawGate.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        //prueba.setStyle("-fx-background-color: #008f6d;");
-        return prueba;
+
+    private void setFirstInput() {
+        
+        DoubleProperty startFirstInputX = new SimpleDoubleProperty(X+2);
+        DoubleProperty startFirstInputY = new SimpleDoubleProperty(Y+13);
+        DoubleProperty endFirstInputX = new SimpleDoubleProperty(X+2);
+        DoubleProperty endFirstInputY = new SimpleDoubleProperty(Y+13);
+        
+        startFirstInput = new Anchor(Color.CADETBLUE,startFirstInputX,startFirstInputY);
+        endFirstInput = new Anchor(Color.CADETBLUE,endFirstInputX,endFirstInputY);
+        endFirstInput.setVisible(false);
+        
+        lineFirstInput = new BoundLine(startFirstInputX,startFirstInputY,endFirstInputX,endFirstInputY);
+        
+        Main.getController().getRoot().getChildren().addAll(startFirstInput, endFirstInput, lineFirstInput);
+        
     }
+    
+    private void setSecondInput() {
+        
+        DoubleProperty startSecondInputX = new SimpleDoubleProperty(X+2);
+        DoubleProperty startSecondInputY = new SimpleDoubleProperty(Y+37);
+        DoubleProperty endSecondInputX = new SimpleDoubleProperty(X+2);
+        DoubleProperty endSecondInputY = new SimpleDoubleProperty(Y+37);
+        
+        startSecondInput = new Anchor(Color.CADETBLUE,startSecondInputX,startSecondInputY);
+        endSecondInput = new Anchor(Color.CADETBLUE,endSecondInputX,endSecondInputY);
+        endSecondInput.setVisible(false);
+        
+        lineSecondInput = new BoundLine(startSecondInputX,startSecondInputY,endSecondInputX,endSecondInputY);
+        
+        Main.getController().getRoot().getChildren().addAll(startSecondInput, endSecondInput, lineSecondInput);
+        
+    }
+
+    private void setOutput() {
+        DoubleProperty startX = new SimpleDoubleProperty(X+75);
+        DoubleProperty startY = new SimpleDoubleProperty(Y+25);
+        DoubleProperty endX = new SimpleDoubleProperty(X+75);
+        DoubleProperty endY = new SimpleDoubleProperty(Y+25);
+        
+        start    = new Anchor(Color.CADETBLUE, startX, startY);
+        end      = new Anchor(Color.TOMATO,    endX,   endY);
+        end.setVisible(false);
+        
+        line = new BoundLine(startX, startY, endX, endY);
+        
+        Main.getController().getRoot().getChildren().addAll(start, end, line);
+    }
+
+    class BoundLine extends Line {
+      BoundLine(DoubleProperty startX, DoubleProperty startY, DoubleProperty endX, DoubleProperty endY) {
+      startXProperty().bind(startX);
+      startYProperty().bind(startY);
+      endXProperty().bind(endX);
+      endYProperty().bind(endY);
+      setStrokeWidth(2);
+      setStroke(Color.BLACK);
+      setStrokeLineCap(StrokeLineCap.BUTT);
+      setMouseTransparent(true);
+    }
+  }
+    
+    class Anchor extends Circle { 
+    Anchor(Color color, DoubleProperty x, DoubleProperty y) {
+      super(x.get(), y.get(), 5);
+      setFill(color);
+      x.bind(centerXProperty());
+      y.bind(centerYProperty());
+      enableDrag();
+    }
+    
+    private void enableDrag() {
+      final Delta dragDelta = new Delta();
+      setOnMousePressed(new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent mouseEvent) {
+          // record a delta distance for the drag and drop operation.
+          dragDelta.x = getCenterX() - mouseEvent.getX();
+          dragDelta.y = getCenterY() - mouseEvent.getY();
+          getScene().setCursor(Cursor.MOVE);
+        }
+      });
+      setOnMouseReleased(new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent mouseEvent) {
+          getScene().setCursor(Cursor.HAND);
+        }
+      });
+      setOnMouseDragged(new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent mouseEvent) {
+          double newX = mouseEvent.getX() + dragDelta.x;
+          if (newX > 0 && newX < getScene().getWidth()) {
+            setCenterX(newX);
+          }  
+          double newY = mouseEvent.getY() + dragDelta.y;
+          if (newY > 0 && newY < getScene().getHeight()) {
+            setCenterY(newY);
+          }  
+        }
+      });
+      setOnMouseEntered(new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent mouseEvent) {
+          if (!mouseEvent.isPrimaryButtonDown()) {
+            getScene().setCursor(Cursor.HAND);
+          }
+        }
+      });
+      setOnMouseExited(new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent mouseEvent) {
+          if (!mouseEvent.isPrimaryButtonDown()) {
+            getScene().setCursor(Cursor.DEFAULT);
+          }
+        }
+      });
+    }
+
+    // records relative x and y co-ordinates.
+    private class Delta { double x, y; }
+  }
+
 }
