@@ -5,11 +5,20 @@
  */
 package circuitdesigner;
 
+import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import static javafx.application.Application.launch;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import static javafx.scene.input.KeyCode.T;
 import javafx.stage.Stage;
+import linkedlist.LinkedList;
+import linkedlist.MyObserver;
+import nodes.AndTwo;
+import nodes.LogicGate;
+import nodes.Not;
+import nodes.OrTwo;
 
 /**
  *
@@ -26,6 +35,8 @@ public class Main extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
+        AndTwo and = null;
+        OrTwo or = null;
         stage.setTitle("Circuit Designer");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI.fxml"));
         loader.setController(controller);

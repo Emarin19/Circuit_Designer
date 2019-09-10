@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package circuitdesigner;
+package drawgate;
 
+import circuitdesigner.Main;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,6 +16,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
+import javafx.event.EventHandler;
+import nodes.LogicGate;
 
 
 /**
@@ -24,32 +26,27 @@ import javafx.scene.shape.StrokeLineCap;
  */
 public class DrawGate {
     
-    //private Line currentLine;
-    
     private String image;
-    Image gateImage;
-    ImageView logicGateImage;
+    private Image gateImage;
+    private Gate gate;
     
-    static double X = 100;
-    static double Y = 50;
+    private static double X = 100;
+    private static double Y = 50;
     
-    double orgSceneX, orgSceneY;
-    double orgTranslateX, orgTranslateY;
+    private double orgSceneX, orgSceneY;
+    private double orgTranslateX, orgTranslateY;
     
-    Anchor startFirstInput;
-    Anchor endFirstInput;
-    Line lineFirstInput;
+    private MyCircle startFirstInput;
+    private MyCircle endFirstInput;
+    private Line lineFirstInput;
     
-    Anchor startSecondInput;
-    Anchor endSecondInput;
-    Line lineSecondInput; 
+    private MyCircle startSecondInput;
+    private MyCircle endSecondInput;
+    private Line lineSecondInput;
     
-    Anchor start;
-    Anchor end;
-    Line line;
-    
-    double newTranslateX;
-    double newTranslateY;
+    private MyCircle start;
+    private MyCircle end;
+    private Line line;
     
     public DrawGate(String image){
         this.image = image;
@@ -62,29 +59,22 @@ public class DrawGate {
         return image;
     }
 
-    /**
-     * @param image the image to set
-     */
-    public void setImage(String image) {
-        this.image = image;
-    }
-    
     public void setGate(){
         
         gateImage = new Image(getImage());
-        logicGateImage = new ImageView(gateImage);
-        
-        logicGateImage.setFitWidth(80);
-        logicGateImage.setFitHeight(50);
-        
-        logicGateImage.setX(X);
-        logicGateImage.setY(Y);
-        
-        logicGateImage.setOnMouseClicked(clicked);
-        logicGateImage.setOnMousePressed(gateOnMousePressed);
-        logicGateImage.setOnMouseDragged(gateOnMouseDragged);
+        gate = new Gate(getImage());
+        gate.setImage(gateImage);
+        gate.setFitWidth(80);
+        gate.setFitHeight(50);
 
-        Main.getController().getRoot().getChildren().addAll(logicGateImage);
+        gate.setX(X);
+        gate.setY(Y);
+        
+        gate.setOnMouseClicked(clicked);
+        gate.setOnMousePressed(gateOnMousePressed);
+        gate.setOnMouseDragged(gateOnMouseDragged);
+
+        Main.getController().getRoot().getChildren().addAll(gate);
         setOutput();
         setFirstInput();
         setSecondInput();
@@ -97,7 +87,8 @@ public class DrawGate {
         
         @Override
         public void handle(MouseEvent t){
-            System.out.println("Clicked now");
+            System.out.println(gate.getGate());
+            System.out.println(gate.getGate().foo());
         }
     };
     
@@ -157,11 +148,11 @@ public class DrawGate {
         DoubleProperty endFirstInputX = new SimpleDoubleProperty(X+2);
         DoubleProperty endFirstInputY = new SimpleDoubleProperty(Y+13);
         
-        startFirstInput = new Anchor(Color.CADETBLUE,startFirstInputX,startFirstInputY);
-        endFirstInput = new Anchor(Color.CADETBLUE,endFirstInputX,endFirstInputY);
+        startFirstInput = new MyCircle(Color.CADETBLUE,startFirstInputX,startFirstInputY);
+        endFirstInput = new MyCircle(Color.CADETBLUE,endFirstInputX,endFirstInputY);
         endFirstInput.setVisible(false);
         
-        lineFirstInput = new BoundLine(startFirstInputX,startFirstInputY,endFirstInputX,endFirstInputY);
+        lineFirstInput = new MyLine(startFirstInputX,startFirstInputY,endFirstInputX,endFirstInputY);
         
         Main.getController().getRoot().getChildren().addAll(startFirstInput, endFirstInput, lineFirstInput);
         
@@ -174,11 +165,11 @@ public class DrawGate {
         DoubleProperty endSecondInputX = new SimpleDoubleProperty(X+2);
         DoubleProperty endSecondInputY = new SimpleDoubleProperty(Y+37);
         
-        startSecondInput = new Anchor(Color.CADETBLUE,startSecondInputX,startSecondInputY);
-        endSecondInput = new Anchor(Color.CADETBLUE,endSecondInputX,endSecondInputY);
+        startSecondInput = new MyCircle(Color.CADETBLUE,startSecondInputX,startSecondInputY);
+        endSecondInput = new MyCircle(Color.CADETBLUE,endSecondInputX,endSecondInputY);
         endSecondInput.setVisible(false);
         
-        lineSecondInput = new BoundLine(startSecondInputX,startSecondInputY,endSecondInputX,endSecondInputY);
+        lineSecondInput = new MyLine(startSecondInputX,startSecondInputY,endSecondInputX,endSecondInputY);
         
         Main.getController().getRoot().getChildren().addAll(startSecondInput, endSecondInput, lineSecondInput);
         
@@ -190,82 +181,19 @@ public class DrawGate {
         DoubleProperty endX = new SimpleDoubleProperty(X+75);
         DoubleProperty endY = new SimpleDoubleProperty(Y+25);
         
-        start    = new Anchor(Color.CADETBLUE, startX, startY);
-        end      = new Anchor(Color.TOMATO,    endX,   endY);
+        start    = new MyCircle(Color.CADETBLUE, startX, startY);
+        end      = new MyCircle(Color.TOMATO,    endX,   endY);
         end.setVisible(false);
         
-        line = new BoundLine(startX, startY, endX, endY);
+        line = new MyLine(startX, startY, endX, endY);
         
         Main.getController().getRoot().getChildren().addAll(start, end, line);
     }
-
-    class BoundLine extends Line {
-      BoundLine(DoubleProperty startX, DoubleProperty startY, DoubleProperty endX, DoubleProperty endY) {
-      startXProperty().bind(startX);
-      startYProperty().bind(startY);
-      endXProperty().bind(endX);
-      endYProperty().bind(endY);
-      setStrokeWidth(2);
-      setStroke(Color.BLACK);
-      setStrokeLineCap(StrokeLineCap.BUTT);
-      setMouseTransparent(true);
-    }
-  }
     
-    class Anchor extends Circle { 
-    Anchor(Color color, DoubleProperty x, DoubleProperty y) {
-      super(x.get(), y.get(), 5);
-      setFill(color);
-      x.bind(centerXProperty());
-      y.bind(centerYProperty());
-      enableDrag();
+    public LogicGate gate(){
+        return gate.getGate();
     }
     
-    private void enableDrag() {
-      final Delta dragDelta = new Delta();
-      setOnMousePressed(new EventHandler<MouseEvent>() {
-        @Override public void handle(MouseEvent mouseEvent) {
-          // record a delta distance for the drag and drop operation.
-          dragDelta.x = getCenterX() - mouseEvent.getX();
-          dragDelta.y = getCenterY() - mouseEvent.getY();
-          getScene().setCursor(Cursor.MOVE);
-        }
-      });
-      setOnMouseReleased(new EventHandler<MouseEvent>() {
-        @Override public void handle(MouseEvent mouseEvent) {
-          getScene().setCursor(Cursor.HAND);
-        }
-      });
-      setOnMouseDragged(new EventHandler<MouseEvent>() {
-        @Override public void handle(MouseEvent mouseEvent) {
-          double newX = mouseEvent.getX() + dragDelta.x;
-          if (newX > 0 && newX < getScene().getWidth()) {
-            setCenterX(newX);
-          }  
-          double newY = mouseEvent.getY() + dragDelta.y;
-          if (newY > 0 && newY < getScene().getHeight()) {
-            setCenterY(newY);
-          }  
-        }
-      });
-      setOnMouseEntered(new EventHandler<MouseEvent>() {
-        @Override public void handle(MouseEvent mouseEvent) {
-          if (!mouseEvent.isPrimaryButtonDown()) {
-            getScene().setCursor(Cursor.HAND);
-          }
-        }
-      });
-      setOnMouseExited(new EventHandler<MouseEvent>() {
-        @Override public void handle(MouseEvent mouseEvent) {
-          if (!mouseEvent.isPrimaryButtonDown()) {
-            getScene().setCursor(Cursor.DEFAULT);
-          }
-        }
-      });
-    }
-
-    // records relative x and y co-ordinates.
-    private class Delta { double x, y; }
   }
 
-}
+

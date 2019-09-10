@@ -5,17 +5,17 @@
  */
 package linkedlist;
 
-import java.util.ArrayList;
 import java.util.Observable;
 
 /**
  *
  * @author Emanuel
  */
-public class LinkedList <T> extends Observable {
+public class LinkedList <T> extends Observable{
     
     public Node<T> head;
     public Node<T> last;
+    public Node<T> node;
     private int size;
     
     public LinkedList(){
@@ -34,6 +34,8 @@ public class LinkedList <T> extends Observable {
             last = head;
         }
         size++;
+        setChanged(); 
+        notifyObservers(head.getValue()); 
     }
     
     public void addLast(T value){
@@ -42,9 +44,26 @@ public class LinkedList <T> extends Observable {
             last.getPrevious().setNext(last);
         }
         else{
-            addFirst(value);
+            head = new Node(value);
+            last = head;
         }
         size++;
+        setChanged(); 
+        notifyObservers(last.getValue());
+    }
+    
+    public void add(T value){
+        if(head != null){
+            last = new Node(value,null,last);
+            last.getPrevious().setNext(last);
+        }
+        else{
+            head = new Node(value);
+            last = head;
+        }
+        size++;
+        setChanged(); 
+        notifyObservers(last.getValue());
     }
     
     public void add(int index, T value){
@@ -69,6 +88,8 @@ public class LinkedList <T> extends Observable {
             pointer.setNext(node);
         }
         size++;
+        setChanged(); 
+        notifyObservers(last.getValue());
     }
     
     public T searchItem(int index){
@@ -139,8 +160,9 @@ public class LinkedList <T> extends Observable {
         }
         return pointer.getValue();
     }
-    
+
     public int getSize(){
         return size;
     }
+
 }

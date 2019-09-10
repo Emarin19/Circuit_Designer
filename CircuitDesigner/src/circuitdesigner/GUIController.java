@@ -5,20 +5,13 @@
  */
 package circuitdesigner;
 
+import drawgate.DrawGate;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
-import java.awt.geom.Point2D;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.CheckMenuItem;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -26,19 +19,13 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import javafx.fxml.FXML;
 
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 
 import javafx.scene.image.ImageView;
@@ -55,18 +42,11 @@ import javafx.scene.shape.Line;
  */
 public class GUIController implements Initializable {
     
-    private Line currentLine;
-    
+    @FXML
     AnchorPane base;
     
     @FXML
-    private AnchorPane mainAnchorPane;
-    
-    @FXML
     private AnchorPane leftpane;
-    
-    @FXML
-    private VBox rightpane;
  
     @FXML
     private JFXButton newFileButton;
@@ -139,7 +119,6 @@ public class GUIController implements Initializable {
         buttons();
         gridDimensions();
         checkboxGrid.setSelected(true);
-        //AndTwoImage.setOnMouseClicked(createAndTwo);
     }
     
     private void buttons() {
@@ -168,18 +147,14 @@ public class GUIController implements Initializable {
     @FXML
     void OnGateClicked(MouseEvent event) {
         if(event.getSource().equals(AndTwoImage)){
-            System.out.println("AND.png");
-            DrawGate draw = new DrawGate("AND.png");
-            draw.setGate(); 
+            Facade facade = new Facade("AND.png");
         }
         else if(event.getSource().equals(OrTwoImage)){
-            System.out.println("OR");
-            DrawGate draw = new DrawGate("OR.png");
-            draw.setGate();
+            Facade facade = new Facade("OR.png");
         }
         else if(event.getSource().equals(NotImage)){
-            System.out.println("NOT");
-            DrawGate draw = new DrawGate("C:\\Users\\Emanuel\\Desktop\\Circuit_Designer\\CircuitDesigner\\src\\resources\\images\\NOT.png");
+            //System.out.println("NOT");
+            //DrawGate draw = new DrawGate("C:\\Users\\Emanuel\\Desktop\\Circuit_Designer\\CircuitDesigner\\src\\resources\\images\\NOT.png");
             //leftpane.getChildren().add(draw.setImage());
         }
         else{
@@ -256,6 +231,7 @@ public class GUIController implements Initializable {
     
     @FXML
     void copy(ActionEvent event) {
+        System.out.println(Facade.getCircuit().getSize());
         System.out.println("Coping...");
     }
 
@@ -298,11 +274,7 @@ public class GUIController implements Initializable {
     public AnchorPane getRoot(){
         return leftpane;
     }
-    
-    public AnchorPane getMain(){
-        return mainAnchorPane;
-    }
-    
+
     public void sayHi(){
         System.out.println("Hi");
     }

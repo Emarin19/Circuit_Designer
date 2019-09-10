@@ -9,6 +9,14 @@ package nodes;
  *
  * @author Emanuel
  */
-public class LogicGate {
-    
+public abstract class LogicGate {
+    public abstract String foo();
+    public abstract void setFirstInput(Boolean firstInput);
+    public abstract Boolean getFirstInput();
+    public abstract void setSecondInput(Boolean secondInput);
+    public abstract Boolean getSecondInput();
+    public abstract void setOutput(Boolean output);
+    public abstract Boolean getOutput();
+    public abstract void operate();
+
 }

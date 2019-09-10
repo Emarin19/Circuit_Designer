@@ -30,7 +30,7 @@ public class Node <T>{
     public T getValue(){
         return value;
     }
-    
+      
     public Node <T> getNext(){
         return next;
     }
