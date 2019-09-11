@@ -5,14 +5,20 @@
  */
 package nodes;
 
+import drawgate.MyCircle;
+import linkedlist.LinkedList;
+
 /**
  *
  * @author Emanuel
  */
 public class OrTwo extends LogicGate{
-    private Boolean firstInput;
-    private Boolean secondInput;
-    private Boolean output;
+    private static LinkedList <LogicGate> inputs = new LinkedList<>();
+    private static LinkedList <LogicGate> outputs = new LinkedList<>();
+    private MyCircle firstInput;
+    private MyCircle secondInput;
+    private MyCircle output;
+    String some = "Aleluya";
     
     public OrTwo(){
         this.firstInput = null;
@@ -26,48 +32,39 @@ public class OrTwo extends LogicGate{
     }
 
     @Override
-    public void setFirstInput(Boolean firstInput) {
+    public void setFirstInput(MyCircle firstInput) {
         this.firstInput = firstInput;
     }
 
     @Override
-    public Boolean getFirstInput() {
+    public MyCircle getFirstInput() {
         return firstInput;
     }
 
     @Override
-    public void setSecondInput(Boolean secondInput) {
+    public void setSecondInput(MyCircle secondInput) {
         this.secondInput = secondInput;
     }
 
     @Override
-    public Boolean getSecondInput() {
+    public MyCircle getSecondInput() {
         return secondInput;
     }
 
     @Override
-    public void setOutput(Boolean output) {
+    public void setOutput(MyCircle output) {
         this.output = output;
     }
 
     @Override
-    public Boolean getOutput() {
-        return (getFirstInput()||getSecondInput());
+    public MyCircle getOutput() {
+        output.saySomething(some);
+        return output;
     }
 
     @Override
     public void operate() {
-        Boolean f = getFirstInput();
-        Boolean s = getFirstInput();
         
-        if(f == null && s == null){
-            
-            System.out.println("ENTRADAS VACIAS");
-        }
-        else{
-            System.out.println("yes");
-        }
     }
-    
     
 }

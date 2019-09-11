@@ -5,18 +5,22 @@
  */
 package nodes;
 
+import drawgate.MyCircle;
+
 /**
  *
  * @author Emanuel
  */
 public abstract class LogicGate {
     public abstract String foo();
-    public abstract void setFirstInput(Boolean firstInput);
-    public abstract Boolean getFirstInput();
-    public abstract void setSecondInput(Boolean secondInput);
-    public abstract Boolean getSecondInput();
-    public abstract void setOutput(Boolean output);
-    public abstract Boolean getOutput();
+    public abstract void setFirstInput(MyCircle firstInput);
+    public abstract MyCircle getFirstInput();
+    public abstract void setSecondInput(MyCircle secondInput);
+    public abstract MyCircle getSecondInput();
+    public abstract void setOutput(MyCircle output);
+    public abstract MyCircle getOutput();
     public abstract void operate();
+    //public abstract void setType(String type);
+    //public abstract String getType();
 
 }

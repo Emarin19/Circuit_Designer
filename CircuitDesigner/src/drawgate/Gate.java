@@ -28,8 +28,8 @@ public class Gate extends ImageView {
 
     public Gate(String image) {
         
-        inputs.addObserver(inputsObserver);
-        outputs.addObserver(outputsObserver);        
+        //inputs.addObserver(inputsObserver);
+        //outputs.addObserver(outputsObserver);        
         
         if(image.equals("AND.png")){
             this.gate = new AndTwo();

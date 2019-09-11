@@ -23,11 +23,8 @@ public class Facade {
         if(circuit.countObservers() == 0){
             circuit.addObserver(circuitObserver);
         }
-        
         DrawGate draw = new DrawGate(image);
         draw.setGate();
-        
-        //Gate gate = new Gate(image);
         circuit.add(draw.gate());
     }
 

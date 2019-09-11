@@ -16,7 +16,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -32,7 +31,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
+
 
 
 
@@ -44,7 +43,7 @@ public class GUIController implements Initializable {
     
     @FXML
     AnchorPane base;
-    
+    static int i = 0;
     @FXML
     private AnchorPane leftpane;
  
@@ -221,7 +220,10 @@ public class GUIController implements Initializable {
     
     @FXML
     void about(ActionEvent event) {
+        
+        System.out.println(Facade.getCircuit().getValue(i));
         System.out.println("Aditional Information");
+        i++;
     }
     
     @FXML
@@ -237,6 +239,7 @@ public class GUIController implements Initializable {
 
     @FXML
     void cut(ActionEvent event) {
+        //Facade.getCircuit().getValue(i).setOutput(output);
         System.out.println("Cutting");
     }
     

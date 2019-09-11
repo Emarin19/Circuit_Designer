@@ -5,7 +5,9 @@
  */
 package nodes;
 
+import drawgate.MyCircle;
 import linkedlist.LinkedList;
+import linkedlist.MyObserver;
 
 /**
  *
@@ -14,14 +16,17 @@ import linkedlist.LinkedList;
 public class AndTwo extends LogicGate {
     private static LinkedList <LogicGate> inputs = new LinkedList<>();
     private static LinkedList <LogicGate> outputs = new LinkedList<>();
-    private Boolean firstInput;
-    private Boolean secondInput;
-    private Boolean output;
+    private MyObserver inputsObserver = new MyObserver();
+    private MyObserver outputsObserver = new MyObserver();
+    private MyCircle firstInput;
+    private MyCircle secondInput;
+    private MyCircle output;
+    String something = "And Forever";
     
     public AndTwo(){
         this.firstInput = null;
         this.secondInput = null;
-        this.output = output;
+        this.output = null;
     }
 
     @Override
@@ -30,44 +35,39 @@ public class AndTwo extends LogicGate {
     }
 
     @Override
-    public void setFirstInput(Boolean firstInput) {
+    public void setFirstInput(MyCircle firstInput) {
         this.firstInput = firstInput;
     }
 
     @Override
-    public Boolean getFirstInput() {
+    public MyCircle getFirstInput() {
         return firstInput;
     }
 
     @Override
-    public void setSecondInput(Boolean secondInput) {
+    public void setSecondInput(MyCircle secondInput) {
         this.secondInput = secondInput;
     }
 
     @Override
-    public Boolean getSecondInput() {
+    public MyCircle getSecondInput() {
         return secondInput;
     }
 
     @Override
-    public void setOutput(Boolean output) {
+    public void setOutput(MyCircle output) {
         this.output = output;
     }
 
     @Override
-    public Boolean getOutput() {
-        return (getFirstInput()&&getSecondInput());
+    public MyCircle getOutput() {
+        output.saySomething(something);
+        return output;
     }
 
     @Override
     public void operate() {
-        Boolean first = getFirstInput();
-        Boolean second = getSecondInput();
-        
-        if(first == null){
-            
-        }
+ 
     }
-    
-    
+     
 }
