@@ -13,7 +13,6 @@ import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import nodes.LogicGate;
 
 
 /**
@@ -21,27 +20,13 @@ import nodes.LogicGate;
  * @author Emanuel
  */
 public class MyCircle extends Circle {
-    private LogicGate gate;
-    private String type;
-    private Boolean value;
-    private String something;
-    private Delta dragDelta = new Delta();
-    
-    public MyCircle(Color color, DoubleProperty x, DoubleProperty y, LogicGate gate, String type) {
+    Delta dragDelta = new Delta();
+    MyCircle(Color color, DoubleProperty x, DoubleProperty y) {
       super(x.get(), y.get(), 5);
       setFill(color);
       x.bind(centerXProperty());
       y.bind(centerYProperty());
-      this.gate = gate;
-      this.type = type;
       enableDrag();
-    }
-    
-    public MyCircle(Color color, DoubleProperty x, DoubleProperty y) {
-      super(x.get(), y.get(), 5);
-      setFill(color);
-      x.bind(centerXProperty());
-      y.bind(centerYProperty());
     }
     
     private void enableDrag() {
@@ -49,31 +34,11 @@ public class MyCircle extends Circle {
       setOnMousePressed(new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent mouseEvent) {
             System.out.println("MousePressed");
-            System.out.println(gate.foo());
-            System.out.println(type);
-            value = gate.getValue(type);
-            System.out.println("Mi valor de verdad es: " + value);
-            
-            if (gate.foo().equalsIgnoreCase("Soy And")){
-                if(type.equalsIgnoreCase("Salida")){
-                    gate.setValue(type, true);
-                }
-            }
-            
-            if(gate.foo().equalsIgnoreCase("Soy Or")){
-                if(type.equalsIgnoreCase("Salida")){
-                    gate.setValue(type, false);
-                }
-            }
-
-            System.out.println("Mi nuevo valor es: " + gate.getValue(type));
-
             setMouseTransparent(true);
             dragDelta.x = getCenterX() - mouseEvent.getX();
             dragDelta.y = getCenterY() - mouseEvent.getY();
             getScene().setCursor(Cursor.HAND);
             mouseEvent.setDragDetect(true);
-            
         }
       });
       setOnMouseReleased(new EventHandler<MouseEvent>() {
@@ -98,27 +63,13 @@ public class MyCircle extends Circle {
       });
       setOnDragDetected(new EventHandler <MouseEvent>(){
         @Override public void handle(MouseEvent event){
+            System.out.println("Drag Detected");
             startFullDrag();
         }
       });
       setOnMouseDragEntered(new EventHandler<MouseDragEvent>() {
         @Override public void handle(MouseDragEvent mouseEvent) {
-            System.out.println(gate.toString());
-            System.out.println(type);
-
-            Object obj = mouseEvent.getGestureSource();
-
-            if ( obj instanceof MyCircle ){
-                
-                System.out.println(((MyCircle) obj).getGate().foo());
-                System.out.println("Mi valor de verdad es: " + ((MyCircle) obj).getValue());
-                System.out.println("Mucho gusto" + gate.foo());
-                System.out.println("Mi actual valor de verdad es: " + gate.getValue(type));
-                gate.setValue(type, ((MyCircle) obj).getValue());
-                System.out.println("Mi nuevo valor de verdad es: " + gate.getValue(type) + ", el mismo que el tuyo " + ((MyCircle) obj).getValue() );
-                
-            }
-            
+            System.out.println("Mouse Entered");
             if (!mouseEvent.isPrimaryButtonDown()) {
                 getScene().setCursor(Cursor.HAND);
             }
@@ -126,7 +77,9 @@ public class MyCircle extends Circle {
       });
       setOnMouseDragOver(new EventHandler<MouseDragEvent>(){
           @Override public void handle(MouseDragEvent mouseEvent){
-
+              //mouseEvent.getClass().
+              System.out.println(mouseEvent.getTarget());
+              System.out.println("Holi");
           }
       });
       setOnMouseExited(new EventHandler<MouseEvent>() {
@@ -137,27 +90,14 @@ public class MyCircle extends Circle {
         }
       }); 
     }
-
-    /**
-     * @return the gate
-     */
-    public LogicGate getGate() {
-        return gate;
+    
+    public void saySomething(String something){
+        System.out.println(something);
     }
     
-    public Boolean getValue(){
-        return value;
+    public void enable(Boolean value){
+        
+        this.setUserData(value);
+        System.out.println(this.getUserData());
     }
-
-    /**
-     * @return the type
-     */
-    public String getType() {
-        return type;
-    }
-    
-    public String getSay(){
-        return something;
-    }
-
 }

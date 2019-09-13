@@ -23,7 +23,7 @@ public class MyObserver implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         
-       // System.out.println("Una nueva compuerta ha sido agregado a la lista");
+        System.out.println("Una nueva compuerta ha sido agregado a la lista");
         
     }
     

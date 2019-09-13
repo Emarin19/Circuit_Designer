@@ -13,14 +13,20 @@ import drawgate.MyCircle;
  */
 public abstract class LogicGate {
     public abstract String foo();
-    public abstract void setFirstInput(MyCircle firstInput);
-    public abstract MyCircle getFirstInput();
-    public abstract void setSecondInput(MyCircle secondInput);
-    public abstract MyCircle getSecondInput();
-    public abstract void setOutput(MyCircle output);
-    public abstract MyCircle getOutput();
-    public abstract void operate();
-    //public abstract void setType(String type);
-    //public abstract String getType();
-
+    public abstract void setFirst(MyCircle circle);
+    public abstract void setSecond(MyCircle circle);
+    public abstract void setOut(MyCircle circle);
+    public abstract MyCircle getCircle(String type);
+    
+    public abstract void setFirstInput(Boolean firstInput);
+    public abstract Boolean getFirstInput();
+    
+    public abstract void setSecondInput(Boolean secondInput);
+    public abstract Boolean getSecondInput();
+    
+    public abstract void setOutput(Boolean output);
+    public abstract Boolean getOutput();
+    
+    public abstract void setValue(String type, Boolean value);
+    public abstract Boolean getValue(String type);
 }

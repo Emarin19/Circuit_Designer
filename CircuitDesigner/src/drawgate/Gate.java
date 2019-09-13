@@ -18,18 +18,10 @@ import nodes.OrTwo;
  * @author Emanuel
  */
 public class Gate extends ImageView {
-    
-    private static LinkedList<LogicGate> inputs = new LinkedList<>();
-    private static LinkedList<LogicGate> outputs = new LinkedList<>();
-    private MyObserver inputsObserver = new MyObserver();
-    private MyObserver outputsObserver = new MyObserver();
+  
     private LogicGate gate;
     
-
     public Gate(String image) {
-        
-        //inputs.addObserver(inputsObserver);
-        //outputs.addObserver(outputsObserver);        
         
         if(image.equals("AND.png")){
             this.gate = new AndTwo();
@@ -38,34 +30,6 @@ public class Gate extends ImageView {
         if(image.equals("OR.png")){
             this.gate = new OrTwo();
         }
-    }
-
-    /**
-     * @return the inputs
-     */
-    public static LinkedList<LogicGate> getInputs() {
-        return inputs;
-    }
-
-    /**
-     * @param aInputs the inputs to set
-     */
-    public static void setInputs(LinkedList<LogicGate> aInputs) {
-        inputs = aInputs;
-    }
-
-    /**
-     * @return the outputs
-     */
-    public static LinkedList<LogicGate> getOutputs() {
-        return outputs;
-    }
-
-    /**
-     * @param aOutputs the outputs to set
-     */
-    public static void setOutputs(LinkedList<LogicGate> aOutputs) {
-        outputs = aOutputs;
     }
 
     /**

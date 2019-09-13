@@ -147,7 +147,7 @@ public class DrawGate {
         DoubleProperty endFirstInputX = new SimpleDoubleProperty(X+2);
         DoubleProperty endFirstInputY = new SimpleDoubleProperty(Y+13);
         
-        startFirstInput = new MyCircle(Color.CADETBLUE,startFirstInputX,startFirstInputY, gate.getGate(), "FirstInput");
+        startFirstInput = new MyCircle(Color.CADETBLUE,startFirstInputX,startFirstInputY);
         endFirstInput = new MyCircle(Color.CADETBLUE,endFirstInputX,endFirstInputY);
         endFirstInput.setVisible(false);
         
@@ -164,7 +164,7 @@ public class DrawGate {
         DoubleProperty endSecondInputX = new SimpleDoubleProperty(X+2);
         DoubleProperty endSecondInputY = new SimpleDoubleProperty(Y+37);
         
-        startSecondInput = new MyCircle(Color.CADETBLUE,startSecondInputX,startSecondInputY, gate.getGate(), "SecondInput");
+        startSecondInput = new MyCircle(Color.CADETBLUE,startSecondInputX,startSecondInputY);
         endSecondInput = new MyCircle(Color.CADETBLUE,endSecondInputX,endSecondInputY);
         endSecondInput.setVisible(false);
         
@@ -180,7 +180,7 @@ public class DrawGate {
         DoubleProperty endX = new SimpleDoubleProperty(X+75);
         DoubleProperty endY = new SimpleDoubleProperty(Y+25);
         
-        start    = new MyCircle(Color.CADETBLUE, startX, startY, gate.getGate(), "Salida");
+        start    = new MyCircle(Color.CADETBLUE, startX, startY);
         end      = new MyCircle(Color.TOMATO,    endX,   endY);
         end.setVisible(false);
         
@@ -190,9 +190,9 @@ public class DrawGate {
     }
     
     public LogicGate gate(){
-        gate.getGate().setFirst(startFirstInput);
-        gate.getGate().setSecond(startSecondInput);
-        gate.getGate().setOut(start);
+        gate.getGate().setFirstInput(startFirstInput);
+        gate.getGate().setSecondInput(startSecondInput);
+        gate.getGate().setOutput(start);
         return gate.getGate();
     }
     

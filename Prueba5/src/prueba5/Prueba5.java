@@ -26,28 +26,22 @@ import javafx.util.Pair;
  * @author Emanuel
  */
 public class Prueba5 extends Application {
+    
     private Line currentLine ;
-    //-fx-background-color: black;
-    //canvas.setStyle("-fx-background-color: black;");
+
     @Override
     public void start(Stage primaryStage) {
         Pane pane = new Pane();
 
-        pane.setOnMouseClicked(e -> {
-        if (currentLine == null) {
+        pane.setOnMousePressed(e -> {
             currentLine = new Line(e.getX(), e.getY(), e.getX(), e.getY());
             pane.getChildren().add(currentLine);
-        } else {
-            currentLine = null ;
-        }
-    });
+        });
 
-    pane.setOnMouseMoved(e -> {
-        if (currentLine != null) {
+        pane.setOnMouseDragged(e -> {
             currentLine.setEndX(e.getX());
             currentLine.setEndY(e.getY());
-        }
-    });
+        });
 
         Scene scene = new Scene(pane, 600, 600);
         primaryStage.setScene(scene);
@@ -57,5 +51,5 @@ public class Prueba5 extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
 }
+
