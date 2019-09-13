@@ -15,6 +15,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.event.EventHandler;
 import javafx.geometry.VPos;
+import javafx.scene.input.MouseButton;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -72,13 +74,18 @@ public class DrawGate {
         gateImage = new Image(getImage());
         gate = new Gate(getImage());
         gate.setImage(gateImage);
-        gate.setFitWidth(80);
+        gate.setFitWidth(95);
         gate.setFitHeight(50);
 
         gate.setX(X);
         gate.setY(Y);
         
         //gate.setOnMouseClicked(clicked);
+        gate.setOnMouseClicked(e ->{
+            if(e.getButton() == MouseButton.SECONDARY){
+                Main.getController().getRoot().getChildren().removeAll(gate,startFirstInput,endFirstInput,lineFirstInput,startSecondInput,endSecondInput,lineSecondInput,start,end,line);
+            }
+        });
         gate.setOnMousePressed(gateOnMousePressed);
         gate.setOnMouseDragged(gateOnMouseDragged);
 
@@ -96,6 +103,11 @@ public class DrawGate {
         Value = new MyCircle(circleX, circleY, "Valor");
         Value.setUserData(value);
         textValue = new Text();
+        Value.setOnMouseClicked(e ->{
+            Value = (MyCircle) new Circle(6);
+           Main.getController().getRoot().getChildren().remove(Value);
+        });
+        
         if(value){
             textValue.setText("1");
         }
@@ -209,9 +221,9 @@ public class DrawGate {
     }
 
     private void setOutput() {
-        DoubleProperty startX = new SimpleDoubleProperty(X+75);
+        DoubleProperty startX = new SimpleDoubleProperty(X+95);
         DoubleProperty startY = new SimpleDoubleProperty(Y+25);
-        DoubleProperty endX = new SimpleDoubleProperty(X+75);
+        DoubleProperty endX = new SimpleDoubleProperty(X+95);
         DoubleProperty endY = new SimpleDoubleProperty(Y+25);
         
         start    = new MyCircle(Color.CADETBLUE, startX, startY, gate.getGate(), "Salida");
@@ -224,9 +236,9 @@ public class DrawGate {
     }
     
     public LogicGate gate(){
-        gate.getGate().setFirst(startFirstInput);
-        gate.getGate().setSecond(startSecondInput);
-        gate.getGate().setOut(start);
+        //gate.getGate().setFirst(startFirstInput);
+        //gate.getGate().setSecond(startSecondInput);
+        //gate.getGate().setOut(start);
         return gate.getGate();
     }
     

@@ -13,8 +13,7 @@ import linkedlist.MyObserver;
  *
  * @author Emanuel
  */
-public class OrTwo extends LogicGate{
-    
+public class XnorTwo extends LogicGate {
     private static LinkedList <LogicGate> inputs = new LinkedList<>();
     private static LinkedList <LogicGate> outputs = new LinkedList<>();
     private MyObserver inputsObserver = new MyObserver();
@@ -28,11 +27,12 @@ public class OrTwo extends LogicGate{
     private Boolean secondInput;
     private Boolean output;
     
-    public OrTwo(){
+    public XnorTwo(){
         
         this.firstInput = null;
         this.secondInput = null;
         this.output = null;
+        
         if(inputs.countObservers() == 0){
             inputs.addObserver(inputsObserver);
         }
@@ -43,7 +43,7 @@ public class OrTwo extends LogicGate{
 
     @Override
     public String foo() {
-        return "Soy Or";
+        return "Soy Xnor";
     }
 
     @Override
@@ -77,10 +77,14 @@ public class OrTwo extends LogicGate{
             return null;
         }
         else{
-            return (firstInput || secondInput);
+            Boolean result = (firstInput ^ secondInput);
+            if(result){
+                return false;
+            }
+            else{
+                return true;
+            }
         }
-        
-        //return (getFirstInput()||getSecondInput());
     }
     
     @Override

@@ -5,10 +5,12 @@
  */
 package drawgate;
 
+import circuitdesigner.Main;
 import drawgate.Delta;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -194,6 +196,11 @@ public class MyCircle extends Circle {
     }
 
     public void enableSingleDrag() {
+        setOnMouseClicked(e ->{
+            if(e.getButton() == MouseButton.SECONDARY){
+                Main.getController().getRoot().getChildren().removeAll(this);
+            }
+        });
         setOnMousePressed(new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent mouseEvent) {
             System.out.println("Soy " + type);

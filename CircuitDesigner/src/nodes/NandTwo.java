@@ -13,22 +13,22 @@ import linkedlist.MyObserver;
  *
  * @author Emanuel
  */
-public class OrTwo extends LogicGate{
+public class NandTwo extends LogicGate {
     
-    private static LinkedList <LogicGate> inputs = new LinkedList<>();
-    private static LinkedList <LogicGate> outputs = new LinkedList<>();
+    private LinkedList <LogicGate> inputs = new LinkedList<>();
+    private LinkedList <LogicGate> outputs = new LinkedList<>();
     private MyObserver inputsObserver = new MyObserver();
     private MyObserver outputsObserver = new MyObserver();
     
     private MyCircle first;
     private MyCircle second;
     private MyCircle out;
-    
+
     private Boolean firstInput;
     private Boolean secondInput;
     private Boolean output;
     
-    public OrTwo(){
+    public NandTwo(){
         
         this.firstInput = null;
         this.secondInput = null;
@@ -43,7 +43,7 @@ public class OrTwo extends LogicGate{
 
     @Override
     public String foo() {
-        return "Soy Or";
+        return "Soy Nand";
     }
 
     @Override
@@ -77,10 +77,14 @@ public class OrTwo extends LogicGate{
             return null;
         }
         else{
-            return (firstInput || secondInput);
+            Boolean result = (firstInput && secondInput);
+            if(result){
+                return false;
+            }
+            else{
+                return true;
+            }
         }
-        
-        //return (getFirstInput()||getSecondInput());
     }
     
     @Override
@@ -141,9 +145,11 @@ public class OrTwo extends LogicGate{
         else{
             return null;
         }
-    }
+    }  
 
-    @Override
+    /**
+     * @return the inputs
+     */
     public LinkedList <LogicGate> getInputs() {
         return inputs;
     }
@@ -158,7 +164,6 @@ public class OrTwo extends LogicGate{
     /**
      * @return the outputs
      */
-    @Override
     public LinkedList <LogicGate> getOutputs() {
         return outputs;
     }
