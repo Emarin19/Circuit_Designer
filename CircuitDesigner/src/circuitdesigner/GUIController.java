@@ -8,6 +8,7 @@ package circuitdesigner;
 import drawgate.DrawGate;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
+import drawgate.MyCircle;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import javafx.event.ActionEvent;
@@ -21,6 +22,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
 import javafx.fxml.FXML;
 
@@ -28,6 +31,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -105,13 +109,25 @@ public class GUIController implements Initializable {
     private Text Text2;
     
     @FXML
-    private ImageView AndTwoImage;
-    
+    private ImageView AndTwo;
+
     @FXML
-    private ImageView OrTwoImage;
-    
+    private ImageView OrTwo;
+
     @FXML
-    private ImageView NotImage;
+    private ImageView Not;
+
+    @FXML
+    private ImageView NandTwo;
+
+    @FXML
+    private ImageView NorTwo;
+
+    @FXML
+    private ImageView XorTwo;
+
+    @FXML
+    private ImageView XnorTwo;
     
     @FXML
     private ImageView runIcon;
@@ -167,16 +183,26 @@ public class GUIController implements Initializable {
             System.out.println("FALSE CIRCLE");
             Facade facade = new Facade(false);
         }
-        else if(event.getSource().equals(AndTwoImage)){
-            Facade facade = new Facade("AND.png");
+        else if(event.getSource().equals(AndTwo)){
+            Facade facade = new Facade("ANDTWO.png");
         }
-        else if(event.getSource().equals(OrTwoImage)){
-            Facade facade = new Facade("OR.png");
+        else if(event.getSource().equals(OrTwo)){
+            Facade facade = new Facade("ORTWO.png");
         }
-        else if(event.getSource().equals(NotImage)){
-            //System.out.println("NOT");
-            //DrawGate draw = new DrawGate("C:\\Users\\Emanuel\\Desktop\\Circuit_Designer\\CircuitDesigner\\src\\resources\\images\\NOT.png");
-            //leftpane.getChildren().add(draw.setImage());
+        else if(event.getSource().equals(Not)){
+            Facade facade = new Facade("NOT.png");
+        }
+        else if(event.getSource().equals(NandTwo)){
+            Facade facade = new Facade("NANDTWO.png");
+        }
+        else if(event.getSource().equals(NorTwo)){
+            Facade facade = new Facade("NORTWO.png");
+        }
+        else if(event.getSource().equals(XorTwo)){
+            Facade facade = new Facade("XORTWO.png");
+        }
+        else if(event.getSource().equals(XnorTwo)){
+            Facade facade = new Facade("XNORTWO.png");
         }
         else{
             System.out.println("Ninguna");
@@ -276,7 +302,16 @@ public class GUIController implements Initializable {
     
     @FXML
     void paste(ActionEvent event) {
-        System.out.println("Pasting...");
+        Circle circle = new Circle(5);
+        circle.setCenterX(50);
+        circle.setCenterY(50);
+        circle.setOnMouseClicked(e->{
+            if(e.getButton() == MouseButton.SECONDARY){
+                leftpane.getChildren().remove(circle);
+            }
+        });
+        leftpane.getChildren().add(circle);
+        
     }
     
     @FXML

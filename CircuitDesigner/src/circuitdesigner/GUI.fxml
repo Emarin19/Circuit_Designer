@@ -158,26 +158,9 @@
                                        </font></Text>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane maxHeight="50.0" maxWidth="80.0" minHeight="50.0" minWidth="80.0" prefHeight="50.0" prefWidth="80.0">
-                                 <children>
-                                    <ImageView fx:id="AndTwoImage" fitHeight="50.0" fitWidth="80.0" onMouseClicked="#OnGateClicked" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../resources/images/AND.png" />
-                                       </image>
-                                    </ImageView>
-                                 </children></AnchorPane>
-                              <AnchorPane maxHeight="50.0" maxWidth="80.0" minHeight="50.0" minWidth="80.0" prefHeight="50.0" prefWidth="80.0">
-                                 <children>
-                                    <ImageView fx:id="OrTwoImage" fitHeight="50.0" fitWidth="80.0" onMouseClicked="#OnGateClicked" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../resources/images/OR.png" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </AnchorPane>
                               <AnchorPane maxHeight="50.0" maxWidth="95.0" minHeight="50.0" minWidth="95.0" prefHeight="50.0" prefWidth="95.0">
                                  <children>
-                                    <ImageView fitHeight="50.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="AndTwo" fitHeight="50.0" fitWidth="95.0" onMouseClicked="#OnGateClicked" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../ANDTWO.png" />
                                        </image>
@@ -186,7 +169,7 @@
                               </AnchorPane>
                               <AnchorPane maxHeight="50.0" maxWidth="95.0" minHeight="50.0" minWidth="95.0" prefHeight="50.0" prefWidth="95.0">
                                  <children>
-                                    <ImageView fitHeight="50.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="OrTwo" fitHeight="50.0" fitWidth="95.0" onMouseClicked="#OnGateClicked" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../ORTWO.png" />
                                        </image>
@@ -195,7 +178,7 @@
                               </AnchorPane>
                               <AnchorPane maxHeight="50.0" maxWidth="95.0" minHeight="50.0" minWidth="95.0" prefHeight="50.0" prefWidth="95.0">
                                  <children>
-                                    <ImageView fitHeight="50.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="Not" fitHeight="50.0" fitWidth="95.0" onMouseClicked="#OnGateClicked" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../NOT.png" />
                                        </image>
@@ -204,7 +187,7 @@
                               </AnchorPane>
                               <AnchorPane maxHeight="50.0" maxWidth="95.0" minHeight="50.0" minWidth="95.0" prefHeight="50.0" prefWidth="95.0">
                                  <children>
-                                    <ImageView fitHeight="50.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="NandTwo" fitHeight="50.0" fitWidth="95.0" onMouseClicked="#OnGateClicked" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../NANDTWO.png" />
                                        </image>
@@ -213,7 +196,7 @@
                               </AnchorPane>
                               <AnchorPane maxHeight="50.0" maxWidth="95.0" minHeight="50.0" minWidth="95.0" prefHeight="50.0" prefWidth="95.0">
                                  <children>
-                                    <ImageView fitHeight="50.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="NorTwo" fitHeight="50.0" fitWidth="95.0" onMouseClicked="#OnGateClicked" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../NORTWO.png" />
                                        </image>
@@ -222,7 +205,7 @@
                               </AnchorPane>
                               <AnchorPane maxHeight="50.0" maxWidth="95.0" minHeight="50.0" minWidth="95.0" prefHeight="50.0" prefWidth="95.0">
                                  <children>
-                                    <ImageView fitHeight="50.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="XorTwo" fitHeight="50.0" fitWidth="95.0" onMouseClicked="#OnGateClicked" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../XORTWO.png" />
                                        </image>
@@ -231,7 +214,7 @@
                               </AnchorPane>
                               <AnchorPane maxHeight="50.0" maxWidth="95.0" minHeight="50.0" minWidth="95.0" prefHeight="50.0" prefWidth="95.0">
                                  <children>
-                                    <ImageView fitHeight="50.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="XnorTwo" fitHeight="50.0" fitWidth="95.0" onMouseClicked="#OnGateClicked" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../XNORTWO.png" />
                                        </image>
