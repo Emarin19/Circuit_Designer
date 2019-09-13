@@ -31,6 +31,12 @@ public class AndTwo extends LogicGate {
         this.firstInput = null;
         this.secondInput = null;
         this.output = null;
+        if(inputs.countObservers() == 0){
+            inputs.addObserver(inputsObserver);
+        }
+        if(outputs.countObservers() == 0){
+            outputs.addObserver(outputsObserver);
+        }
     }
 
     @Override
@@ -65,7 +71,12 @@ public class AndTwo extends LogicGate {
 
     @Override
     public Boolean getOutput() {
-        return output;
+        if(firstInput == null || secondInput == null){
+            return null;
+        }
+        else{
+            return (firstInput && secondInput);
+        }
     }
     
     @Override
@@ -127,5 +138,33 @@ public class AndTwo extends LogicGate {
             return null;
         }
     }  
+
+    /**
+     * @return the inputs
+     */
+    public LinkedList <LogicGate> getInputs() {
+        return inputs;
+    }
+
+    /**
+     * @param inputs the inputs to set
+     */
+    public void setInputs(LinkedList <LogicGate> inputs) {
+        this.inputs = inputs;
+    }
+
+    /**
+     * @return the outputs
+     */
+    public LinkedList <LogicGate> getOutputs() {
+        return outputs;
+    }
+
+    /**
+     * @param outputs the outputs to set
+     */
+    public void setOutputs(LinkedList <LogicGate> outputs) {
+        this.outputs = outputs;
+    }
 
 }

@@ -31,8 +31,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-
-
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 
 /**
@@ -91,6 +91,18 @@ public class GUIController implements Initializable {
 
     @FXML
     private ImageView exitIcon;
+   
+    @FXML
+    private Circle True;
+
+    @FXML
+    private Circle False;
+    
+    @FXML
+    private Text Text1;
+
+    @FXML
+    private Text Text2;
     
     @FXML
     private ImageView AndTwoImage;
@@ -117,6 +129,8 @@ public class GUIController implements Initializable {
     public void initialize(URL location, ResourceBundle rb) {
         buttons();
         gridDimensions();
+        Text1.setMouseTransparent(true);
+        Text2.setMouseTransparent(true);
         checkboxGrid.setSelected(true);
     }
     
@@ -145,7 +159,15 @@ public class GUIController implements Initializable {
     
     @FXML
     void OnGateClicked(MouseEvent event) {
-        if(event.getSource().equals(AndTwoImage)){
+        if(event.getSource().equals(True)){
+            System.out.println("TRUE CIRCLE");
+            Facade facade = new Facade(true);
+        }
+        else if(event.getSource().equals(False)){
+            System.out.println("FALSE CIRCLE");
+            Facade facade = new Facade(false);
+        }
+        else if(event.getSource().equals(AndTwoImage)){
             Facade facade = new Facade("AND.png");
         }
         else if(event.getSource().equals(OrTwoImage)){
@@ -239,6 +261,15 @@ public class GUIController implements Initializable {
 
     @FXML
     void cut(ActionEvent event) {
+        Text text = new Text();
+        text.setText("Hola");
+        text.setFill(Color.BLACK);
+        text.setFont(Font.font(20));
+        text.setFont(Font.font("Swis721 BT"));
+        text.setX(50);
+        text.setY(50);
+        leftpane.getChildren().add(text);
+        
         //Facade.getCircuit().getValue(i).setOutput(output);
         System.out.println("Cutting");
     }

@@ -27,6 +27,11 @@ public class Facade {
         draw.setGate();
         circuit.add(draw.gate());
     }
+    
+    public Facade(Boolean value){
+        DrawGate draw = new DrawGate();
+        draw.setBooleanValue(value);
+    }
 
     /**
      * @return the circuit

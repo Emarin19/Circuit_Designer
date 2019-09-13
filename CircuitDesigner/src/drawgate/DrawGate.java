@@ -14,6 +14,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.event.EventHandler;
+import javafx.geometry.VPos;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import nodes.LogicGate;
 
 
@@ -33,6 +37,9 @@ public class DrawGate {
     private double orgSceneX, orgSceneY;
     private double orgTranslateX, orgTranslateY;
     
+    private MyCircle Value;
+    private Text textValue;
+    
     private MyCircle startFirstInput;
     private MyCircle endFirstInput;
     private Line lineFirstInput;
@@ -44,6 +51,10 @@ public class DrawGate {
     private MyCircle start;
     private MyCircle end;
     private Line line;
+    
+    public DrawGate(){
+        
+    }
     
     public DrawGate(String image){
         this.image = image;
@@ -77,6 +88,29 @@ public class DrawGate {
         setSecondInput();
         
         Y = Y + 100;
+    }
+    
+    public void setBooleanValue(Boolean value){
+        DoubleProperty  circleX = new SimpleDoubleProperty(X);
+        DoubleProperty circleY = new SimpleDoubleProperty(Y);
+        Value = new MyCircle(circleX, circleY, "Valor");
+        Value.setUserData(value);
+        textValue = new Text();
+        if(value){
+            textValue.setText("1");
+        }
+        else{
+            textValue.setText("0");
+        }
+        textValue.setFill(Color.WHITE);
+        textValue.setFont(Font.font("Swis721 BT"));
+        textValue.setTextOrigin(VPos.CENTER);
+        textValue.xProperty().bind(Value.centerXProperty());
+        textValue.yProperty().bind(Value.centerYProperty());
+        textValue.setMouseTransparent(true);
+        
+        Main.getController().getRoot().getChildren().addAll(Value,textValue);
+        
     }
     
     EventHandler<MouseEvent> clicked = 
