@@ -5,15 +5,13 @@
  */
 package drawgate;
 
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import linkedlist.LinkedList;
-import linkedlist.MyObserver;
 import nodes.LogicGate;
 import nodes.AndTwo;
 import nodes.OrTwo;
 import nodes.NandTwo;
 import nodes.NorTwo;
+import nodes.Not;
 import nodes.XnorTwo;
 import nodes.XorTwo;
 
@@ -33,8 +31,8 @@ public class Gate extends ImageView {
         if(image.equals("ORTWO.png")){
             this.gate = new OrTwo();
         }
-        if(image.equals("Not.png")){
-            System.out.println("No todavia");
+        if(image.equals("NOT.png")){
+            this.gate = new Not();
         }
         if(image.equals("NANDTWO.png")){
             this.gate = new NandTwo();
@@ -47,13 +45,6 @@ public class Gate extends ImageView {
         }
         if(image.equals("XNORTWO.png")){
             this.gate = new XnorTwo();
-        }
-        if(image.equals("AND.png")){
-            this.gate = new AndTwo();
-        }
-        
-        if(image.equals("OR.png")){
-            this.gate = new OrTwo();
         }
     }
 

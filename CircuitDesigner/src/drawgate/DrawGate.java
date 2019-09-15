@@ -16,10 +16,8 @@ import javafx.scene.shape.Line;
 import javafx.event.EventHandler;
 import javafx.geometry.VPos;
 import javafx.scene.input.MouseButton;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import nodes.LogicGate;
 
 
@@ -80,7 +78,6 @@ public class DrawGate {
         gate.setX(X);
         gate.setY(Y);
         
-        //gate.setOnMouseClicked(clicked);
         gate.setOnMouseClicked(e ->{
             if(e.getButton() == MouseButton.SECONDARY){
                 Main.getController().getRoot().getChildren().removeAll(gate,startFirstInput,endFirstInput,lineFirstInput,startSecondInput,endSecondInput,lineSecondInput,start,end,line);
@@ -97,16 +94,39 @@ public class DrawGate {
         Y = Y + 100;
     }
     
+    public void setNot(){
+       
+        gateImage = new Image(getImage());
+        gate = new Gate(getImage());
+        gate.setImage(gateImage);
+        gate.setFitWidth(95);
+        gate.setFitHeight(50);
+
+        gate.setX(X);
+        gate.setY(Y);
+        
+        gate.setOnMouseClicked(e ->{
+            if(e.getButton() == MouseButton.SECONDARY){
+                Main.getController().getRoot().getChildren().removeAll(gate,startFirstInput,endFirstInput,lineFirstInput,start,end,line);
+            }
+        });
+        gate.setOnMousePressed(gateOnMousePressed);
+        gate.setOnMouseDragged(gateOnMouseDraggedNot);
+
+        Main.getController().getRoot().getChildren().addAll(gate);
+        setInput();
+        setOutput();
+        
+        Y = Y + 100;
+        
+    }
+    
     public void setBooleanValue(Boolean value){
-        DoubleProperty  circleX = new SimpleDoubleProperty(X);
-        DoubleProperty circleY = new SimpleDoubleProperty(Y);
+        DoubleProperty  circleX = new SimpleDoubleProperty(50);
+        DoubleProperty circleY = new SimpleDoubleProperty(50);
         Value = new MyCircle(circleX, circleY, "Valor");
         Value.setUserData(value);
         textValue = new Text();
-        Value.setOnMouseClicked(e ->{
-            Value = (MyCircle) new Circle(6);
-           Main.getController().getRoot().getChildren().remove(Value);
-        });
         
         if(value){
             textValue.setText("1");
@@ -124,18 +144,6 @@ public class DrawGate {
         Main.getController().getRoot().getChildren().addAll(Value,textValue);
         
     }
-    
-    EventHandler<MouseEvent> clicked = 
-        new EventHandler<MouseEvent>(){
-        
-        @Override
-        public void handle(MouseEvent t){
-            
-            //t.getSource().toString();
-            //System.out.println(gate.getGate().foo());
-            //System.out.println(gate.getGate().getOutput().toString());
-        }
-    };
     
     EventHandler<MouseEvent> gateOnMousePressed = 
         new EventHandler<MouseEvent>() {
@@ -185,6 +193,37 @@ public class DrawGate {
             line.setTranslateY(newTranslateY);
         }
     };
+    
+    EventHandler<MouseEvent> gateOnMouseDraggedNot = 
+        
+        new EventHandler<MouseEvent>() {
+ 
+        @Override
+        public void handle(MouseEvent t) {
+            double offsetX = t.getSceneX() - orgSceneX;
+            double offsetY = t.getSceneY() - orgSceneY;
+            double newTranslateX = orgTranslateX + offsetX;
+            double newTranslateY = orgTranslateY + offsetY;
+
+            ((ImageView)(t.getSource())).setTranslateX(newTranslateX);
+            ((ImageView)(t.getSource())).setTranslateY(newTranslateY);
+            
+            startFirstInput.setTranslateX(newTranslateX);
+            startFirstInput.setTranslateY(newTranslateY);
+            endFirstInput.setTranslateX(newTranslateX);
+            endFirstInput.setTranslateY(newTranslateY);
+            lineFirstInput.setTranslateX(newTranslateX);
+            lineFirstInput.setTranslateY(newTranslateY);
+
+            start.setTranslateX(newTranslateX);
+            start.setTranslateY(newTranslateY);
+            end.setTranslateX(newTranslateX);
+            end.setTranslateY(newTranslateY);
+            line.setTranslateX(newTranslateX);
+            line.setTranslateY(newTranslateY);
+        }
+    };
+    
 
     private void setFirstInput() {
         
@@ -201,6 +240,22 @@ public class DrawGate {
         
         Main.getController().getRoot().getChildren().addAll(startFirstInput, endFirstInput, lineFirstInput);
         
+    }
+    
+    private void setInput() {
+        
+        DoubleProperty startFirstInputX = new SimpleDoubleProperty(X+2);
+        DoubleProperty startFirstInputY = new SimpleDoubleProperty(Y+25);
+        DoubleProperty endFirstInputX = new SimpleDoubleProperty(X+2);
+        DoubleProperty endFirstInputY = new SimpleDoubleProperty(Y+25);
+        
+        startFirstInput = new MyCircle(Color.CADETBLUE,startFirstInputX,startFirstInputY, gate.getGate(), "FirstInput");
+        endFirstInput = new MyCircle(Color.CADETBLUE,endFirstInputX,endFirstInputY);
+        endFirstInput.setVisible(false);
+        
+        lineFirstInput = new MyLine(startFirstInputX,startFirstInputY,endFirstInputX,endFirstInputY);
+        
+        Main.getController().getRoot().getChildren().addAll(startFirstInput, endFirstInput, lineFirstInput);
     }
     
     private void setSecondInput() {
@@ -236,11 +291,9 @@ public class DrawGate {
     }
     
     public LogicGate gate(){
-        //gate.getGate().setFirst(startFirstInput);
-        //gate.getGate().setSecond(startSecondInput);
-        //gate.getGate().setOut(start);
         return gate.getGate();
     }
+    
     
   }
 

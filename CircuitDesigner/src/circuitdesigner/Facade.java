@@ -6,7 +6,6 @@
 package circuitdesigner;
 
 import drawgate.DrawGate;
-import drawgate.Gate;
 import linkedlist.LinkedList;
 import linkedlist.MyObserver;
 import nodes.LogicGate;
@@ -23,9 +22,16 @@ public class Facade {
         if(circuit.countObservers() == 0){
             circuit.addObserver(circuitObserver);
         }
-        DrawGate draw = new DrawGate(image);
-        draw.setGate();
-        circuit.add(draw.gate());
+        if(image.equals("NOT.png")){
+            DrawGate draw = new DrawGate(image);
+            draw.setNot();
+            circuit.add(draw.gate());
+        }
+        else{
+            DrawGate draw = new DrawGate(image);
+            draw.setGate();
+            circuit.add(draw.gate());
+        }
     }
     
     public Facade(Boolean value){

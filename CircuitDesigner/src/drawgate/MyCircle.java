@@ -17,7 +17,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import nodes.LogicGate;
 
-
 /**
  *
  * @author Emanuel
@@ -50,7 +49,6 @@ public class MyCircle extends Circle {
         setFill(Color.DODGERBLUE);
         this.type = type;
         enableSingleDrag();
-        
     }
     
     private void enableDrag() {
@@ -62,30 +60,12 @@ public class MyCircle extends Circle {
             System.out.println(type);
             setUserData(gate.getValue(type));
             System.out.println(getUserData());
-            //setUserData(gate.getValue(type));
-            //value = gate.getValue(type);
-            //System.out.println("Mi valor de verdad es: " + getUserData());
             
-            /*if (gate.foo().equalsIgnoreCase("Soy And")){
-                if(type.equalsIgnoreCase("Salida")){
-                    gate.setValue(type, true);
-                }
-            }
-            
-            if(gate.foo().equalsIgnoreCase("Soy Or")){
-                if(type.equalsIgnoreCase("Salida")){
-                    gate.setValue(type, false);
-                }
-            }*/
-
-            //System.out.println("Mi nuevo valor es: " + gate.getValue(type));
-
             setMouseTransparent(true);
             dragDelta.x = getCenterX() - mouseEvent.getX();
             dragDelta.y = getCenterY() - mouseEvent.getY();
             getScene().setCursor(Cursor.HAND);
             mouseEvent.setDragDetect(true);
-            
         }
       });
       setOnMouseReleased(new EventHandler<MouseEvent>() {
@@ -116,7 +96,6 @@ public class MyCircle extends Circle {
       setOnMouseDragEntered(new EventHandler<MouseDragEvent>() {
         @Override public void handle(MouseDragEvent mouseEvent) {
             System.out.println(gate.toString());
-            System.out.println(type);
 
             Object obj = mouseEvent.getGestureSource();
             
@@ -146,35 +125,13 @@ public class MyCircle extends Circle {
                     if(((MyCircle) obj).getType().equals("Salida")){
                         ((MyCircle) obj).getGate().getOutputs().add(gate);
                         gate.getInputs().add(((MyCircle) obj).getGate());
+                        
+                        gate.setValue(type, (Boolean) ((MyCircle) obj).getUserData());
+                        
                     }
                 }
             }
-            /*if(obj instanceof MyCircle){
-                if(type.equals(((MyCircle) obj).getType())){
-                    System.out.println("No te puedes conectar");
-                }
-                else{
-                    System.out.println(((MyCircle) obj).getGate().foo());
-                //System.out.println("Mi valor de verdad es: " + ((MyCircle) obj).getValue());
-                System.out.println("Mi valor de verdad es: " + ((MyCircle) obj).getUserData());
-                System.out.println("Mucho gusto " + gate.foo());
-                System.out.println("Mi actual valor de verdad es: " + gate.getValue(type));
-                gate.setValue(type, (Boolean) ((MyCircle) obj).getUserData());
-                System.out.println("Mi nuevo valor de verdad es: " + gate.getValue(type) + ", el mismo que el tuyo " + ((MyCircle) obj).getUserData());
-                }
-            }*/
-
-            /*if ( obj instanceof MyCircle ){
-                
-                System.out.println(((MyCircle) obj).getGate().foo());
-                //System.out.println("Mi valor de verdad es: " + ((MyCircle) obj).getValue());
-                System.out.println("Mi valor de verdad es: " + ((MyCircle) obj).getUserData());
-                System.out.println("Mucho gusto " + gate.foo());
-                System.out.println("Mi actual valor de verdad es: " + gate.getValue(type));
-                gate.setValue(type, (Boolean) ((MyCircle) obj).getUserData());
-                System.out.println("Mi nuevo valor de verdad es: " + gate.getValue(type) + ", el mismo que el tuyo " + ((MyCircle) obj).getUserData());
-                
-            }*/
+            
             
             if (!mouseEvent.isPrimaryButtonDown()) {
                 getScene().setCursor(Cursor.HAND);
@@ -195,27 +152,27 @@ public class MyCircle extends Circle {
       }); 
     }
 
-    public void enableSingleDrag() {
-        setOnMouseClicked(e ->{
-            if(e.getButton() == MouseButton.SECONDARY){
-                Main.getController().getRoot().getChildren().removeAll(this);
-            }
-        });
+    private void enableSingleDrag() {
         setOnMousePressed(new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent mouseEvent) {
-            System.out.println("Soy " + type);
-            System.out.println(getUserData());
-            setMouseTransparent(true);
-            dragDelta.x = getCenterX() - mouseEvent.getX();
-            dragDelta.y = getCenterY() - mouseEvent.getY();
-            getScene().setCursor(Cursor.HAND);
-            mouseEvent.setDragDetect(true);
+            
+            if(mouseEvent.getButton()==MouseButton.SECONDARY){
+                Object obj = mouseEvent.getSource();
+                Main.getController().getRoot().getChildren().remove((MyCircle)obj);
+            }
+            else{
+                System.out.println("Soy " + type);
+                System.out.println(getUserData());
+                setMouseTransparent(true);
+                dragDelta.x = getCenterX() - mouseEvent.getX();
+                dragDelta.y = getCenterY() - mouseEvent.getY();
+                getScene().setCursor(Cursor.HAND);
+                mouseEvent.setDragDetect(true);
+            }
         }
       });
         setOnMouseReleased(new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent mouseEvent) {
-            System.out.println("Mouse Released");
-            getScene().setCursor(Cursor.HAND);
             setMouseTransparent(false);
         }
       });
@@ -239,7 +196,6 @@ public class MyCircle extends Circle {
       });
         setOnMouseDragEntered(new EventHandler<MouseDragEvent>() {
         @Override public void handle(MouseDragEvent mouseEvent) {
-            
             if (!mouseEvent.isPrimaryButtonDown()) {
                 getScene().setCursor(Cursor.HAND);
             }
@@ -247,7 +203,9 @@ public class MyCircle extends Circle {
       });
         setOnMouseDragOver(new EventHandler<MouseDragEvent>(){
           @Override public void handle(MouseDragEvent mouseEvent){
-
+              /*if(mouseEvent.getButton() == MouseButton.SECONDARY){
+                Main.getController().getRoot().getChildren().remove(this);
+            }*/
           }
       });
         setOnMouseExited(new EventHandler<MouseEvent>() {

@@ -14,23 +14,22 @@ import linkedlist.MyObserver;
  * @author Emanuel
  */
 public class AndTwo extends LogicGate {
+    
     private LinkedList <LogicGate> inputs = new LinkedList<>();
     private LinkedList <LogicGate> outputs = new LinkedList<>();
     private MyObserver inputsObserver = new MyObserver();
     private MyObserver outputsObserver = new MyObserver();
-    
-    private MyCircle first;
-    private MyCircle second;
-    private MyCircle out;
 
     private Boolean firstInput;
     private Boolean secondInput;
     private Boolean output;
     
     public AndTwo(){
+        
         this.firstInput = null;
         this.secondInput = null;
         this.output = null;
+        
         if(inputs.countObservers() == 0){
             inputs.addObserver(inputsObserver);
         }
@@ -90,7 +89,6 @@ public class AndTwo extends LogicGate {
         if(type.equals("SecondInput")){
             this.secondInput = value;
         }
-        
     }
 
     @Override
@@ -107,37 +105,15 @@ public class AndTwo extends LogicGate {
         }
         return result;
     }
-
-    @Override
-    public void setFirst(MyCircle circle) {
-        this.first = circle;
-    }
     
-    @Override
-    public void setSecond(MyCircle circle) {
-        this.second = circle;
-    }
-    
-    @Override
-    public void setOut(MyCircle circle) {
-        this.out = circle;
-    }
-
-    @Override
-    public MyCircle getCircle(String type) {
-        if(type.equals("Salida")){
-            return this.out;
+    /*@Override
+    public void operate() {
+        Boolean first = getFirstInput();
+        Boolean second = getSecondInput();
+        if(first == null || second == null){
+            set
         }
-        else if(type.equals("FirstInput")){
-            return this.first;
-        }
-        else if(type.equals("SecondInput")){
-            return this.second;
-        }
-        else{
-            return null;
-        }
-    }  
+    }*/
 
     /**
      * @return the inputs
@@ -166,5 +142,4 @@ public class AndTwo extends LogicGate {
     public void setOutputs(LinkedList <LogicGate> outputs) {
         this.outputs = outputs;
     }
-
 }

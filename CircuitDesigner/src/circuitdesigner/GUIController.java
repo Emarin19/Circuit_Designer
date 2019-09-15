@@ -176,11 +176,9 @@ public class GUIController implements Initializable {
     @FXML
     void OnGateClicked(MouseEvent event) {
         if(event.getSource().equals(True)){
-            System.out.println("TRUE CIRCLE");
             Facade facade = new Facade(true);
         }
         else if(event.getSource().equals(False)){
-            System.out.println("FALSE CIRCLE");
             Facade facade = new Facade(false);
         }
         else if(event.getSource().equals(AndTwo)){
@@ -205,7 +203,7 @@ public class GUIController implements Initializable {
             Facade facade = new Facade("XNORTWO.png");
         }
         else{
-            System.out.println("Ninguna");
+            return;
         }
     }
     

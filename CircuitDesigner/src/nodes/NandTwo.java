@@ -116,36 +116,6 @@ public class NandTwo extends LogicGate {
         return result;
     }
 
-    @Override
-    public void setFirst(MyCircle circle) {
-        this.first = circle;
-    }
-    
-    @Override
-    public void setSecond(MyCircle circle) {
-        this.second = circle;
-    }
-    
-    @Override
-    public void setOut(MyCircle circle) {
-        this.out = circle;
-    }
-
-    @Override
-    public MyCircle getCircle(String type) {
-        if(type.equals("Salida")){
-            return this.out;
-        }
-        else if(type.equals("FirstInput")){
-            return this.first;
-        }
-        else if(type.equals("SecondInput")){
-            return this.second;
-        }
-        else{
-            return null;
-        }
-    }  
 
     /**
      * @return the inputs

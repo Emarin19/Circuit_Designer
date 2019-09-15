@@ -18,12 +18,6 @@ public abstract class LogicGate {
     public abstract LinkedList getInputs();
     public abstract LinkedList getOutputs();
     
-    public abstract void setFirst(MyCircle circle);
-    public abstract void setSecond(MyCircle circle);
-    public abstract void setOut(MyCircle circle);
-    
-    public abstract MyCircle getCircle(String type);
-    
     public abstract void setFirstInput(Boolean firstInput);
     public abstract Boolean getFirstInput();
     
@@ -32,6 +26,8 @@ public abstract class LogicGate {
     
     public abstract void setOutput(Boolean output);
     public abstract Boolean getOutput();
+    
+    //public abstract void operate();
     
     public abstract void setValue(String type, Boolean value);
     public abstract Boolean getValue(String type);
