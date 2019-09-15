@@ -124,9 +124,9 @@ public class DrawGate {
     public void setBooleanValue(Boolean value){
         DoubleProperty  circleX = new SimpleDoubleProperty(50);
         DoubleProperty circleY = new SimpleDoubleProperty(50);
-        Value = new MyCircle(circleX, circleY, "Valor");
-        Value.setUserData(value);
         textValue = new Text();
+        Value = new MyCircle(circleX, circleY, "Valor", textValue);
+        Value.setUserData(value);
         
         if(value){
             textValue.setText("1");

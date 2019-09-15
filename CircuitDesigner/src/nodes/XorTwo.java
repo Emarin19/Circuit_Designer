@@ -43,7 +43,7 @@ public class XorTwo extends LogicGate {
 
     @Override
     public String foo() {
-        return "Soy Xor";
+        return "XOR";
     }
 
     @Override

@@ -43,7 +43,7 @@ public class NandTwo extends LogicGate {
 
     @Override
     public String foo() {
-        return "Soy Nand";
+        return "NAND";
     }
 
     @Override

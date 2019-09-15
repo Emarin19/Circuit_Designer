@@ -8,7 +8,6 @@ package circuitdesigner;
 import drawgate.DrawGate;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
-import drawgate.MyCircle;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import javafx.event.ActionEvent;
@@ -22,12 +21,15 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 
 import javafx.scene.image.ImageView;
@@ -37,6 +39,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import linkedlist.LinkedList;
 
 
 /**
@@ -141,6 +145,14 @@ public class GUIController implements Initializable {
     @FXML
     private JFXCheckBox checkboxGrid;
     
+    private LinkedList circuit;
+    
+    private TableView table = new TableView();
+    
+    
+    /**
+     * Initializes the controller class.
+     */
     @Override
     public void initialize(URL location, ResourceBundle rb) {
         buttons();
@@ -207,6 +219,28 @@ public class GUIController implements Initializable {
         }
     }
     
+    @FXML
+    void generateTable(ActionEvent event) {
+        circuit = Facade.getCircuit();
+        if(circuit.getSize() == 0){
+            System.out.println("Lista vacia");
+        }
+        else{
+            try{
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TableView.fxml"));
+                Parent root1 = (Parent) fxmlLoader.load();
+                Stage stage = new Stage();
+                stage.setTitle("True Table");
+                stage.setResizable(false);
+                stage.setScene(new Scene(root1));
+                stage.show();
+            
+            }catch(Exception e){
+                System.out.println("Can´t load FXML");
+            } 
+        }
+    }
+    
     
     @FXML
     void newFile(ActionEvent event) {
@@ -267,9 +301,13 @@ public class GUIController implements Initializable {
     @FXML
     void about(ActionEvent event) {
         
-        System.out.println(Facade.getCircuit().getValue(i));
+        System.out.println(Facade.getCircuit().getValue(0));
+        System.out.println(Facade.getCircuit().getValue(0).getFirstInput());
+        System.out.println(Facade.getCircuit().getValue(0).getSecondInput());
+        System.out.println(Facade.getCircuit().getValue(0).getOutput());
+        
         System.out.println("Aditional Information");
-        i++;
+        
     }
     
     @FXML

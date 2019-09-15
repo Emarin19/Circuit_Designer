@@ -5,7 +5,6 @@
  */
 package nodes;
 
-import drawgate.MyCircle;
 import linkedlist.LinkedList;
 
 /**
@@ -27,8 +26,7 @@ public abstract class LogicGate {
     public abstract void setOutput(Boolean output);
     public abstract Boolean getOutput();
     
-    //public abstract void operate();
-    
     public abstract void setValue(String type, Boolean value);
     public abstract Boolean getValue(String type);
+
 }

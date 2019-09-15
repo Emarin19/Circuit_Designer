@@ -15,6 +15,7 @@ import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import nodes.LogicGate;
 
 /**
@@ -25,6 +26,7 @@ public class MyCircle extends Circle {
     
     private Delta dragDelta = new Delta();
     private LogicGate gate;
+    private Text textValue;
     private String type;
     
     public MyCircle(Color color, DoubleProperty x, DoubleProperty y, LogicGate gate, String type) {
@@ -44,10 +46,11 @@ public class MyCircle extends Circle {
       y.bind(centerYProperty());
     }
     
-    public MyCircle(DoubleProperty x, DoubleProperty y, String type){
+    public MyCircle(DoubleProperty x, DoubleProperty y, String type, Text textValue){
         super(x.get(), y.get(),10);
         setFill(Color.DODGERBLUE);
         this.type = type;
+        this.textValue = textValue;
         enableSingleDrag();
     }
     
@@ -129,6 +132,11 @@ public class MyCircle extends Circle {
                         gate.setValue(type, (Boolean) ((MyCircle) obj).getUserData());
                         
                     }
+                    else{
+                        ((MyCircle) obj).getGate().getInputs().add(gate);
+                        gate.getOutputs().add(((MyCircle) obj).getGate());
+                        ((MyCircle) obj).getGate().setValue(((MyCircle) obj).getType(), gate.getValue(type) );
+                    }
                 }
             }
             
@@ -158,7 +166,7 @@ public class MyCircle extends Circle {
             
             if(mouseEvent.getButton()==MouseButton.SECONDARY){
                 Object obj = mouseEvent.getSource();
-                Main.getController().getRoot().getChildren().remove((MyCircle)obj);
+                Main.getController().getRoot().getChildren().removeAll((MyCircle)obj, textValue);
             }
             else{
                 System.out.println("Soy " + type);

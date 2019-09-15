@@ -44,7 +44,7 @@ public class NorTwo extends LogicGate {
 
     @Override
     public String foo() {
-        return "Soy Nor";
+        return "NOR";
     }
 
     @Override

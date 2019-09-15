@@ -39,7 +39,7 @@ public class OrTwo extends LogicGate{
 
     @Override
     public String foo() {
-        return "Soy Or";
+        return "OR";
     }
 
     @Override

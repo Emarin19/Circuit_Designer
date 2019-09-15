@@ -121,7 +121,7 @@
             <HBox prefHeight="35.0" prefWidth="1000.0" spacing="5.0" style="-fx-border-color: #9C9C9C; -fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER_LEFT">
                <children>
                   <JFXButton fx:id="runButton" prefHeight="35.0" />
-                  <JFXButton prefHeight="35.0" text="Generate Table" />
+                  <JFXButton onAction="#generateTable" prefHeight="35.0" text="Generate Table" />
                   <JFXCheckBox fx:id="checkboxGrid" onAction="#checkboxGridAction" prefHeight="35.0" text="CheckBox">
                      <HBox.margin>
                         <Insets />

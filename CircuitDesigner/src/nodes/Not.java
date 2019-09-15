@@ -41,7 +41,7 @@ public class Not extends LogicGate{
 
     @Override
     public String foo() {
-        return "Soy Not";
+        return "NOT";
     }
 
     @Override

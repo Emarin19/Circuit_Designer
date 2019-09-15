@@ -5,11 +5,14 @@
  */
 package circuitdesigner;
 
+import drawgate.DecimalToBinary;
+import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import static javafx.application.Application.launch;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 
 
 /**
@@ -27,6 +30,12 @@ public class Main extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
+        
+        /*ArrayList<Integer> inputs = DecimalToBinary.inputs(3, 2);
+        for(int i=inputs.size()-1; i>=0; i--){
+            System.out.print(inputs.get(i));
+        }*/
+
         stage.setTitle("Circuit Designer");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI.fxml"));
         loader.setController(controller);
