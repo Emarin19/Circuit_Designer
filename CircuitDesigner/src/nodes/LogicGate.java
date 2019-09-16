@@ -5,6 +5,7 @@
  */
 package nodes;
 
+import java.util.ArrayList;
 import linkedlist.LinkedList;
 
 /**
@@ -13,6 +14,9 @@ import linkedlist.LinkedList;
  */
 public abstract class LogicGate {
     public abstract String foo();
+    public abstract String getType();
+    public abstract String operate(ArrayList inputs);
+    //public abstract String operate(String type);
     
     public abstract LinkedList getInputs();
     public abstract LinkedList getOutputs();
@@ -28,5 +32,6 @@ public abstract class LogicGate {
     
     public abstract void setValue(String type, Boolean value);
     public abstract Boolean getValue(String type);
+    
 
 }

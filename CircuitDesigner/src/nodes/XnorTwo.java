@@ -6,6 +6,7 @@
 package nodes;
 
 import drawgate.MyCircle;
+import java.util.ArrayList;
 import linkedlist.LinkedList;
 import linkedlist.MyObserver;
 
@@ -45,7 +46,12 @@ public class XnorTwo extends LogicGate {
     public String foo() {
         return "XNOR";
     }
-
+    
+    @Override
+    public String getType() {
+        return "2";
+    }
+    
     @Override
     public void setFirstInput(Boolean first) {
         this.firstInput = first;
@@ -141,6 +147,37 @@ public class XnorTwo extends LogicGate {
      */
     public void setOutputs(LinkedList <LogicGate> outputs) {
         this.outputs = outputs;
+    }
+    
+    @Override
+    public String operate(ArrayList inputs) {
+        
+        Boolean finalValue = false;
+        int first = (int) inputs.get(0);
+        if(first == 1){
+            finalValue = true;
+        }
+        else{
+            finalValue = false;
+        }
+        
+        for(int i=1; i<inputs.size(); i++){
+            int value = (int) inputs.get(i);
+            if(value == 1){
+                finalValue = finalValue&&true;
+            }
+            else{
+                finalValue = finalValue&&false;
+            }
+        }
+        
+        if(finalValue){
+            return "1,";
+        }
+        else{
+            return "0,";
+        }
+        
     }
     
 }

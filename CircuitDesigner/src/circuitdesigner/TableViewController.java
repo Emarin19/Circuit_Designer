@@ -6,20 +6,21 @@
 package circuitdesigner;
 
 import circuitdesigner.Facade;
+import drawgate.DecimalToBinary;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import linkedlist.LinkedList;
 import nodes.LogicGate;
-import drawgate.DecimalToBinary;
 
 /**
  * FXML Controller class
@@ -31,120 +32,118 @@ public class TableViewController implements Initializable {
     @FXML
     private AnchorPane base;
     
-    private LinkedList circuit;
-    
     private LogicGate gate;
-   
-    private TableView<Values> table = new TableView();
     
-    private ObservableList<Values> values = FXCollections.observableArrayList();
+    private LinkedList<LogicGate> circuit;
     
-    private static int h = 1;
+    private LogicGate gateOutput;
     
+    private ArrayList<String>cellDatas = new ArrayList<>();
+    
+    private TableView<ObservableList<String>> tableView = new TableView<>();
+        
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        tableValues();
         createTable();
+    }
+    
+    private void tableValues() {
+        
+        circuit = Facade.getCircuit();
+        
+        
+        String values = "";
+        int num_inputs = 0;
+        int num_outputs = 0;
+        int total_columns = 0;
+        
+        if(circuit.getSize()==1){
+            gateOutput = circuit.getValue(0);
+        }
+
+        for(int i=0; i<circuit.getSize(); i++){
+            gate = circuit.getValue(i);
+            if(gate.getType().equals("2")){
+                if(gate.getInputs().getSize() == 0){
+                    num_inputs = num_inputs+2;
+                }
+                if(gate.getOutputs().getSize() == 0){
+                    num_outputs = num_outputs+1;
+                }
+                if(gate.getInputs().getSize()!=0 && gate.getOutputs().getSize()==0){
+                    gateOutput = gate;
+                }
+            }
+        }
+        
+        int combinations = (int) Math.pow(2, num_inputs);
+      
+        for(int i=0; i<num_inputs; i++){
+            values += "In" + (i+1) + ",";
+        }
+        
+        for(int i=0; i<num_outputs; i++){
+            values += "Out" + (i+1) + ",";
+        }
+        
+        for(int i=0; i<combinations; i++){
+            ArrayList<Integer> num_bin = DecimalToBinary.inputs(i, num_inputs);
+            
+            for(int j=num_bin.size()-1; j>=0; j--){
+                values += String.valueOf(num_bin.get(j) + ",");
+            }
+            values += gateOutput.operate(num_bin);
+            
+        }
+        
+        total_columns = (num_inputs+num_outputs);
+        
+        System.out.println(values);
+        cellDatas.add(values);
+        cellDatas.add(String.valueOf(combinations));
+        System.out.println(cellDatas.get(1));
+        cellDatas.add(String.valueOf(total_columns));
+        System.out.println(cellDatas.get(2));
     }
 
     private void createTable() {
         
-        circuit = Facade.getCircuit();
-       
-        for(int i=0; i<circuit.getSize(); i++){
-            
-            gate = (LogicGate) circuit.getValue(i);
-            TableColumn column = new TableColumn(gate.foo());
-            
-            if(gate.foo().equals("NOT")){
-                TableColumn input = new TableColumn("In");
-                TableColumn output = new TableColumn("Out");
-                input.setMaxWidth(40);
-                output.setMaxWidth(40);
-                column.getColumns().addAll(input, output);
-                table.getColumns().add(column);
-            }
-            else{
-                if(gate.foo().equals("AND")){
-                int ctd = 2; //Crear metodo en la clase abstracta para obtener la cantidad real de entreadas
-                for(int j=0; j<ctd; j++){
-                    TableColumn andInput = new TableColumn("In" + (j+1));
-                    andInput.setCellValueFactory(new PropertyValueFactory<>("input" + (j+1)));
-                    andInput.setMaxWidth(40);
-                    column.getColumns().add(andInput);
-                }
-                TableColumn andOutput = new TableColumn("Out");
-                andOutput.setCellValueFactory(new PropertyValueFactory<>("output"));
-                andOutput.setMaxWidth(40);
-                column.getColumns().add(andOutput);
-                table.getColumns().add(column);
-                table.setItems(getValues(ctd));
-                
-                }
-                if(gate.foo().equals("OR")){
-                int ctd = 2; //Crear metodo en la clase abstracta para obtener la cantidad real de entreadas
-                for(int j=0; j<ctd; j++){
-                    TableColumn orInput = new TableColumn("In" + (j+1));
-                    orInput.setCellValueFactory(new PropertyValueFactory<>("input" + (j+1)));
-                    orInput.setMaxWidth(40);
-                    column.getColumns().add(orInput);
-                }
-                TableColumn orOutput = new TableColumn("Out");
-                orOutput.setCellValueFactory(new PropertyValueFactory<>("output"));
-                orOutput.setMaxWidth(40);
-                column.getColumns().add(orOutput);
-                table.getColumns().add(column);
-                table.setItems(getValues(ctd));
-                
-                }
-            }
-            //
-        }
-        base.getChildren().add(table);           
-    }
-    
-    public ObservableList<Values> getValues(int entradas){
+        TableCreation Table  = new TableCreation(cellDatas.get(0));
+        tableView = new TableView<>();
         
-        int ctd = (int) Math.pow(2, entradas);
-       
-        int intA,intB,intC;
-        for(int i=0; i<ctd; i++){
-            ArrayList<Integer> inputs = DecimalToBinary.inputs(i, entradas);
-            intA = inputs.get(1);
-            intB = inputs.get(0);
-            
-            switch(intA){
-                case 0:
-                    gate.setFirstInput(false);
-                    break;
-                case 1:
-                    gate.setFirstInput(true);
-                    break;
-            }
-            
-            switch(intB){
-                case 0:
-                    gate.setSecondInput(false);
-                    break;
-                case 1:
-                    gate.setSecondInput(true);
-                    break;
-            }
-            
-            if(gate.getOutput()){
-                intC = 1;
-            }
-            else{
-                intC = 0;
-            }
-            
-            values.add(new Values(intA,intB,intC));
-
+        List<String> columnNames = Table.getNext(Integer.parseInt(cellDatas.get(2)));
+        
+        for (int i = 0; i < columnNames.size(); i++) {
+            final int finalIdx = i;
+            TableColumn<ObservableList<String>, String> column = new TableColumn<>(
+                columnNames.get(i)
+            );
+            column.setCellValueFactory(param ->
+                new ReadOnlyObjectWrapper<>(param.getValue().get(finalIdx))
+            );
+            tableView.getColumns().add(column);
         }
-        return values;
-    }
-    
+        
+        for (int i = 0; i < Integer.parseInt(cellDatas.get(1)); i++) {
+            tableView.getItems().add(
+                FXCollections.observableArrayList(
+                        Table.getNext(Integer.parseInt(cellDatas.get(2)))
+                )
+            );
+        }
+        
+        base.getChildren().add(tableView);
+ 
+    }    
+
+    /*9private String operateOutput(ArrayList inputs) {
+        String result = gateOutput.operate(inputs);
+        return result;
+    }*/
+       
 }

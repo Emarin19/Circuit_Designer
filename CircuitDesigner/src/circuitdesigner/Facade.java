@@ -45,5 +45,5 @@ public class Facade {
     public static LinkedList<LogicGate> getCircuit() {
         return circuit;
     }
-    
+      
 }

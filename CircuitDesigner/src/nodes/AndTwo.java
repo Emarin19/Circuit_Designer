@@ -5,8 +5,7 @@
  */
 package nodes;
 
-import drawgate.MyCircle;
-import javafx.beans.property.SimpleIntegerProperty;
+import java.util.ArrayList;
 import linkedlist.LinkedList;
 import linkedlist.MyObserver;
 
@@ -25,15 +24,11 @@ public class AndTwo extends LogicGate {
     private Boolean secondInput;
     private Boolean output;
     
-    private int type;
-    
     public AndTwo(){
         
         this.firstInput = null;
         this.secondInput = null;
         this.output = null;
-        
-        this.type = 2;
         
         if(inputs.countObservers() == 0){
             inputs.addObserver(inputsObserver);
@@ -43,20 +38,21 @@ public class AndTwo extends LogicGate {
         }
     }
 
-    @Override
+    
     /**
      * @return the name
      */
+    @Override
     public String foo() {
         return "AND";
     }
     
-    
     /**
      * @return the type
      */
-    public int getType() {
-        return type;
+    @Override
+    public String getType() {
+        return "2";
     }
 
     @Override
@@ -149,5 +145,39 @@ public class AndTwo extends LogicGate {
     public void setOutputs(LinkedList <LogicGate> outputs) {
         this.outputs = outputs;
     }
+
+    @Override
+    public String operate(ArrayList inputs) {
+        Boolean finalValue = false;
+        int first = (int) inputs.get(0);
+        if(first == 1){
+            finalValue = true;
+        }
+        else{
+            finalValue = false;
+        }
+        
+        for(int i=1; i<inputs.size(); i++){
+            int value = (int) inputs.get(i);
+            if(value == 1){
+                finalValue = finalValue&&true;
+            }
+            else{
+                finalValue = finalValue&&false;
+            }
+        }
+        
+        if(finalValue){
+            return "1,";
+        }
+        else{
+            return "0,";
+        }
+  
+    }
+
+    
+
+   
 
 }

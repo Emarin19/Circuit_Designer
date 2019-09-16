@@ -18,9 +18,16 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.ReadOnlyIntegerWrapper;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 
 import javafx.fxml.FXML;
@@ -29,7 +36,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 
 import javafx.scene.image.ImageView;
@@ -40,6 +49,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import linkedlist.LinkedList;
 
 
@@ -145,10 +155,7 @@ public class GUIController implements Initializable {
     @FXML
     private JFXCheckBox checkboxGrid;
     
-    private LinkedList circuit;
-    
-    private TableView table = new TableView();
-    
+    private LinkedList circuit;    
     
     /**
      * Initializes the controller class.
@@ -159,7 +166,7 @@ public class GUIController implements Initializable {
         gridDimensions();
         Text1.setMouseTransparent(true);
         Text2.setMouseTransparent(true);
-        checkboxGrid.setSelected(true);
+        checkboxGrid.setSelected(true);  
     }
     
     private void buttons() {
@@ -243,21 +250,29 @@ public class GUIController implements Initializable {
     
     
     @FXML
-    void newFile(ActionEvent event) {
-        try {
-            AnchorPane baseP = new AnchorPane();
-            Image image = new Image(new FileInputStream("C:\\Users\\Emanuel\\Desktop\\Circuit_Designer\\CircuitDesigner\\src\\resources\\images\\AND.png"));
-            ImageView imageGate = new ImageView(image);
-            imageGate.setFitWidth(80);
-            imageGate.setFitHeight(50);
-            baseP.getChildren().add(imageGate);
-            leftpane.getChildren().add(baseP);
-            
-            
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(GUIController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    void newFile(ActionEvent event) {   
         System.out.println("Craeting a new file...");
+    }
+    
+    public ArrayList<Integer> genereteRow(int i){
+        ArrayList<Integer> list = new ArrayList<>();
+        if(i == 1){
+            list.add(0);
+            list.add(0);
+            list.add(0);
+            list.add(0); 
+            return list;
+        }
+        if(i == 2){
+            list.add(0);
+            list.add(0);
+            list.add(0);
+            list.add(1);
+            return list;
+        }
+        else{
+            return list;
+        }
     }
     
     @FXML
@@ -278,9 +293,21 @@ public class GUIController implements Initializable {
 
     @FXML
     void saveFile(ActionEvent event) {
-        DrawGate draw1 = new DrawGate("C:\\Users\\Emanuel\\Desktop\\Circuit_Designer\\CircuitDesigner\\src\\resources\\images\\AND.png");
-        //leftpane.getChildren().add(draw1.setAnchor());
-        System.out.println("Saving file...");
+        TableView<String> table = new TableView<String>();
+
+        TableColumn columnOne = new TableColumn("One");
+        TableColumn columnTwo = new TableColumn("Two");
+
+        table.getColumns().addAll(columnOne, columnTwo);
+
+        columnOne.setCellValueFactory(c ->new SimpleStringProperty(new String("1")));
+        columnTwo.setCellValueFactory(c ->new SimpleStringProperty(new String("2")));
+        table.getItems().addAll("");
+        
+        
+
+        table.getItems().addAll("Column one's data");
+        leftpane.getChildren().add(table);
     }
 
     @FXML
@@ -387,5 +414,6 @@ public class GUIController implements Initializable {
     public void check(){
         checkboxGrid.setSelected(false);
     }
+
     
 }
