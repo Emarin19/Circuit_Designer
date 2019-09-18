@@ -105,41 +105,58 @@ public class MyCircle extends Circle {
             if(obj instanceof MyCircle){
                 if(((MyCircle) obj).getType().equals("Valor")){
                     if(type.equals("Salida")){
-                        System.out.println("No se puede");
+                        Main.getController().getMessage().setText("Can´t be connected");
+                        Main.getController().getMessage().setUnFocusColor(Color.RED);
+                        //OnMouseRealesded restablecer la ubicación de circulo
                     }
                     if(type.equals("FirstInput")){
                         System.out.println("Seteando primer entrada");
                         gate.setFirstInput((Boolean) ((MyCircle) obj).getUserData());
                         System.out.println(gate.getFirstInput());
+                        gate.operate();
+                        System.out.println("Salida actual " + gate.getOutput());
+                        Main.getController().getMessage().setText("Connected");
+                        Main.getController().getMessage().setUnFocusColor(Color.web("#1aef86"));
                     }
                     if(type.equals("SecondInput")){
                         System.out.println("Seteando segunda entrada");
                         gate.setSecondInput((Boolean) ((MyCircle) obj).getUserData());
                         System.out.println(gate.getSecondInput());
-                    }
-                    if(gate.getFirstInput()!= null && gate.getSecondInput()!= null){
-                        System.out.println("El valor de salida de la cumpuerta " + gate.toString() + "es " + gate.getOutput());
+                        gate.operate();
+                        System.out.println("Salida actual " + gate.getOutput());
+                        Main.getController().getMessage().setText("Connected");
+                        Main.getController().getMessage().setUnFocusColor(Color.web("#1aef86"));
                     }
                 }
                 else if(((MyCircle) obj).getType().equals("Salida") && type.equals("Salida")){
-                    System.out.println("No se pueden conectar");
+                    Main.getController().getMessage().setText("Can´t be connected");
+                    Main.getController().getMessage().setUnFocusColor(Color.RED);
+                    //OnMouseRealesed poner en las misma coordenadas iniciales
                 }
                 else{
                     if(((MyCircle) obj).getType().equals("Salida")){
+                        
                         ((MyCircle) obj).getGate().getOutputs().add(gate);
                         gate.getInputs().add(((MyCircle) obj).getGate());
-                        
                         gate.setValue(type, (Boolean) ((MyCircle) obj).getUserData());
+                        gate.operate();
+                        ((MyCircle) obj).getGate().operate();
+                        Main.getController().getMessage().setText("Connected");
+                        Main.getController().getMessage().setUnFocusColor(Color.web("#1aef86"));
                         
                     }
                     else{
+                        System.out.println("Hola soy de tipo "  + ((MyCircle) obj).getType());
                         ((MyCircle) obj).getGate().getInputs().add(gate);
                         gate.getOutputs().add(((MyCircle) obj).getGate());
-                        ((MyCircle) obj).getGate().setValue(((MyCircle) obj).getType(), gate.getValue(type) );
+                        ((MyCircle) obj).getGate().setValue(((MyCircle) obj).getType(), gate.getOutput());
+                        gate.operate();
+                        ((MyCircle) obj).getGate().operate();
+                        Main.getController().getMessage().setText("Connected");
+                        Main.getController().getMessage().setUnFocusColor(Color.web("#1aef86"));
                     }
                 }
             }
-            
             
             if (!mouseEvent.isPrimaryButtonDown()) {
                 getScene().setCursor(Cursor.HAND);
@@ -148,14 +165,23 @@ public class MyCircle extends Circle {
       });
       setOnMouseDragOver(new EventHandler<MouseDragEvent>(){
           @Override public void handle(MouseDragEvent mouseEvent){
-
+            setRadius(7);
           }
       });
-      setOnMouseExited(new EventHandler<MouseEvent>() {
-        @Override public void handle(MouseEvent mouseEvent) {
+      setOnMouseDragExited(new EventHandler<MouseDragEvent>() {
+        @Override public void handle(MouseDragEvent mouseEvent) {
+          setRadius(5);
+          Object obj = mouseEvent.getGestureSource();
+          
+          if(obj instanceof MyCircle){
+              if(((MyCircle) obj).getType()!="Valor"){
+                  ((MyCircle) obj).setRadius(5);
+              }
+          }
           if (!mouseEvent.isPrimaryButtonDown()) {
             getScene().setCursor(Cursor.DEFAULT);
           }
+          
         }
       }); 
     }
@@ -169,8 +195,6 @@ public class MyCircle extends Circle {
                 Main.getController().getRoot().getChildren().removeAll((MyCircle)obj, textValue);
             }
             else{
-                System.out.println("Soy " + type);
-                System.out.println(getUserData());
                 setMouseTransparent(true);
                 dragDelta.x = getCenterX() - mouseEvent.getX();
                 dragDelta.y = getCenterY() - mouseEvent.getY();
@@ -204,6 +228,20 @@ public class MyCircle extends Circle {
       });
         setOnMouseDragEntered(new EventHandler<MouseDragEvent>() {
         @Override public void handle(MouseDragEvent mouseEvent) {
+            System.out.println("You entered");
+            Object obj = mouseEvent.getGestureSource();
+            if(obj instanceof MyCircle){
+                System.out.println(((MyCircle) obj).getGate().foo());
+                if(((MyCircle) obj).getGate().getType().equals("Salida")){
+                    Main.getController().getMessage().setText("Can´t be connected");
+                    Main.getController().getMessage().setUnFocusColor(Color.RED);
+                }
+                else{
+                    
+                    ((MyCircle) obj).getGate().setValue(((MyCircle) obj).getType(), (Boolean) getUserData());
+                    ((MyCircle) obj).getGate().operate();
+                }
+            }
             if (!mouseEvent.isPrimaryButtonDown()) {
                 getScene().setCursor(Cursor.HAND);
             }
@@ -211,9 +249,7 @@ public class MyCircle extends Circle {
       });
         setOnMouseDragOver(new EventHandler<MouseDragEvent>(){
           @Override public void handle(MouseDragEvent mouseEvent){
-              /*if(mouseEvent.getButton() == MouseButton.SECONDARY){
-                Main.getController().getRoot().getChildren().remove(this);
-            }*/
+             
           }
       });
         setOnMouseExited(new EventHandler<MouseEvent>() {

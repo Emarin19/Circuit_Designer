@@ -6,10 +6,12 @@
 package linkedlist;
 
 import java.util.Observable;
+import nodes.LogicGate;
+
 
 /**
  *
- * @author Emanuel
+ * @author Emanuel Marín
  */
 public class LinkedList <T> extends Observable{
     
@@ -92,6 +94,31 @@ public class LinkedList <T> extends Observable{
         notifyObservers(last.getValue());
     }
     
+    public Boolean contain(T value){
+        
+        Boolean result = false;
+        if(size == 0){
+            result = null;
+        }
+        else{
+            
+        
+        Node node = head;
+        LogicGate gate = (LogicGate) node.getValue();
+        for(int i=0; i<size; i++){
+            if(gate.equals(value)){
+                result = true;
+            }
+            else{
+                node = node.getNext();
+                gate = (LogicGate) node.getValue();
+            }
+            
+        }
+        }
+        return result;
+    }
+    
     public T searchItem(int index){
         if (head == null){
             return null;
@@ -132,14 +159,29 @@ public class LinkedList <T> extends Observable{
     
     public void remove(int index){
         if(index == 0){
-            removeFirst();
+            if (head == last){
+                head = last =  null;
+            }
+            else{
+                head = head.getNext();
+                head.setPrevious(null);
+            }
+            System.out.println("Removing First");
+            
         }
         else if(index>size){
-            removeLast();
+            if(head == last){
+                head = last = null;
+            }
+            else{
+                last = last.getPrevious();
+                last.setNext(null);
+            }
+            
         }
         else{
             Node<T> pointer = head;
-            int counter = 1;
+            int counter = 0;
             while(counter < index && pointer.getNext() != null){
                 pointer = pointer.getNext();
                 counter++;
@@ -147,8 +189,10 @@ public class LinkedList <T> extends Observable{
             pointer = pointer.getPrevious();
             pointer.setNext(pointer.getNext().getNext());
             pointer.setNext(pointer.getNext());
+            
         }
         size--;
+        
     }
     
     public T getValue(int index){
@@ -163,6 +207,15 @@ public class LinkedList <T> extends Observable{
 
     public int getSize(){
         return size;
+    }
+    
+    public boolean isEmpty(){
+        if(size == 0){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
 }

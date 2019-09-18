@@ -141,9 +141,5 @@ public class TableViewController implements Initializable {
  
     }    
 
-    /*9private String operateOutput(ArrayList inputs) {
-        String result = gateOutput.operate(inputs);
-        return result;
-    }*/
        
 }

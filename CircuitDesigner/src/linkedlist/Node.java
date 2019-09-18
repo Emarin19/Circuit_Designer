@@ -14,11 +14,11 @@ public class Node <T>{
     private T value;
     private Node <T> next;
     private Node <T> prev;
-    
+
     public Node(T value, Node next, Node prev){
         this.value = value;
         this.next = next;
-        this.prev = prev;       
+        this.prev = prev;  
     }
     
     public Node(T value){

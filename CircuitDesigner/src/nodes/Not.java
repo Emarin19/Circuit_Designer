@@ -15,29 +15,19 @@ import linkedlist.MyObserver;
  * @author Emanuel
  */
 public class Not extends LogicGate{
-   private LinkedList <LogicGate> inputs = new LinkedList<>();
+    private LinkedList <LogicGate> inputs = new LinkedList<>();
     private LinkedList <LogicGate> outputs = new LinkedList<>();
-    private MyObserver inputsObserver = new MyObserver();
-    private MyObserver outputsObserver = new MyObserver();
-    
-    private MyCircle first;
-    private MyCircle second;
-    private MyCircle out;
 
     private Boolean firstInput;
     private Boolean secondInput;
     private Boolean output;
     
     public Not(){
+        
         this.firstInput = null;
         this.secondInput = null;
         this.output = null;
-        if(inputs.countObservers() == 0){
-            inputs.addObserver(inputsObserver);
-        }
-        if(outputs.countObservers() == 0){
-            outputs.addObserver(outputsObserver);
-        }
+
     }
 
     @Override
@@ -138,8 +128,6 @@ public class Not extends LogicGate{
         this.outputs = outputs;
     }
     
-    
-    
     @Override
     public String operate(ArrayList inputs) {
         
@@ -169,6 +157,19 @@ public class Not extends LogicGate{
             return "0,";
         }
         
+    }
+    
+    @Override
+    public void operate() {
+        Boolean first = getFirstInput();
+        Boolean second = getSecondInput();
+        
+        if(first == null || second == null){
+            this.output = null;
+        }
+        else{
+            this.output = (first&&second);
+        }
     }
     
 }

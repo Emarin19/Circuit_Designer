@@ -18,8 +18,6 @@ public class XorTwo extends LogicGate {
     
     private static LinkedList <LogicGate> inputs = new LinkedList<>();
     private static LinkedList <LogicGate> outputs = new LinkedList<>();
-    private MyObserver inputsObserver = new MyObserver();
-    private MyObserver outputsObserver = new MyObserver();
     
     private MyCircle first;
     private MyCircle second;
@@ -34,12 +32,6 @@ public class XorTwo extends LogicGate {
         this.secondInput = null;
         this.output = null;
         
-        if(inputs.countObservers() == 0){
-            inputs.addObserver(inputsObserver);
-        }
-        if(outputs.countObservers() == 0){
-            outputs.addObserver(outputsObserver);
-        }
     }
 
     @Override
@@ -172,6 +164,19 @@ public class XorTwo extends LogicGate {
             return "0,";
         }
         
+    }
+    
+    @Override
+    public void operate() {
+        Boolean first = getFirstInput();
+        Boolean second = getSecondInput();
+        
+        if(first == null || second == null){
+            this.output = null;
+        }
+        else{
+            this.output = (first&&second);
+        }
     }
     
 }

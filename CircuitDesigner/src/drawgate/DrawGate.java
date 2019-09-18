@@ -5,6 +5,7 @@
  */
 package drawgate;
 
+import circuitdesigner.Facade;
 import circuitdesigner.Main;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -79,10 +80,22 @@ public class DrawGate {
         gate.setY(Y);
         
         gate.setOnMouseClicked(e ->{
+            LogicGate actualGate;
             if(e.getButton() == MouseButton.SECONDARY){
+                for(int i=0; i<Facade.getCircuit().getSize(); i++){
+                    actualGate = Facade.getCircuit().getValue(i);
+                    if(actualGate.equals(gate())){
+                        System.out.println(i);
+                        Facade.getCircuit().remove(i);
+                    }
+                }
+                
+                Main.getController().getMessage().setText("Gate " + gate().foo() + " removed");
+                Main.getController().getMessage().setUnFocusColor(Color.web("#1aef86"));
                 Main.getController().getRoot().getChildren().removeAll(gate,startFirstInput,endFirstInput,lineFirstInput,startSecondInput,endSecondInput,lineSecondInput,start,end,line);
             }
         });
+        
         gate.setOnMousePressed(gateOnMousePressed);
         gate.setOnMouseDragged(gateOnMouseDragged);
 
@@ -91,7 +104,7 @@ public class DrawGate {
         setFirstInput();
         setSecondInput();
         
-        Y = Y + 100;
+        Y = Y + 60;
     }
     
     public void setNot(){
@@ -106,7 +119,17 @@ public class DrawGate {
         gate.setY(Y);
         
         gate.setOnMouseClicked(e ->{
+            LogicGate actualGate;
             if(e.getButton() == MouseButton.SECONDARY){
+                for(int i=0; i<Facade.getCircuit().getSize(); i++){
+                    actualGate = Facade.getCircuit().getValue(i);
+                    if(actualGate.equals(gate())){
+                        System.out.println(i);
+                        Facade.getCircuit().remove(i);
+                    }
+                }
+                Main.getController().getMessage().setText("Gate " + gate().foo() + " removed");
+                Main.getController().getMessage().setUnFocusColor(Color.web("#1aef86"));
                 Main.getController().getRoot().getChildren().removeAll(gate,startFirstInput,endFirstInput,lineFirstInput,start,end,line);
             }
         });
@@ -117,7 +140,7 @@ public class DrawGate {
         setInput();
         setOutput();
         
-        Y = Y + 100;
+        Y = Y + 60;
         
     }
     

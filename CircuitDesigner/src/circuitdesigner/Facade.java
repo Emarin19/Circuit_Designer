@@ -12,7 +12,7 @@ import nodes.LogicGate;
 
 /**
  *
- * @author Emanuel
+ * @author Emanuel Marín
  */
 public class Facade {
     private static LinkedList<LogicGate> circuit = new LinkedList<>();

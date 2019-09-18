@@ -17,8 +17,6 @@ public class AndTwo extends LogicGate {
     
     private LinkedList <LogicGate> inputs = new LinkedList<>();
     private LinkedList <LogicGate> outputs = new LinkedList<>();
-    private MyObserver inputsObserver = new MyObserver();
-    private MyObserver outputsObserver = new MyObserver();
 
     private Boolean firstInput;
     private Boolean secondInput;
@@ -29,13 +27,7 @@ public class AndTwo extends LogicGate {
         this.firstInput = null;
         this.secondInput = null;
         this.output = null;
-        
-        if(inputs.countObservers() == 0){
-            inputs.addObserver(inputsObserver);
-        }
-        if(outputs.countObservers() == 0){
-            outputs.addObserver(outputsObserver);
-        }
+       
     }
 
     
@@ -176,8 +168,17 @@ public class AndTwo extends LogicGate {
   
     }
 
-    
-
-   
+    @Override
+    public void operate() {
+        Boolean first = getFirstInput();
+        Boolean second = getSecondInput();
+        
+        if(first == null || second == null){
+            this.output = null;
+        }
+        else{
+            this.output = (first&&second);
+        }
+    }
 
 }
