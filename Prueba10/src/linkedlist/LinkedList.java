@@ -8,16 +8,15 @@ package linkedlist;
 import java.util.Observable;
 import nodes.LogicGate;
 
-
 /**
  *
  * @author Emanuel Marín
  */
 public class LinkedList <T> extends Observable{
     
-    private  Node<T> head;
-    private  Node<T> last;
-    private  Node<T> node;
+    public Node<T> head;
+    public Node<T> last;
+    public Node<T> node;
     private int size;
     
     public LinkedList(){
@@ -92,31 +91,6 @@ public class LinkedList <T> extends Observable{
         size++;
         setChanged(); 
         notifyObservers(last.getValue());
-    }
-    
-    public Boolean contain(T value){
-        
-        Boolean result = false;
-        if(size == 0){
-            result = null;
-        }
-        else{
-            
-        
-        Node node = head;
-        LogicGate gate = (LogicGate) node.getValue();
-        for(int i=0; i<size; i++){
-            if(gate.equals(value)){
-                result = true;
-            }
-            else{
-                node = node.getNext();
-                gate = (LogicGate) node.getValue();
-            }
-            
-        }
-        }
-        return result;
     }
     
     public T searchItem(int index){
@@ -207,15 +181,6 @@ public class LinkedList <T> extends Observable{
 
     public int getSize(){
         return size;
-    }
-    
-    public boolean isEmpty(){
-        if(size == 0){
-            return true;
-        }
-        else{
-            return false;
-        }
     }
 
 }
