@@ -182,12 +182,12 @@ public class GUIController implements Initializable {
     
     private void gridDimensions() {
         for (int i = 0; i<500; i++) {
-            RowConstraints row = new RowConstraints(20);
+            RowConstraints row = new RowConstraints(15);
             gridpane.getRowConstraints().add(row);
         }
         
         for(int j=0; j<500; j++){
-            ColumnConstraints colum = new ColumnConstraints(20);
+            ColumnConstraints colum = new ColumnConstraints(15);
             gridpane.getColumnConstraints().add(colum);   
         }
     }
