@@ -3,7 +3,7 @@ package cr.ac.tec.circuitdesigner.draw;
 
 /**
  *
- * @author Emanuel
+ * @author Emanuel Marín
  */
 public class DrawValue {
     
