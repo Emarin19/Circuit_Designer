@@ -202,9 +202,9 @@ public class And extends LogicGate {
                 return firstCircle;
             case "SecondInput":
                 return secondCircle;
-            case "ThirdCircle":
+            case "ThirdInput":
                 return thirdCircle;
-            case "fourthInput":
+            case "FourthInput":
                 return fourthCircle;
             case "Output":
                 return outputCircle;

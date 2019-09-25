@@ -14,8 +14,8 @@ import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXTextField;
 import cr.ac.tec.circuitdesigner.draw.Builder;
 import cr.ac.tec.circuitdesigner.draw.DrawGate;
-import cr.ac.tec.circuitdesigner.storage.Deserialization;
-import cr.ac.tec.circuitdesigner.storage.Serialization;
+//import cr.ac.tec.circuitdesigner.storage.Deserialization;
+//import cr.ac.tec.circuitdesigner.storage.Serialization;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -42,11 +42,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import cr.ac.tec.circuitdesigner.nodes.LogicGate;
+import cr.ac.tec.circuitdesigner.storage.Deserialize;
+import cr.ac.tec.circuitdesigner.storage.Serialize;
+import java.awt.Desktop;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.input.MouseButton;
+import javafx.stage.FileChooser;
 
 /**
  *
@@ -87,6 +92,8 @@ public class GUIController implements Initializable {
     private LinkedList circuit;
     
     private LogicGate gate;
+    
+    private Desktop desktop;
     
        
     /**
@@ -311,93 +318,87 @@ public class GUIController implements Initializable {
     
     @FXML
     void openFile(ActionEvent event) {
-        List<String> choices = new ArrayList<>();
-        choices.add("TW0");
-        choices.add("THREE");
-        choices.add("FOUR");
-
-        ChoiceDialog<String> dialog = new ChoiceDialog<>("TWO", choices);
-        dialog.setTitle("Choice Dialog");
-        dialog.setHeaderText("Select the number of inputs");
-        dialog.setContentText("INPUTS:");
-
-        //Obtener la respuesta
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()){
-            System.out.println("Your choice: " + result.get());
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        fileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("TXT", "*.txt"),
+            new FileChooser.ExtensionFilter("JSON", "*.json")
+        );
+        File file = fileChooser.showOpenDialog(Main.getStage());
+        if(file!=null){
+            LinkedList<Serialize> readCircuit;
+            try{
+                FileInputStream readFile = new FileInputStream(file);
+                ObjectInputStream object = new ObjectInputStream(readFile);
+                readCircuit = (LinkedList<Serialize> ) object.readObject();
+                Deserialize des = new Deserialize(readCircuit);
+                message.setText("");  
+            }catch(IOException | ClassNotFoundException e){
+                message.setText("The circuit cannot be loaded");
+                message.setUnFocusColor(Color.RED);         
+            }
         }
-        
-        result.ifPresent(letter -> System.out.println("Your choice: " + letter));
-        System.out.println("Open file...");
     }
 
     @FXML
     void saveFile(ActionEvent event) {
-        System.out.println(Facade.getCircuit().getValue(2).getName());
-        System.out.println(Facade.getCircuit().getValue(2).getInputsReferences().getSize());
-        System.out.println(Facade.getCircuit().getValue(2).getOutputsReferences().getSize());
-        System.out.println("Saving file");
+        circuit = Builder.getCircuit();
+        if(circuit.isEmpty()){
+            message.setText("Circuit has not been created");
+            message.setUnFocusColor(Color.RED);
+        }
+        else{
+            LinkedList<Serialize> toSave = new LinkedList<>();
+            for(int i=0; i<circuit.getSize(); i++){
+                Serialize serial = new Serialize((LogicGate) circuit.getValue(i));
+                toSave.add(serial);
+            }
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save circuit");
+            File saveFile = fileChooser.showSaveDialog(Main.getStage());
+            if(saveFile != null){
+                try{
+                    FileOutputStream file = new FileOutputStream(saveFile + ".txt");
+                    ObjectOutputStream object = new ObjectOutputStream(file);
+                    object.writeObject(toSave);
+                    object.close();
+                    file.close();
+                }catch(IOException e){}
+            }
+        }
     }
 
     @FXML
     void saveasFile(ActionEvent event) {
-        
-        LogicGate gate = Facade.getCircuit().getValue(0);
-        Serialization serial = new Serialization();
-        //serial.setImage(gate.getImage());
-        serial.setGateImageView(gate.getGateImage());
-        //serial.setFirst(gate.getFirst());
-       // serial.setSecond(gate.getSecond());
-        //serial.setOut(gate.getOut());
-        serial.setGate(gate);
-        serial.setImageX(gate.getGateImage().getTranslateX());
-        serial.setImageY(gate.getGateImage().getTranslateY());
-        
-        try{
-            FileOutputStream file = new FileOutputStream("PruebaSerial.json");
-            ObjectOutputStream object = new ObjectOutputStream(file);
-            object.writeObject(serial);
-            object.close();
-            file.close();
-            
-            System.out.println("Object has been serialized");
-            
-        }catch(IOException e){
-            e.printStackTrace();
-            System.out.println("Error");
+        circuit = Builder.getCircuit();
+        if(circuit.isEmpty()){
+            message.setText("Circuit has not been created");
+            message.setUnFocusColor(Color.RED);
         }
-        
-        
-        
-        System.out.println("Saving as");
+        else{
+            LinkedList<Serialize> toSave = new LinkedList<>();
+            for(int i=0; i<circuit.getSize(); i++){
+                Serialize serial = new Serialize((LogicGate) circuit.getValue(i));
+                toSave.add(serial);
+            }
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save circuit");
+            File saveFile = fileChooser.showSaveDialog(Main.getStage());
+            if(saveFile != null){
+                try{
+                    FileOutputStream file = new FileOutputStream(saveFile + ".txt");
+                    ObjectOutputStream object = new ObjectOutputStream(file);
+                    object.writeObject(toSave);
+                    object.close();
+                    file.close();
+                }catch(IOException e){}
+            }
+        }
     }
 
     @FXML
     void settings(ActionEvent event) {
-        
-        //Des
-        Serialization serial12;
-        try{
-            FileInputStream file = new FileInputStream("PruebaSerial.json");
-            ObjectInputStream obj12 = new ObjectInputStream(file);
-            
-            serial12 = (Serialization) obj12.readObject();
-            System.out.println(serial12.getImage());
-            System.out.println(serial12.getGate());
-            System.out.println(serial12.getGateImageView());
-            System.out.println(serial12.getFirst());
-            System.out.println(serial12.getSecond());
-            System.out.println(serial12.getOut());
-            
-            Deserialization des = new Deserialization(serial12);
-            des.doWork();
-            
-            System.out.println("Deserialization completed");
-            
-        }catch(Exception e){
-            
-        }
-        System.out.println("Opening settings option");
+       
     }
     
     @FXML
@@ -428,7 +429,7 @@ public class GUIController implements Initializable {
     
     @FXML
     void paste(ActionEvent event) {
-        System.out.println("Pasting");
+       //deserializeNode();
     }
     
     @FXML
@@ -546,6 +547,31 @@ public class GUIController implements Initializable {
                     Builder build = new Builder("ANDFOUR.png",4);
                     break;
                 }
+        }
+    }
+
+    private void deserializeNode() {
+        LinkedList<Serialize> readCircuit;
+        //Serialize serial;
+        try{
+            FileInputStream file = new FileInputStream("Save.txt");
+            ObjectInputStream object = new ObjectInputStream(file);
+            readCircuit = (LinkedList<Serialize> ) object.readObject();
+            Deserialize des = new Deserialize(readCircuit);
+            /*serial = readCircuit.getValue(0);
+            System.out.println(serial.getName());
+            System.out.println(serial.getType());
+            System.out.println("Node");
+            System.out.println(serial.getNodeX());
+            System.out.println(serial.getNodeY());
+            System.out.println("FirstCircle");
+            System.out.println(serial.getFirstCircleX());
+            System.out.println(serial.getFirstCircleY());
+            //System.out.println("Exito");*/
+            System.out.println("Deserialization completed");
+            
+        }catch(IOException | ClassNotFoundException e){
+            System.out.println("Error");          
         }
     }
 

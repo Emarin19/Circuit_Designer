@@ -176,7 +176,7 @@ public class Not extends LogicGate{
     @Override
     public LogicCircle getCircle(String circleType) {
         switch(circleType){
-            case "Input":
+            case "FirstInput":
                 return firstCircle;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
             case "Output":
                 return outputCircle;

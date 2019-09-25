@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package cr.ac.tec.circuitdesigner.nodes;
 
 import cr.ac.tec.circuitdesigner.factory.GateImage;
@@ -13,7 +9,7 @@ import cr.ac.tec.circuitdesigner.linkedlist.LinkedList;
 
 /**
  *
- * @author Emanuel
+ * @author Emanuel Marín
  */
 public abstract class LogicGate implements Serializable {
 

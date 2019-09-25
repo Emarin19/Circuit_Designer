@@ -13,6 +13,8 @@ import javafx.scene.shape.Line;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
 import cr.ac.tec.circuitdesigner.nodes.LogicGate;
+import cr.ac.tec.circuitdesigner.storage.Deserialize;
+import cr.ac.tec.circuitdesigner.storage.Serialize;
 import javafx.scene.text.Text;
 
 
@@ -22,7 +24,7 @@ import javafx.scene.text.Text;
  */
 public class DrawGate {
     
-    private final String image;
+    private String image;
     private final int num;
     private Image gateImage;
     private GateImage node;
@@ -54,10 +56,16 @@ public class DrawGate {
     private LogicCircle endOutput;
     private Line lineOutput;
     
+    private Serialize serial;
+   
     
-
     public DrawGate(String image, int num){
         this.image = image;
+        this.num = num;
+    }
+    
+    public DrawGate(int num){
+        this.image = null;
         this.num = num;
     }
 
@@ -65,7 +73,6 @@ public class DrawGate {
         //Cargo la imagen del nodo y le asigno la referencia de la compuerta
         gateImage = new Image(image);
         node = new GateImage(image);
-        System.out.println("Cargue la imagen");
         node.setImage(gateImage);
         node.setFitWidth(95);
         node.setFitHeight(50);
@@ -98,6 +105,50 @@ public class DrawGate {
         setOutput();
         node.setOnMousePressed(gateOnMousePressed);
         node.getCurrentGate().setCircle("Output", startOutput);
+        Main.getController().getPane().getChildren().addAll(node);
+    }
+    
+    public void setAgainGate(){
+        //Cargo la imagen del nodo y le asigno la referencia de la compuerta
+        serial = Deserialize.serial();
+        setImage();
+        gateImage = new Image(image);
+        node = new GateImage(image);
+        node.setImage(gateImage);
+        node.setFitWidth(95);
+        node.setFitHeight(50);
+        node.getCurrentGate().setGateImage(node);
+        
+        node.setOnMouseClicked(e ->{
+            LogicGate currentGate;
+            if(e.getButton() == MouseButton.SECONDARY){
+                for(int i=0; i<Builder.getCircuit().getSize(); i++){
+                    currentGate = Builder.getCircuit().getValue(i);
+                    if(Builder.getCircuit().getSize()==1){
+                        Builder.newCircuit();
+                    }
+                    else{
+                        if(currentGate.equals(node.getCurrentGate())){
+                            System.out.println(i);
+                            Builder.getCircuit().remove(i);
+                        } 
+                    } 
+                }
+                
+                Main.getController().getMessage().setText("Gate " + getGate().getName() + " removed");
+                Main.getController().getMessage().setUnFocusColor(Color.web("#1AEF86"));
+                Main.getController().getPane().getChildren().removeAll(node,startFirstInput,endFirstInput,lineFirstInput,startSecondInput,endSecondInput,lineSecondInput,startThirdInput,endThirdInput,lineThirdInput,startFourthInput,endFourthInput,lineFourthInput,startOutput,endOutput,lineOutput,first,second,third,fourth,out);
+            }
+        });
+
+        node.setLayoutX(serial.getNodeX());
+        node.setLayoutY(serial.getNodeY());
+        setInputsAgain();
+        setOutputAgain();
+        node.setOnMousePressed(gateOnMousePressed);
+        //node.setOnMousePressed(gateOnMousePressed);
+        //node.setOnMouseClicked(gateOnMouseClicked);
+        //node.getCurrentGate().setCircle("Output", startOutput);
         Main.getController().getPane().getChildren().addAll(node);
     }
     
@@ -448,10 +499,10 @@ public class DrawGate {
         
         //ThirdInput
         DoubleProperty startThirdInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
-        DoubleProperty startThirddInputY = new SimpleDoubleProperty(node.getLayoutY()+41);
+        DoubleProperty startThirdInputY = new SimpleDoubleProperty(node.getLayoutY()+41);
         DoubleProperty endThirdInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
         DoubleProperty endThirdInputY = new SimpleDoubleProperty(node.getLayoutY()+41);
-        startThirdInput = new LogicCircle(Color.CADETBLUE,startThirdInputX,startThirddInputY, node.getCurrentGate(), "ThirdInput");
+        startThirdInput = new LogicCircle(Color.CADETBLUE,startThirdInputX,startThirdInputY, node.getCurrentGate(), "ThirdInput");
         third = new Text();
         third.setText("I" + ++In);
         third.xProperty().bind(startThirdInput.translateXProperty());
@@ -460,7 +511,7 @@ public class DrawGate {
         third.setLayoutY(startThirdInput.getCenterY()-5);
         endThirdInput = new LogicCircle(Color.CADETBLUE,endSecondInputX,endSecondInputY);
         endThirdInput.setVisible(false);
-        lineThirdInput = new LogicLine(startThirdInputX,startThirddInputY,endThirdInputX,endThirdInputY);
+        lineThirdInput = new LogicLine(startThirdInputX,startThirdInputY,endThirdInputX,endThirdInputY);
         Main.getController().getPane().getChildren().addAll(startThirdInput, endThirdInput, lineThirdInput);
         
     }
@@ -554,10 +605,258 @@ public class DrawGate {
         Main.getController().getPane().getChildren().addAll(startOutput, endOutput, lineOutput,out);
     }
     
+    private void setInputsAgain() {
+        switch(num){
+             case 1:
+                 setInputNotAgain();
+                 node.getCurrentGate().setType("1");
+                 node.setOnMouseDragged(gateOnMouseDraggedNot);
+                 node.getCurrentGate().setCircle("FirstInput", startFirstInput);
+                 break;
+             case 2:
+                 setTwoInputsAgain();
+                 node.getCurrentGate().setType("2");
+                 node.setOnMouseDragged(gateOnMouseDragged);
+                 node.getCurrentGate().setCircle("FirstInput", startFirstInput);
+                 node.getCurrentGate().setCircle("SecondInput", startSecondInput);
+                 break;
+             case 3:
+                 setThreeInputsAgain();
+                 node.getCurrentGate().setType("3");
+                 node.setOnMouseDragged(gateOnMouseDraggedThree);
+                 node.getCurrentGate().setCircle("FirstInput", startFirstInput);
+                 node.getCurrentGate().setCircle("SecondInput", startSecondInput);
+                 node.getCurrentGate().setCircle("ThirdInput", startThirdInput);
+                 break;
+             case 4:
+                 setFourInputsAgain();
+                 node.getCurrentGate().setType("4");
+                 node.setOnMouseDragged(gateOnMouseDraggedFour);
+                 node.getCurrentGate().setCircle("FirstInput", startFirstInput);
+                 node.getCurrentGate().setCircle("SecondInput", startSecondInput);
+                 node.getCurrentGate().setCircle("ThirdInput", startThirdInput);
+                 node.getCurrentGate().setCircle("FourthInput", startFourthInput);
+                 break;     
+         }
+    }
+    
+    private void setInputNotAgain() {
+        DoubleProperty startFirstInputX = new SimpleDoubleProperty(serial.getFirstCircleX());
+        DoubleProperty startFirstInputY = new SimpleDoubleProperty(serial.getFirstCircleY());
+        DoubleProperty endFirstInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
+        DoubleProperty endFirstInputY = new SimpleDoubleProperty(node.getLayoutY()+25);
+        startFirstInput = new LogicCircle(Color.CADETBLUE,startFirstInputX,startFirstInputY, node.getCurrentGate(), "FirstInput");
+        first = new Text();
+        first.setText("I" + ++In);
+        first.xProperty().bind(startFirstInput.translateXProperty());
+        first.yProperty().bind(startFirstInput.translateYProperty());
+        first.setLayoutX(startFirstInput.getCenterX());
+        first.setLayoutY(startFirstInput.getCenterY()-5);
+        endFirstInput = new LogicCircle(Color.CADETBLUE,endFirstInputX,endFirstInputY);
+        endFirstInput.setVisible(false);
+        lineFirstInput = new LogicLine(startFirstInputX,startFirstInputY,endFirstInputX,endFirstInputY);
+        Main.getController().getPane().getChildren().addAll(startFirstInput,endFirstInput,lineFirstInput,first);
+        
+    }
+    
+    private void setTwoInputsAgain() {
+        //FirstInput
+        DoubleProperty startFirstInputX = new SimpleDoubleProperty(serial.getFirstCircleX());
+        DoubleProperty startFirstInputY = new SimpleDoubleProperty(serial.getFirstCircleY());
+        DoubleProperty endFirstInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
+        DoubleProperty endFirstInputY = new SimpleDoubleProperty(node.getLayoutY()+13);
+        startFirstInput = new LogicCircle(Color.CADETBLUE,startFirstInputX,startFirstInputY, node.getCurrentGate(), "FirstInput");
+        first = new Text();
+        first.setText("I" + ++In);
+        first.xProperty().bind(startFirstInput.translateXProperty());
+        first.yProperty().bind(startFirstInput.translateYProperty());
+        first.setLayoutX(startFirstInput.getCenterX());
+        first.setLayoutY(startFirstInput.getCenterY()-5);
+        endFirstInput = new LogicCircle(Color.CADETBLUE,endFirstInputX,endFirstInputY);
+        endFirstInput.setVisible(false);
+        lineFirstInput = new LogicLine(startFirstInputX,startFirstInputY,endFirstInputX,endFirstInputY);
+        Main.getController().getPane().getChildren().addAll(startFirstInput, endFirstInput, lineFirstInput,first);
+        
+        //SecondInput
+        DoubleProperty startSecondInputX = new SimpleDoubleProperty(serial.getSecondCircleX());
+        DoubleProperty startSecondInputY = new SimpleDoubleProperty(serial.getSecondCircleY());
+        DoubleProperty endSecondInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
+        DoubleProperty endSecondInputY = new SimpleDoubleProperty(node.getLayoutY()+37);
+        startSecondInput = new LogicCircle(Color.CADETBLUE,startSecondInputX,startSecondInputY, node.getCurrentGate(), "SecondInput");
+        second = new Text();
+        second.setText("I" + ++In);
+        second.xProperty().bind(startSecondInput.translateXProperty());
+        second.yProperty().bind(startSecondInput.translateYProperty());
+        second.setLayoutX(startSecondInput.getCenterX());
+        second.setLayoutY(startSecondInput.getCenterY()-5);
+        endSecondInput = new LogicCircle(Color.CADETBLUE,endSecondInputX,endSecondInputY);
+        endSecondInput.setVisible(false);
+        lineSecondInput = new LogicLine(startSecondInputX,startSecondInputY,endSecondInputX,endSecondInputY);
+        Main.getController().getPane().getChildren().addAll(startSecondInput, endSecondInput, lineSecondInput,second);
+    }
+
+    private void setThreeInputsAgain() {
+        //FirstInput
+        DoubleProperty startFirstInputX = new SimpleDoubleProperty(serial.getFirstCircleX());
+        DoubleProperty startFirstInputY = new SimpleDoubleProperty(serial.getFirstCircleY());
+        DoubleProperty endFirstInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
+        DoubleProperty endFirstInputY = new SimpleDoubleProperty(node.getLayoutY()+7);
+        startFirstInput = new LogicCircle(Color.CADETBLUE,startFirstInputX,startFirstInputY, node.getCurrentGate(), "FirstInput");
+        first = new Text();
+        first.setText("I" + ++In);
+        first.xProperty().bind(startFirstInput.translateXProperty());
+        first.yProperty().bind(startFirstInput.translateYProperty());
+        first.setLayoutX(startFirstInput.getCenterX());
+        first.setLayoutY(startFirstInput.getCenterY()-5);
+        endFirstInput = new LogicCircle(Color.CADETBLUE,endFirstInputX,endFirstInputY);
+        endFirstInput.setVisible(false);
+        lineFirstInput = new LogicLine(startFirstInputX,startFirstInputY,endFirstInputX,endFirstInputY);
+        Main.getController().getPane().getChildren().addAll(startFirstInput, endFirstInput, lineFirstInput);
+        
+        //SecondInput
+        DoubleProperty startSecondInputX = new SimpleDoubleProperty(serial.getSecondCircleX());
+        DoubleProperty startSecondInputY = new SimpleDoubleProperty(serial.getSecondCircleY());
+        DoubleProperty endSecondInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
+        DoubleProperty endSecondInputY = new SimpleDoubleProperty(node.getLayoutY()+26);
+        startSecondInput = new LogicCircle(Color.CADETBLUE,startSecondInputX,startSecondInputY, node.getCurrentGate(), "SecondInput");
+        second = new Text();
+        second.setText("I" + ++In);
+        second.xProperty().bind(startSecondInput.translateXProperty());
+        second.yProperty().bind(startSecondInput.translateYProperty());
+        second.setLayoutX(startSecondInput.getCenterX());
+        second.setLayoutY(startSecondInput.getCenterY()-5);
+        endSecondInput = new LogicCircle(Color.CADETBLUE,endSecondInputX,endSecondInputY);
+        endSecondInput.setVisible(false);
+        lineSecondInput = new LogicLine(startSecondInputX,startSecondInputY,endSecondInputX,endSecondInputY);
+        Main.getController().getPane().getChildren().addAll(startSecondInput, endSecondInput, lineSecondInput);
+        
+        //ThirdInput
+        DoubleProperty startThirdInputX = new SimpleDoubleProperty(serial.getThirdCircleX());
+        DoubleProperty startThirdInputY = new SimpleDoubleProperty(serial.getThirdCircleY());
+        DoubleProperty endThirdInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
+        DoubleProperty endThirdInputY = new SimpleDoubleProperty(node.getLayoutY()+41);
+        startThirdInput = new LogicCircle(Color.CADETBLUE,startThirdInputX,startThirdInputY, node.getCurrentGate(), "ThirdInput");
+        third = new Text();
+        third.setText("I" + ++In);
+        third.xProperty().bind(startThirdInput.translateXProperty());
+        third.yProperty().bind(startThirdInput.translateYProperty());
+        third.setLayoutX(startThirdInput.getCenterX());
+        third.setLayoutY(startThirdInput.getCenterY()-5);
+        endThirdInput = new LogicCircle(Color.CADETBLUE,endSecondInputX,endSecondInputY);
+        endThirdInput.setVisible(false);
+        lineThirdInput = new LogicLine(startThirdInputX,startThirdInputY,endThirdInputX,endThirdInputY);
+        Main.getController().getPane().getChildren().addAll(startThirdInput, endThirdInput, lineThirdInput);
+    }
+
+    private void setFourInputsAgain() {
+        //FirstInput
+        DoubleProperty startFirstInputX = new SimpleDoubleProperty(serial.getFirstCircleX());
+        DoubleProperty startFirstInputY = new SimpleDoubleProperty(serial.getFirstCircleY());
+        DoubleProperty endFirstInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
+        DoubleProperty endFirstInputY = new SimpleDoubleProperty(node.getLayoutY()+7);
+        startFirstInput = new LogicCircle(Color.CADETBLUE,startFirstInputX,startFirstInputY, node.getCurrentGate(), "FirstInput");
+        first = new Text();
+        first.setText("I" + ++In);
+        first.xProperty().bind(startFirstInput.translateXProperty());
+        first.yProperty().bind(startFirstInput.translateYProperty());
+        first.setLayoutX(startFirstInput.getCenterX());
+        first.setLayoutY(startFirstInput.getCenterY()-5);
+        endFirstInput = new LogicCircle(Color.CADETBLUE,endFirstInputX,endFirstInputY);
+        endFirstInput.setVisible(false);
+        lineFirstInput = new LogicLine(startFirstInputX,startFirstInputY,endFirstInputX,endFirstInputY);
+        Main.getController().getPane().getChildren().addAll(startFirstInput, endFirstInput, lineFirstInput);
+        
+        //SecondInput
+        DoubleProperty startSecondInputX = new SimpleDoubleProperty(serial.getSecondCircleX());
+        DoubleProperty startSecondInputY = new SimpleDoubleProperty(serial.getSecondCircleY());
+        DoubleProperty endSecondInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
+        DoubleProperty endSecondInputY = new SimpleDoubleProperty(node.getLayoutY()+26);
+        startSecondInput = new LogicCircle(Color.CADETBLUE,startSecondInputX,startSecondInputY, node.getCurrentGate(), "SecondInput");
+        second = new Text();
+        second.setText("I" + ++In);
+        second.xProperty().bind(startSecondInput.translateXProperty());
+        second.yProperty().bind(startSecondInput.translateYProperty());
+        second.setLayoutX(startSecondInput.getCenterX());
+        second.setLayoutY(startSecondInput.getCenterY()-5);
+        endSecondInput = new LogicCircle(Color.CADETBLUE,endSecondInputX,endSecondInputY);
+        endSecondInput.setVisible(false);
+        lineSecondInput = new LogicLine(startSecondInputX,startSecondInputY,endSecondInputX,endSecondInputY);
+        Main.getController().getPane().getChildren().addAll(startSecondInput, endSecondInput, lineSecondInput);
+        
+        //ThirdInput
+        DoubleProperty startThirdInputX = new SimpleDoubleProperty(serial.getThirdCircleX());
+        DoubleProperty startThirdInputY = new SimpleDoubleProperty(serial.getThirdCircleY());
+        DoubleProperty endThirdInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
+        DoubleProperty endThirdInputY = new SimpleDoubleProperty(node.getLayoutY()+41);
+        startThirdInput = new LogicCircle(Color.CADETBLUE,startThirdInputX,startThirdInputY, node.getCurrentGate(), "ThirdInput");
+        third = new Text();
+        third.setText("I" + ++In);
+        third.xProperty().bind(startThirdInput.translateXProperty());
+        third.yProperty().bind(startThirdInput.translateYProperty());
+        third.setLayoutX(startThirdInput.getCenterX());
+        third.setLayoutY(startThirdInput.getCenterY()-5);
+        endThirdInput = new LogicCircle(Color.CADETBLUE,endSecondInputX,endSecondInputY);
+        endThirdInput.setVisible(false);
+        lineThirdInput = new LogicLine(startThirdInputX,startThirdInputY,endThirdInputX,endThirdInputY);
+        Main.getController().getPane().getChildren().addAll(startThirdInput, endThirdInput, lineThirdInput);
+        
+        //FourthInput
+        DoubleProperty startFourthInputX = new SimpleDoubleProperty(serial.getFirstCircleX());
+        DoubleProperty startFourthInputY = new SimpleDoubleProperty(serial.getFirstCircleY());
+        DoubleProperty endFourthInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
+        DoubleProperty endFourthInputY = new SimpleDoubleProperty(node.getLayoutY()+41);
+        startFourthInput = new LogicCircle(Color.CADETBLUE,startFourthInputX,startFourthInputY, node.getCurrentGate(), "FourthInput");
+        fourth = new Text();
+        fourth.setText("I" + ++In);
+        fourth.xProperty().bind(startFourthInput.translateXProperty());
+        fourth.yProperty().bind(startFourthInput.translateYProperty());
+        fourth.setLayoutX(startFourthInput.getCenterX());
+        fourth.setLayoutY(startFourthInput.getCenterY()-5);
+        endFourthInput = new LogicCircle(Color.CADETBLUE,endSecondInputX,endSecondInputY);
+        endFourthInput.setVisible(false);
+        lineFourthInput = new LogicLine(startFourthInputX,startFourthInputY,endFourthInputX,endFourthInputY);
+        Main.getController().getPane().getChildren().addAll(startFourthInput, endFourthInput, lineFourthInput);
+    }
+    
+    private void setOutputAgain() {
+        DoubleProperty startX = new SimpleDoubleProperty(serial.getOutputCircleX());
+        DoubleProperty startY = new SimpleDoubleProperty(serial.getOutputCircleY());
+        DoubleProperty endX = new SimpleDoubleProperty(node.getLayoutX()+95);
+        DoubleProperty endY = new SimpleDoubleProperty(node.getLayoutY()+25);
+        startOutput = new LogicCircle(Color.CADETBLUE, startX, startY, node.getCurrentGate(), "Output");
+        out = new Text();
+        out.setText("O" + ++Out);
+        out.xProperty().bind(startOutput.translateXProperty());
+        out.yProperty().bind(startOutput.translateYProperty());
+        out.setLayoutX(startOutput.getCenterX()-10);
+        out.setLayoutY(startOutput.getCenterY()-5);
+        endOutput = new LogicCircle(Color.TOMATO,    endX,   endY);
+        endOutput.setVisible(false);
+        lineOutput = new LogicLine(startX, startY, endX, endY);
+        Main.getController().getPane().getChildren().addAll(startOutput, endOutput, lineOutput,out);
+    }
+    
+    private void setImage() {
+        switch(num){
+            case 1:
+                image = "NOT.png";
+                break;
+            case 2:
+                image = serial.getName() + ".png";
+                break;
+            case 3:
+                image = serial.getName() + "THREE.png";
+                break;
+            case 4:
+                image = serial.getName() + "FOUR.png";
+                break;
+        }
+    }
+    
     public LogicGate getGate(){
         return node.getCurrentGate();
     }
-    
+
   }
 
 

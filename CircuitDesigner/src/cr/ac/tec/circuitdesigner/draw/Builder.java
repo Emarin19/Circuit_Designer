@@ -32,6 +32,13 @@ public class Builder {
     public static void newCircuit(){
         circuit = new LinkedList<>();
     }
+    
+        
+    public Builder(int num){
+        DrawGate draw = new DrawGate(num);
+        draw.setAgainGate();
+        circuit.add(draw.getGate());
+    }
 
     /**
      * @return the circuit

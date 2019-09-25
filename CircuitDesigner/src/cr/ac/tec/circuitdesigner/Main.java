@@ -14,6 +14,8 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
     
+    private static Stage window;
+    
     /**
      * @param args the command line arguments
      */
@@ -23,7 +25,7 @@ public class Main extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-      
+        Main.window = stage;
         stage.setTitle("Circuit Designer");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI.fxml"));
         loader.setController(controller);
@@ -38,6 +40,10 @@ public class Main extends Application {
     
     public static GUIController getController(){
         return controller;
+    }
+    
+    public static Stage getStage(){
+        return window;
     }
  
 }
