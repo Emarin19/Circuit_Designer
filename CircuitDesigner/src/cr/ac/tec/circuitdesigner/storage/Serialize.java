@@ -43,52 +43,52 @@ public class Serialize implements Serializable {
         switch(type){
             case "1":
                 Bounds In1 = node.getCircle("FirstInput").getBoundsInParent();
-                firstCircleX = In1.getMinX()+5;
+                firstCircleX = In1.getMinX()+2.5;
                 firstCircleY = In1.getMinY()+5;
                 Bounds Out1 = node.getCircle("Output").getBoundsInParent();
-                outputCircleX= Out1.getMinX()+5;
+                outputCircleX= Out1.getMinX()+7.5;
                 outputCircleY = Out1.getMinY()+5;
                 break;
             case "2":
                 Bounds In2 = node.getCircle("FirstInput").getBoundsInParent();
-                firstCircleX = In2.getMinX()+5;
+                firstCircleX = In2.getMinX()+2.5;
                 firstCircleY = In2.getMinY()+5;
                 Bounds In22 = node.getCircle("SecondInput").getBoundsInParent();
-                secondCircleX = In22.getMinX()+5;
+                secondCircleX = In22.getMinX()+2.5;
                 secondCircleY = In22.getMinY()+5;
                 Bounds Out2 = node.getCircle("Output").getBoundsInParent();
-                outputCircleX= Out2.getMinX()+5;
+                outputCircleX= Out2.getMinX()+7.5;
                 outputCircleY = Out2.getMinY()+5;
                 break;
             case "3":
                 Bounds In3 = node.getCircle("FirstInput").getBoundsInParent();
-                firstCircleX = In3.getMinX()+5;
+                firstCircleX = In3.getMinX()+2.5;
                 firstCircleY = In3.getMinY()+5;
                 Bounds In33 = node.getCircle("SecondInput").getBoundsInParent();
-                secondCircleX = In33.getMinX()+5;
+                secondCircleX = In33.getMinX()+2.5;
                 secondCircleY = In33.getMinY()+5;
                 Bounds In333 = node.getCircle("ThirdInput").getBoundsInParent();
-                thirdCircleX = In333.getMinX()+5;
+                thirdCircleX = In333.getMinX()+2.5;
                 thirdCircleY = In333.getMinY()+5;
                 Bounds Out3 = node.getCircle("Output").getBoundsInParent();
-                outputCircleX= Out3.getMinX()+5;
+                outputCircleX= Out3.getMinX()+7.5;
                 outputCircleY = Out3.getMinY()+5;
                 break;
             case "4":
                 Bounds In4 = node.getCircle("FirstInput").getBoundsInParent();
-                firstCircleX = In4.getMinX()+5;
+                firstCircleX = In4.getMinX()+2.5;
                 firstCircleY = In4.getMinY()+5;
                 Bounds In44 = node.getCircle("SecondInput").getBoundsInParent();
-                secondCircleX = In44.getMinX()+5;
+                secondCircleX = In44.getMinX()+2.5;
                 secondCircleY = In44.getMinY()+5;
                 Bounds In444 = node.getCircle("ThirdInput").getBoundsInParent();
-                thirdCircleX = In444.getMinX()+5;
+                thirdCircleX = In444.getMinX()+2.5;
                 thirdCircleY = In444.getMinY()+5;
                 Bounds In4444 = node.getCircle("FourthInput").getBoundsInParent();
-                fourthCircleX = In4444.getMinX()+5;
+                fourthCircleX = In4444.getMinX()+2.5;
                 fourthCircleY = In4444.getMinY()+5;
                 Bounds Out4 = node.getCircle("Output").getBoundsInParent();
-                outputCircleX= Out4.getMinX()+5;
+                outputCircleX= Out4.getMinX()+7.5;
                 outputCircleY = Out4.getMinY()+5;
                 break;  
         }
