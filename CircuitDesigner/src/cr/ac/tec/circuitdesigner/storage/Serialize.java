@@ -1,7 +1,6 @@
 
 package cr.ac.tec.circuitdesigner.storage;
 
-import cr.ac.tec.circuitdesigner.Main;
 import cr.ac.tec.circuitdesigner.nodes.LogicGate;
 import java.io.Serializable;
 import javafx.geometry.Bounds;

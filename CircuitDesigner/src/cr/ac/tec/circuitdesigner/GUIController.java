@@ -3,6 +3,10 @@ package cr.ac.tec.circuitdesigner;
 
 //Same project package
 import cr.ac.tec.circuitdesigner.linkedlist.LinkedList;
+import cr.ac.tec.circuitdesigner.draw.Builder;
+import cr.ac.tec.circuitdesigner.nodes.LogicGate;
+import cr.ac.tec.circuitdesigner.storage.Deserialize;
+import cr.ac.tec.circuitdesigner.storage.Serialize;
 
 //Java package
 import java.net.URL;
@@ -12,10 +16,6 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXTextField;
-import cr.ac.tec.circuitdesigner.draw.Builder;
-import cr.ac.tec.circuitdesigner.draw.DrawGate;
-//import cr.ac.tec.circuitdesigner.storage.Deserialization;
-//import cr.ac.tec.circuitdesigner.storage.Serialization;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -41,14 +41,13 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import cr.ac.tec.circuitdesigner.nodes.LogicGate;
-import cr.ac.tec.circuitdesigner.storage.Deserialize;
-import cr.ac.tec.circuitdesigner.storage.Serialize;
-import java.awt.Desktop;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.input.MouseButton;
 import javafx.stage.FileChooser;
@@ -93,8 +92,6 @@ public class GUIController implements Initializable {
     
     private LogicGate gate;
     
-    private Desktop desktop;
-    
        
     /**
      * Initializes the controller class.
@@ -102,7 +99,7 @@ public class GUIController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle rb) {
-        buttons();
+        buttons(); 
         gridDimensions();
         Text1.setMouseTransparent(true);
         Text2.setMouseTransparent(true);
@@ -159,27 +156,27 @@ public class GUIController implements Initializable {
     void OnGateClicked(MouseEvent event) {
         if(event.getButton() == MouseButton.SECONDARY){
             List<String> choices = new ArrayList<>();
-            choices.add("TWO");
-            choices.add("THREE");
-            choices.add("FOUR");
+            choices.add("Two");
+            choices.add("Three");
+            choices.add("Four");
 
-            ChoiceDialog<String> dialog = new ChoiceDialog<>("TWO", choices);
+            ChoiceDialog<String> dialog = new ChoiceDialog<>("Two", choices);
             dialog.setTitle("Choice Dialog");
             dialog.setHeaderText("Select the number of inputs");
-            dialog.setContentText("INPUTS:");
+            dialog.setContentText("Inputs:");
 
             //Obtener la respuesta
             Optional<String> result = dialog.showAndWait();
             int num = 0;
             if (result.isPresent()){
                 switch(result.get()){
-                    case "TWO":
+                    case "Two":
                         num = 2;
                         break;
-                    case "THREE":
+                    case "Three":
                         num = 3;
                         break;
-                    case "FOUR":
+                    case "Four":
                         num = 4;
                         break;
                 }
@@ -234,13 +231,12 @@ public class GUIController implements Initializable {
         else{
             LinkedList gateOutputs = new LinkedList();
             gateOutputs = verification();
-            System.out.println("here");
             if(gateOutputs.getSize() == 1){
                 gate = (LogicGate) gateOutputs.getValue(0);
                 Boolean value = gate.getOutput();
                 System.out.println(value);
                 if(value == null){
-                    message.setText("No has asignado valores de verdad");
+                    message.setText("");
                     message.setUnFocusColor(Color.RED);
                 }
             
@@ -292,7 +288,7 @@ public class GUIController implements Initializable {
                 message.setUnFocusColor(Color.WHITE);
                 stage.show();
             
-            }catch(Exception e){
+            }catch(IOException e){
                 message.setText("Could not load the table, check the connections between the gates");
                 message.setUnFocusColor(Color.RED);
             } 
@@ -301,19 +297,17 @@ public class GUIController implements Initializable {
     
     @FXML
     void newFile(ActionEvent event) {
-        //LogicGate gate = Facade.getCircuit().getValue(0);
-        System.out.println(gate.getGateImage().getX());
-        System.out.println(gate.getGateImage().getY());
-        System.out.println(gate);
-        System.out.println(gate.getGateImage());
-        //System.out.println(gate.getImage());
-       //System.out.println(gate.getFirst());
-        //System.out.println("Hola " + gate.getFirst().getCenterX());
-        //System.out.println("Hola2 " + gate.getFirst().getCenterY());
-        //System.out.println(gate.getSecond());
-        //System.out.println(gate.getOut());
-        
-        System.out.println("Craeting a new file...");
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("New File");
+        alert.setContentText("Are you sure to create a new File?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            pane.getChildren().clear();
+            Builder.newCircuit();
+            pane.getChildren().add(gridpane);  
+        } 
     }
     
     @FXML
@@ -369,34 +363,6 @@ public class GUIController implements Initializable {
     }
 
     @FXML
-    void saveasFile(ActionEvent event) {
-        circuit = Builder.getCircuit();
-        if(circuit.isEmpty()){
-            message.setText("Circuit has not been created");
-            message.setUnFocusColor(Color.RED);
-        }
-        else{
-            LinkedList<Serialize> toSave = new LinkedList<>();
-            for(int i=0; i<circuit.getSize(); i++){
-                Serialize serial = new Serialize((LogicGate) circuit.getValue(i));
-                toSave.add(serial);
-            }
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Save circuit");
-            File saveFile = fileChooser.showSaveDialog(Main.getStage());
-            if(saveFile != null){
-                try{
-                    FileOutputStream file = new FileOutputStream(saveFile + ".txt");
-                    ObjectOutputStream object = new ObjectOutputStream(file);
-                    object.writeObject(toSave);
-                    object.close();
-                    file.close();
-                }catch(IOException e){}
-            }
-        }
-    }
-
-    @FXML
     void settings(ActionEvent event) {
        
     }
@@ -417,8 +383,6 @@ public class GUIController implements Initializable {
     
     @FXML
     void copy(ActionEvent event) {
-        DrawGate draw = new DrawGate("Prueba.png",2);
-        //draw.setPrueba("Prueba.png");
         System.out.println("Coping...");
     }
 
@@ -429,7 +393,7 @@ public class GUIController implements Initializable {
     
     @FXML
     void paste(ActionEvent event) {
-       //deserializeNode();
+        
     }
     
     @FXML
@@ -549,30 +513,4 @@ public class GUIController implements Initializable {
                 }
         }
     }
-
-    private void deserializeNode() {
-        LinkedList<Serialize> readCircuit;
-        //Serialize serial;
-        try{
-            FileInputStream file = new FileInputStream("Save.txt");
-            ObjectInputStream object = new ObjectInputStream(file);
-            readCircuit = (LinkedList<Serialize> ) object.readObject();
-            Deserialize des = new Deserialize(readCircuit);
-            /*serial = readCircuit.getValue(0);
-            System.out.println(serial.getName());
-            System.out.println(serial.getType());
-            System.out.println("Node");
-            System.out.println(serial.getNodeX());
-            System.out.println(serial.getNodeY());
-            System.out.println("FirstCircle");
-            System.out.println(serial.getFirstCircleX());
-            System.out.println(serial.getFirstCircleY());
-            //System.out.println("Exito");*/
-            System.out.println("Deserialization completed");
-            
-        }catch(IOException | ClassNotFoundException e){
-            System.out.println("Error");          
-        }
-    }
-
 }

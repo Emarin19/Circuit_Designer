@@ -40,7 +40,7 @@
                               <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open" />
                               <SeparatorMenuItem mnemonicParsing="false" />
                               <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save" />
-                              <MenuItem mnemonicParsing="false" onAction="#saveasFile" text="Save As" />
+                              <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save As" />
                               <SeparatorMenuItem mnemonicParsing="false" />
                               <MenuItem mnemonicParsing="false" onAction="#settings" text="Settings" />
                               <SeparatorMenuItem mnemonicParsing="false" />
@@ -71,7 +71,7 @@
                         <JFXButton fx:id="newFileButton" onAction="#newFile" />
                         <JFXButton fx:id="openFileButton" onAction="#openFile" />
                         <JFXButton fx:id="saveFileButton" onAction="#saveFile" />
-                        <JFXButton fx:id="saveasFileButton" onAction="#saveasFile" />
+                        <JFXButton fx:id="saveasFileButton" onAction="#saveFile" />
                         <JFXButton fx:id="settingsButton" onAction="#settings" />
                         <JFXButton fx:id="helpButton" onAction="#about" />
                         <JFXButton fx:id="exitButton" onAction="#exit" />
