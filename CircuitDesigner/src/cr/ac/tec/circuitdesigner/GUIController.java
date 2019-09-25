@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package cr.ac.tec.circuitdesigner;
 
 //Same project package
@@ -16,9 +12,10 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXTextField;
-import cr.ac.tec.circuitdesigner.pruebas.Deserialization;
+import cr.ac.tec.circuitdesigner.draw.Builder;
 import cr.ac.tec.circuitdesigner.draw.DrawGate;
-import cr.ac.tec.circuitdesigner.pruebas.Serialization;
+import cr.ac.tec.circuitdesigner.storage.Deserialization;
+import cr.ac.tec.circuitdesigner.storage.Serialization;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -40,13 +37,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.event.ActionEvent;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import cr.ac.tec.circuitdesigner.nodes.LogicGate;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.input.MouseButton;
 
 /**
  *
@@ -55,85 +55,34 @@ import cr.ac.tec.circuitdesigner.nodes.LogicGate;
 public class GUIController implements Initializable {
     
     @FXML
-    private AnchorPane base;
+    private JFXButton newFileButton,openFileButton,saveFileButton,saveasFileButton,settingsButton,helpButton,exitButton,runButton;
     
     @FXML
-    private AnchorPane leftpane;
- 
-    @FXML
-    private JFXButton newFileButton;
-
-    @FXML
-    private JFXButton openFileButton;
-
-    @FXML
-    private JFXButton saveFileButton;
-
-    @FXML
-    private JFXButton saveasFileButton;
-
-    @FXML
-    private JFXButton settingsButton;
-
-    @FXML
-    private JFXButton helpButton;
-
-    @FXML
-    private JFXButton exitButton;
+    private ImageView newFileIcon,openFileIcon,saveFileIcon,saveasFileIcon,settingsIcon,helpIcon,exitIcon,runIcon;
     
     @FXML
-    private JFXButton runButton;
+    private ImageView AND,OR,NOT,NAND,NOR,XOR,XNOR;
     
     @FXML
     private JFXCheckBox checkboxGrid;
     
     @FXML
+    private CheckMenuItem gridOption;
+    
+    @FXML
     private JFXTextField message;
-
-    @FXML
-    private ImageView newFileIcon;
-
-    @FXML
-    private ImageView openFileIcon;
-
-    @FXML
-    private ImageView saveFileIcon;
-
-    @FXML
-    private ImageView saveasFileIcon;
-
-    @FXML
-    private ImageView settingsIcon;
-
-    @FXML
-    private ImageView helpIcon;
-
-    @FXML
-    private ImageView exitIcon;
-    
-    @FXML
-    private ImageView AND,OR,NOT,NAND,NOR,XOR,XNOR;
-
-    @FXML
-    private ImageView runIcon;
-   
-    @FXML
-    private Circle True;
-
-    @FXML
-    private Circle False;
-    
-    @FXML
-    private Text Text1;
-
-    @FXML
-    private Text Text2;
     
     @FXML
     private GridPane gridpane;
     
     @FXML
-    private CheckMenuItem gridOption;
+    private AnchorPane pane;
+ 
+    @FXML
+    private Circle True,False;
+    
+    @FXML
+    private Text Text1,Text2;
     
     private LinkedList circuit;
     
@@ -181,51 +130,91 @@ public class GUIController implements Initializable {
     }
     
     @FXML
-    void OnGateClicked(MouseEvent event) {
+    void OnValueClicked(MouseEvent event) {
         if(event.getSource().equals(True)){
-            Facade facade = new Facade(true);
+            Builder builder = new Builder(true);
         }
         else if(event.getSource().equals(False)){
-            Facade facade = new Facade(false);
+            Builder builder = new Builder(false);
         }
-        else if(event.getSource().equals(AND)){
-            message.setText("AND Gate");
-            message.setUnFocusColor(Color.web("#1aef86"));
-            Facade facade = new Facade("ANDTWO.png");
-        }
-        else if(event.getSource().equals(OR)){
-            message.setText("OR Gate");
-            message.setUnFocusColor(Color.web("#1aef86"));
-            Facade facade = new Facade("ORTWO.png");
-        }
-        else if(event.getSource().equals(NOT)){
+    }
+    
+    @FXML
+    void OnNotClicked(MouseEvent event) {
+        if(event.getSource().equals(NOT)){
             message.setText("NOT Gate");
-            message.setUnFocusColor(Color.web("#1aef86"));
-            Facade facade = new Facade("NOT.png");
+            message.setUnFocusColor(Color.web("#1AEF86"));
+            Builder build = new Builder("NOT.png",1);
         }
-        else if(event.getSource().equals(NAND)){
-            message.setText("NAND Gate");
-            message.setUnFocusColor(Color.web("#1aef86"));
-            Facade facade = new Facade("NANDTWO.png");
+    }
+    
+    @FXML
+    void OnGateClicked(MouseEvent event) {
+        if(event.getButton() == MouseButton.SECONDARY){
+            List<String> choices = new ArrayList<>();
+            choices.add("TWO");
+            choices.add("THREE");
+            choices.add("FOUR");
+
+            ChoiceDialog<String> dialog = new ChoiceDialog<>("TWO", choices);
+            dialog.setTitle("Choice Dialog");
+            dialog.setHeaderText("Select the number of inputs");
+            dialog.setContentText("INPUTS:");
+
+            //Obtener la respuesta
+            Optional<String> result = dialog.showAndWait();
+            int num = 0;
+            if (result.isPresent()){
+                switch(result.get()){
+                    case "TWO":
+                        num = 2;
+                        break;
+                    case "THREE":
+                        num = 3;
+                        break;
+                    case "FOUR":
+                        num = 4;
+                        break;
+                }
+            }
+            loadGate(event,num);
         }
-        else if(event.getSource().equals(NOR)){
-            message.setText("NOR Gate");
-            message.setUnFocusColor(Color.web("#1aef86"));
-            Facade facade = new Facade("NORTWO.png");
-        }
-        else if(event.getSource().equals(XOR)){
-            message.setText("XOR Gate");
-            message.setUnFocusColor(Color.web("#1aef86"));
-            Facade facade = new Facade("XORTWO.png");
-        }
-        else if(event.getSource().equals(XNOR)){
-            message.setText("XNOR Gate");
-            message.setUnFocusColor(Color.web("#1aef86"));
-            Facade facade = new Facade("XNORTWO.png");
-        }
+        
         else{
-            return;
+            if(event.getSource().equals(AND)){
+                message.setText("AND Gate");
+                message.setUnFocusColor(Color.web("#1AEF86"));
+                Builder build = new Builder("AND.png",2);
+            }
+            else if(event.getSource().equals(OR)){
+                message.setText("OR Gate");
+                message.setUnFocusColor(Color.web("#1AEF86"));
+                Builder build = new Builder("OR.png",2);
+            }
+            else if(event.getSource().equals(NAND)){
+                message.setText("NAND Gate");
+                message.setUnFocusColor(Color.web("#1AEF86"));
+                Builder build = new Builder("NAND.png",2);
+            }
+            else if(event.getSource().equals(NOR)){
+                message.setText("NOR Gate");
+                message.setUnFocusColor(Color.web("#1AEF86"));
+                Builder build = new Builder("NOR.png",2);
+            }
+            else if(event.getSource().equals(XOR)){
+                message.setText("XOR Gate");
+                message.setUnFocusColor(Color.web("#1AEF86"));
+                Builder build = new Builder("XOR.png",2);
+            }
+            else if(event.getSource().equals(XNOR)){
+                message.setText("XNOR Gate");
+                message.setUnFocusColor(Color.web("#1AEF86"));
+                Builder build = new Builder("XNOR.png",2);
+            }
+            else{
+            }
         }
+        
     }
     
     @FXML
@@ -305,31 +294,48 @@ public class GUIController implements Initializable {
     
     @FXML
     void newFile(ActionEvent event) {
-        LogicGate gate = Facade.getCircuit().getValue(0);
+        //LogicGate gate = Facade.getCircuit().getValue(0);
         System.out.println(gate.getGateImage().getX());
         System.out.println(gate.getGateImage().getY());
         System.out.println(gate);
         System.out.println(gate.getGateImage());
-        System.out.println(gate.getImage());
-        System.out.println(gate.getFirst());
-        System.out.println("Hola " + gate.getFirst().getCenterX());
-        System.out.println("Hola2 " + gate.getFirst().getCenterY());
-        System.out.println(gate.getSecond());
-        System.out.println(gate.getOut());
+        //System.out.println(gate.getImage());
+       //System.out.println(gate.getFirst());
+        //System.out.println("Hola " + gate.getFirst().getCenterX());
+        //System.out.println("Hola2 " + gate.getFirst().getCenterY());
+        //System.out.println(gate.getSecond());
+        //System.out.println(gate.getOut());
         
         System.out.println("Craeting a new file...");
     }
     
     @FXML
     void openFile(ActionEvent event) {
+        List<String> choices = new ArrayList<>();
+        choices.add("TW0");
+        choices.add("THREE");
+        choices.add("FOUR");
+
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("TWO", choices);
+        dialog.setTitle("Choice Dialog");
+        dialog.setHeaderText("Select the number of inputs");
+        dialog.setContentText("INPUTS:");
+
+        //Obtener la respuesta
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()){
+            System.out.println("Your choice: " + result.get());
+        }
+        
+        result.ifPresent(letter -> System.out.println("Your choice: " + letter));
         System.out.println("Open file...");
     }
 
     @FXML
     void saveFile(ActionEvent event) {
-        System.out.println(Facade.getCircuit().getValue(2).foo());
-        System.out.println(Facade.getCircuit().getValue(2).getInputs().getSize());
-        System.out.println(Facade.getCircuit().getValue(2).getOutputs().getSize());
+        System.out.println(Facade.getCircuit().getValue(2).getName());
+        System.out.println(Facade.getCircuit().getValue(2).getInputsReferences().getSize());
+        System.out.println(Facade.getCircuit().getValue(2).getOutputsReferences().getSize());
         System.out.println("Saving file");
     }
 
@@ -338,11 +344,11 @@ public class GUIController implements Initializable {
         
         LogicGate gate = Facade.getCircuit().getValue(0);
         Serialization serial = new Serialization();
-        serial.setImage(gate.getImage());
+        //serial.setImage(gate.getImage());
         serial.setGateImageView(gate.getGateImage());
-        serial.setFirst(gate.getFirst());
-        serial.setSecond(gate.getSecond());
-        serial.setOut(gate.getOut());
+        //serial.setFirst(gate.getFirst());
+       // serial.setSecond(gate.getSecond());
+        //serial.setOut(gate.getOut());
         serial.setGate(gate);
         serial.setImageX(gate.getGateImage().getTranslateX());
         serial.setImageY(gate.getGateImage().getTranslateY());
@@ -396,9 +402,9 @@ public class GUIController implements Initializable {
     
     @FXML
     void about(ActionEvent event) {
-        System.out.println(Facade.getCircuit().getSize());
-        for(int i=0; i<Facade.getCircuit().getSize(); i++){
-            System.out.println(Facade.getCircuit().getValue(i));
+        System.out.println(Builder.getCircuit().getSize());
+        for(int i=0; i<Builder.getCircuit().getSize(); i++){
+            System.out.println(Builder.getCircuit().getValue(i));
         }
         System.out.println("Information"); 
     }
@@ -409,7 +415,9 @@ public class GUIController implements Initializable {
     }
     
     @FXML
-    void copy(ActionEvent event) {      
+    void copy(ActionEvent event) {
+        DrawGate draw = new DrawGate("Prueba.png",2);
+        //draw.setPrueba("Prueba.png");
         System.out.println("Coping...");
     }
 
@@ -449,8 +457,8 @@ public class GUIController implements Initializable {
         }
     }
     
-    public AnchorPane getRoot(){
-        return leftpane;
+    public AnchorPane getPane(){
+        return pane;
     }
     
     public JFXTextField getMessage(){
@@ -470,13 +478,75 @@ public class GUIController implements Initializable {
         else{
             for(int i=0; i<circuit.getSize(); i++){
                 gate = (LogicGate) circuit.getValue(i);
-                if(gate.getInputs().getSize()!=0 && gate.getOutputs().getSize()==0){
+                if(gate.getInputsReferences().getSize()!=0 && gate.getOutputsReferences().getSize()==0){
                     gateOutputs.add(gate);
                 }
             }
             
         }
         return gateOutputs;
+    }
+
+    private void loadGate(MouseEvent event, int num) {
+        System.out.println(num);
+        switch(num){
+            case 2:
+                if(event.getSource().equals(AND)){
+                    System.out.println("Here");
+                    message.setText("AND Gate");
+                    message.setUnFocusColor(Color.web("#1AEF86"));
+                    Builder build = new Builder("AND.png",2);
+                    break;
+                }
+                else if(event.getSource().equals(OR)){
+                    message.setText("OR Gate");
+                    message.setUnFocusColor(Color.web("#1AEF86"));
+                    Builder build = new Builder("OR.png",2);
+                    break;
+                }
+                else if(event.getSource().equals(NAND)){
+                    message.setText("NAND Gate");
+                    message.setUnFocusColor(Color.web("#1AEF86"));
+                    Builder build = new Builder("NAND.png",2);
+                }
+                else if(event.getSource().equals(NOR)){
+                    message.setText("NOR Gate");
+                    message.setUnFocusColor(Color.web("#1AEF86"));
+                    Builder build = new Builder("NOR.png",2);
+                    break;
+                }
+                else if(event.getSource().equals(XOR)){
+                    message.setText("XOR Gate");
+                    message.setUnFocusColor(Color.web("#1AEF86"));
+                    Builder build = new Builder("XOR.png",2);
+                    break;
+                }
+                else if(event.getSource().equals(XNOR)){
+                    message.setText("XNOR Gate");
+                    message.setUnFocusColor(Color.web("#1AEF86"));
+                    Builder build = new Builder("XNOR.png",2);
+                    break;
+                }
+                else{
+                    break;
+                }
+            
+            case 3:
+                if(event.getSource().equals(AND)){
+                    message.setText("AND Gate");
+                    message.setUnFocusColor(Color.web("#1AEF86"));
+                    Builder build = new Builder("ANDTHREE.png",3);
+                    break;
+                }
+            
+            case 4:
+                if(event.getSource().equals(AND)){
+                    message.setText("AND Gate");
+                    message.setUnFocusColor(Color.web("#1AEF86"));
+                    Builder build = new Builder("ANDFOUR.png",4);
+                    break;
+                }
+        }
     }
 
 }

@@ -183,8 +183,8 @@
                               <Line endX="100.0" startX="208.2928924560547" startY="-1.0138750076293945E-4" stroke="#9c9c9c" />
                               <AnchorPane maxHeight="50.0" maxWidth="95.0" minHeight="50.0" minWidth="95.0" prefHeight="50.0" prefWidth="95.0">
                                  <children>
-                                    <Circle fx:id="True" fill="DODGERBLUE" layoutX="27.0" layoutY="25.0" onMouseClicked="#OnGateClicked" radius="15.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                                    <Circle fx:id="False" fill="DODGERBLUE" layoutX="70.0" layoutY="26.0" onMouseClicked="#OnGateClicked" radius="15.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                                    <Circle fx:id="True" fill="DODGERBLUE" layoutX="27.0" layoutY="25.0" onMouseClicked="#OnValueClicked" radius="15.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                                    <Circle fx:id="False" fill="DODGERBLUE" layoutX="70.0" layoutY="26.0" onMouseClicked="#OnValueClicked" radius="15.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
                                     <Text fx:id="Text1" fill="WHITE" layoutX="22.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1">
                                        <font>
                                           <Font name="Swiss 721 Bold BT" size="20.0" />
@@ -215,7 +215,7 @@
                               </AnchorPane>
                               <AnchorPane maxHeight="50.0" maxWidth="95.0" minHeight="50.0" minWidth="95.0" prefHeight="50.0" prefWidth="95.0">
                                  <children>
-                                    <ImageView fx:id="NOT" fitHeight="50.0" fitWidth="95.0" onMouseClicked="#OnGateClicked" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="NOT" fitHeight="50.0" fitWidth="95.0" onMouseClicked="#OnNotClicked" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../../../../NOT.png" />
                                        </image>
@@ -269,7 +269,7 @@
                <children>
                   <ScrollPane fx:id="split" prefHeight="555.0" prefWidth="873.0">
                     <content>
-                      <AnchorPane fx:id="leftpane" minHeight="0.0" minWidth="0.0" prefHeight="5000.0" prefWidth="6000.0" style="-fx-background-color: #FFFFFF;">
+                      <AnchorPane fx:id="pane" minHeight="0.0" minWidth="0.0" prefHeight="5000.0" prefWidth="6000.0" style="-fx-background-color: #FFFFFF;">
                            <children>
                               <GridPane fx:id="gridpane" gridLinesVisible="true" style="-fx-background-color: #FFFFFF;">
                                 <columnConstraints>

@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cr.ac.tec.circuitdesigner.pruebas;
+package cr.ac.tec.circuitdesigner.storage;
 
 import cr.ac.tec.circuitdesigner.Facade;
 import cr.ac.tec.circuitdesigner.Main;
-import cr.ac.tec.circuitdesigner.draw.GateImage;
+import cr.ac.tec.circuitdesigner.factory.GateImage;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;

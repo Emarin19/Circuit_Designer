@@ -5,7 +5,7 @@
  */
 package cr.ac.tec.circuitdesigner.nodes;
 
-import cr.ac.tec.circuitdesigner.draw.GateImage;
+import cr.ac.tec.circuitdesigner.factory.GateImage;
 import cr.ac.tec.circuitdesigner.draw.LogicCircle;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,31 +16,28 @@ import cr.ac.tec.circuitdesigner.linkedlist.LinkedList;
  * @author Emanuel
  */
 public abstract class LogicGate implements Serializable {
-    
-    private String name;
-    public abstract String foo();
+
+    public abstract String getName();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
     public abstract String getType();
+    public abstract void setType(String type);
+    
+    public abstract void setGateImage(GateImage gateImage);
+    public abstract GateImage getGateImage();
+    
+    public abstract void setCircle(String circleType, LogicCircle circle);
+    public abstract LogicCircle getCircle(String circleType);
+    
+    //Delete
     public abstract String operate(ArrayList inputs);
     public abstract void operate();
     
-    public abstract void setImage(String image);
-    public abstract String getImage();
+    public abstract LinkedList getInputsReferences();
+    public abstract LinkedList getOutputsReferences();
     
-    public abstract void Gate(GateImage gateImage);
-    public abstract GateImage getGateImage();
+    public abstract void setInput_Output(String type, Boolean value);
+    public abstract Boolean getInput_Output(String type);
     
-    public abstract void setFirstCircle(LogicCircle first);
-    public abstract void setSecondCircle(LogicCircle first);
-    public abstract void setOutCircle(LogicCircle first);
-    
-    public abstract LogicCircle getFirst();
-    public abstract LogicCircle getSecond();
-    public abstract LogicCircle getOut();
-    
-    
-    public abstract LinkedList getInputs();
-    public abstract LinkedList getOutputs();
-    
+    //Delete
     public abstract void setFirstInput(Boolean firstInput);
     public abstract Boolean getFirstInput();
     

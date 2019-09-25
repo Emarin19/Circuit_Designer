@@ -1,5 +1,5 @@
 
-package cr.ac.tec.circuitdesigner.draw;
+package cr.ac.tec.circuitdesigner.factory;
 
 /**
  *

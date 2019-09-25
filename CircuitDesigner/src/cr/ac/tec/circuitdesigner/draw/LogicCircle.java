@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package cr.ac.tec.circuitdesigner.draw;
 
 import cr.ac.tec.circuitdesigner.Main;
@@ -21,7 +17,7 @@ import cr.ac.tec.circuitdesigner.nodes.LogicGate;
 
 /**
  *
- * @author Emanuel
+ * @author Emanuel Marín
  */
 public class LogicCircle extends Circle implements Serializable {
     
@@ -37,6 +33,17 @@ public class LogicCircle extends Circle implements Serializable {
       y.bind(centerYProperty());
       this.gate = gate;
       this.type = type;
+      enableDrag();
+    }
+    
+    public LogicCircle(Color color, DoubleProperty x, DoubleProperty y, LogicGate gate, String type, Text textvalue) {
+      super(x.get(), y.get(), 5);
+      setFill(color);
+      x.bind(centerXProperty());
+      y.bind(centerYProperty());
+      this.gate = gate;
+      this.type = type;
+      this.textValue = textValue;
       enableDrag();
     }
     
@@ -60,7 +67,7 @@ public class LogicCircle extends Circle implements Serializable {
       setOnMousePressed(new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent mouseEvent) {
             System.out.println("MousePressed");
-            System.out.println(gate.foo());
+            System.out.println(gate.getName());
             System.out.println(type);
             setUserData(gate.getValue(type));
             System.out.println(getUserData());
@@ -137,8 +144,8 @@ public class LogicCircle extends Circle implements Serializable {
                 else{
                     if(((LogicCircle) obj).getType().equals("Salida")){
                         
-                        ((LogicCircle) obj).getGate().getOutputs().add(gate);
-                        gate.getInputs().add(((LogicCircle) obj).getGate());
+                        ((LogicCircle) obj).getGate().getOutputsReferences().add(gate);
+                        gate.getInputsReferences().add(((LogicCircle) obj).getGate());
                         gate.setValue(type, (Boolean) ((LogicCircle) obj).getUserData());
                         gate.operate();
                         ((LogicCircle) obj).getGate().operate();
@@ -148,8 +155,8 @@ public class LogicCircle extends Circle implements Serializable {
                     }
                     else{
                         System.out.println("Hola soy de tipo "  + ((LogicCircle) obj).getType());
-                        ((LogicCircle) obj).getGate().getInputs().add(gate);
-                        gate.getOutputs().add(((LogicCircle) obj).getGate());
+                        ((LogicCircle) obj).getGate().getInputsReferences().add(gate);
+                        gate.getOutputsReferences().add(((LogicCircle) obj).getGate());
                         ((LogicCircle) obj).getGate().setValue(((LogicCircle) obj).getType(), gate.getOutput());
                         gate.operate();
                         ((LogicCircle) obj).getGate().operate();
@@ -193,7 +200,7 @@ public class LogicCircle extends Circle implements Serializable {
             
             if(mouseEvent.getButton()==MouseButton.SECONDARY){
                 Object obj = mouseEvent.getSource();
-                Main.getController().getRoot().getChildren().removeAll((LogicCircle)obj, textValue);
+                Main.getController().getPane().getChildren().removeAll((LogicCircle)obj, textValue);
             }
             else{
                 setMouseTransparent(true);
@@ -232,7 +239,7 @@ public class LogicCircle extends Circle implements Serializable {
             System.out.println("You entered");
             Object obj = mouseEvent.getGestureSource();
             if(obj instanceof LogicCircle){
-                System.out.println(((LogicCircle) obj).getGate().foo());
+                System.out.println(((LogicCircle) obj).getGate().getName());
                 if(((LogicCircle) obj).getGate().getType().equals("Salida")){
                     Main.getController().getMessage().setText("Can´t be connected");
                     Main.getController().getMessage().setUnFocusColor(Color.RED);

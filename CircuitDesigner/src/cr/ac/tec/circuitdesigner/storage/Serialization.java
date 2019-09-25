@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cr.ac.tec.circuitdesigner.pruebas;
+package cr.ac.tec.circuitdesigner.storage;
 
-import cr.ac.tec.circuitdesigner.draw.GateImage;
+import cr.ac.tec.circuitdesigner.factory.GateImage;
 import cr.ac.tec.circuitdesigner.draw.LogicCircle;
 import java.io.Serializable;
 import cr.ac.tec.circuitdesigner.nodes.LogicGate;

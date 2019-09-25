@@ -7,7 +7,7 @@ package cr.ac.tec.circuitdesigner;
 
 import cr.ac.tec.circuitdesigner.draw.DrawGate;
 import cr.ac.tec.circuitdesigner.linkedlist.LinkedList;
-import cr.ac.tec.circuitdesigner.linkedlist.MyObserver;
+import cr.ac.tec.circuitdesigner.linkedlist.ListObserver;
 import cr.ac.tec.circuitdesigner.nodes.LogicGate;
 
 /**
@@ -15,35 +15,31 @@ import cr.ac.tec.circuitdesigner.nodes.LogicGate;
  * @author Emanuel Marín
  */
 public class Facade {
-    private static LinkedList<LogicGate> circuit = new LinkedList<>();
-    private MyObserver circuitObserver = new MyObserver();
+    private static LinkedList<LogicGate> circuit12 = new LinkedList<>();
+    private ListObserver circuitObserver12 = new ListObserver();
     
     public Facade(String image){
-        if(circuit.countObservers() == 0){
-            circuit.addObserver(circuitObserver);
+        if(circuit12.countObservers() == 0){
+            circuit12.addObserver(circuitObserver12);
         }
-        if(image.equals("NOT.png")){
+        /*if(image.equals("NOT.png")){
             DrawGate draw = new DrawGate(image);
             draw.setNot();
-            circuit.add(draw.gate());
+            circuit12.add(draw.getGate());
         }
         else{
             DrawGate draw = new DrawGate(image);
             draw.setGate();
-            circuit.add(draw.gate());
-        }
+            circuit12.add(draw.getGate());
+        }*/
     }
-    
-    public Facade(Boolean value){
-        DrawGate draw = new DrawGate();
-        draw.setBooleanValue(value);
-    }
+   
 
     /**
      * @return the circuit
      */
     public static LinkedList<LogicGate> getCircuit() {
-        return circuit;
+        return circuit12;
     }
       
 }

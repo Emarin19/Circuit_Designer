@@ -7,39 +7,58 @@ package cr.ac.tec.circuitdesigner.nodes;
 
 
 import cr.ac.tec.circuitdesigner.draw.LogicCircle;
+import cr.ac.tec.circuitdesigner.factory.GateImage;
 import java.util.ArrayList;
 import cr.ac.tec.circuitdesigner.linkedlist.LinkedList;
-import cr.ac.tec.circuitdesigner.linkedlist.MyObserver;
+import cr.ac.tec.circuitdesigner.linkedlist.ListObserver;
 
 /**
  *
  * @author Emanuel
  */
-public class OrTwo extends LogicGate{
+public class Or extends LogicGate{
     
-    private static LinkedList <LogicGate> inputs = new LinkedList<>();
-    private static LinkedList <LogicGate> outputs = new LinkedList<>();
+    private GateImage gateImageView;
+    private String type;
     
+    private LinkedList <LogicGate> inputsReferences = new LinkedList<>();
+    private LinkedList <LogicGate> outputsReferences = new LinkedList<>();
+
     private Boolean firstInput;
     private Boolean secondInput;
+    private Boolean thirdInput;
+    private Boolean fourthInput;
     private Boolean output;
+   
+    private LogicCircle firstCircle;
+    private LogicCircle secondCircle;
+    private LogicCircle thirdCircle;
+    private LogicCircle fourthCircle;
+    private LogicCircle outputCircle;
     
-    public OrTwo(){
+    public Or(){
         
         this.firstInput = null;
         this.secondInput = null;
+        this.thirdInput = null;
+        this.fourthInput = null;
         this.output = null;
-        
+        this.type = "2";
     }
 
     @Override
-    public String foo() {
+    public String getName() {
         return "OR";
     }
     
     @Override
     public String getType() {
-        return "2";
+        return type;
+    }
+    
+    @Override
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
@@ -107,33 +126,6 @@ public class OrTwo extends LogicGate{
         }
         return result;
     }
-
-    @Override
-    public LinkedList <LogicGate> getInputs() {
-        return inputs;
-    }
-
-    /**
-     * @param inputs the inputs to set
-     */
-    public void setInputs(LinkedList <LogicGate> inputs) {
-        this.inputs = inputs;
-    }
-
-    /**
-     * @return the outputs
-     */
-    @Override
-    public LinkedList <LogicGate> getOutputs() {
-        return outputs;
-    }
-
-    /**
-     * @param outputs the outputs to set
-     */
-    public void setOutputs(LinkedList <LogicGate> outputs) {
-        this.outputs = outputs;
-    }
     
     @Override
     public String operate(ArrayList inputs) {
@@ -180,53 +172,92 @@ public class OrTwo extends LogicGate{
     }
 
     @Override
-    public void setImage(String image) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public GateImage getGateImage() {
+        return gateImageView;
     }
 
     @Override
-    public String getImage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setGateImage(GateImage gateImage) {
+        this.gateImageView = gateImage;
     }
 
     @Override
-    public void setFirstCircle(LogicCircle first) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setCircle(String circleType, LogicCircle circle) {
+        switch(circleType){
+            case "FirstInput":
+                this.firstCircle = circle;
+            case "SecondInput":
+                this.secondCircle = circle;
+            case "ThirdInput":
+                this.thirdCircle = circle;
+            case "FourthInput":
+                this.fourthCircle = circle;
+            case "Output":
+                this.outputCircle = circle;
+        }
     }
 
     @Override
-    public void setSecondCircle(LogicCircle first) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public LogicCircle getCircle(String circleType) {
+        switch(circleType){
+            case "FirstInput":
+                return firstCircle;
+            case "SecondInput":
+                return secondCircle;
+            case "ThirdCircle":
+                return thirdCircle;
+            case "fourthInput":
+                return fourthCircle;
+            case "Output":
+                return outputCircle;
+            default:
+                return null;
+        }
     }
 
     @Override
-    public void setOutCircle(LogicCircle first) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public LinkedList getInputsReferences() {
+        return inputsReferences;
     }
 
     @Override
-    public LogicCircle getFirst() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public LinkedList getOutputsReferences() {
+        return outputsReferences;
     }
 
     @Override
-    public LogicCircle getSecond() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setInput_Output(String type, Boolean value) {
+        switch(type){
+            case "FirstInput":
+                this.firstInput = value;
+            case "SecondInput":
+                this.secondInput = value;
+            case "ThirdInput":
+                this.thirdInput = value;
+            case "FourthInput":
+                this.fourthInput = value;
+            case "Output":
+                this.output = value;
+        }
+        
     }
 
     @Override
-    public LogicCircle getOut() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void Gate(cr.ac.tec.circuitdesigner.draw.GateImage gateImage) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public cr.ac.tec.circuitdesigner.draw.GateImage getGateImage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Boolean getInput_Output(String type) {
+        switch(type){
+            case "FirstInput":
+                return firstInput;
+            case "SecondInput":
+                return secondInput;
+            case "ThirdInput":
+                return thirdInput;
+            case "FourthInput":
+                return fourthInput;
+            case "Output":
+                return output;
+            default:
+                return null;
+        }
     }
     
     

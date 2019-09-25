@@ -1,10 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package cr.ac.tec.circuitdesigner;
 
+package cr.ac.tec.circuitdesigner.table;
+
+import cr.ac.tec.circuitdesigner.Facade;
 import cr.ac.tec.circuitdesigner.Facade;
 import cr.ac.tec.circuitdesigner.pruebas.DecimalToBinary;
 import java.net.URL;
@@ -25,7 +22,7 @@ import cr.ac.tec.circuitdesigner.nodes.LogicGate;
 /**
  * FXML Controller class
  *
- * @author Emanuel
+ * @author Emanuel Marín
  */
 public class TableViewController implements Initializable {
     
@@ -69,13 +66,13 @@ public class TableViewController implements Initializable {
         for(int i=0; i<circuit.getSize(); i++){
             gate = circuit.getValue(i);
             if(gate.getType().equals("2")){
-                if(gate.getInputs().getSize() == 0){
+                if(gate.getInputsReferences().getSize() == 0){
                     num_inputs = num_inputs+2;
                 }
-                if(gate.getOutputs().getSize() == 0){
+                if(gate.getOutputsReferences().getSize() == 0){
                     num_outputs = num_outputs+1;
                 }
-                if(gate.getInputs().getSize()!=0 && gate.getOutputs().getSize()==0){
+                if(gate.getInputsReferences().getSize()!=0 && gate.getOutputsReferences().getSize()==0){
                     gateOutput = gate;
                 }
             }

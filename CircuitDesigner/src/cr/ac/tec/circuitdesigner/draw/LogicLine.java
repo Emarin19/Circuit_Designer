@@ -1,19 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package cr.ac.tec.circuitdesigner.draw;
 
 import java.io.Serializable;
+import java.util.Random;
 import javafx.beans.property.DoubleProperty;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
 
 /**
  *
- * @author Emanuel
+ * @author Emanuel Marín
  */
 public class LogicLine extends Line implements Serializable {
     
@@ -23,9 +21,16 @@ public class LogicLine extends Line implements Serializable {
       endXProperty().bind(endX);
       endYProperty().bind(endY);
       setStrokeWidth(2);
-      setStroke(Color.BLACK);
+      setStroke(randomColor());
       setStrokeLineCap(StrokeLineCap.BUTT);
       setMouseTransparent(true);
     }
     
+    public Paint randomColor() {
+        Random random = new Random();
+        int r = random.nextInt(255);
+        int g = random.nextInt(255);
+        int b = random.nextInt(255);
+        return Color.rgb(r, g, b);
+    }
 }
