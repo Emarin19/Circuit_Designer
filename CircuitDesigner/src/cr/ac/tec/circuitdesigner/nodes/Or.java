@@ -159,7 +159,7 @@ public class Or extends LogicGate{
     }
     
     @Override
-    public void operate() {
+    public void operate(String type) {
         Boolean first = getFirstInput();
         Boolean second = getSecondInput();
         

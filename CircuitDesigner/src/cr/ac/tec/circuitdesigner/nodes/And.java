@@ -157,15 +157,44 @@ public class And extends LogicGate {
     }
 
     @Override
-    public void operate() {
-        Boolean first = getFirstInput();
-        Boolean second = getSecondInput();
-        
-        if(first == null || second == null){
-            this.output = null;
-        }
-        else{
-            this.output = (first&&second);
+    public void operate(String type) {
+        System.out.println("Operando");
+        switch(type){
+            case "1":
+                if(firstInput == null){
+                    this.output = null;
+                }
+                else if(firstInput){
+                    this.output = false;
+                }
+                else if(firstInput == false){
+                    this.output = true;
+                }
+                break;
+            case "2":
+                if(firstInput == null || secondInput == null){
+                    this.output = null;
+                }
+                else{
+                    this.output = (firstInput&&secondInput);
+                }
+                break;
+            case "3":
+                if(firstInput == null || secondInput == null || thirdInput == null){
+                    this.output = null;
+                }
+                else{
+                    this.output = (firstInput&&secondInput&&thirdInput);
+                }
+                break;
+            case "4":
+                if(firstInput == null || secondInput == null || thirdInput == null || fourthInput == null){
+                    this.output = null;
+                }
+                else{
+                    this.output = (firstInput&&secondInput&&thirdInput&&fourthInput);
+                }
+                break;  
         }
     }
     
@@ -181,17 +210,23 @@ public class And extends LogicGate {
 
     @Override
     public void setCircle(String circleType, LogicCircle circle) {
+        //Puse break
         switch(circleType){
             case "FirstInput":
                 this.firstCircle = circle;
+                break;
             case "SecondInput":
                 this.secondCircle = circle;
+                break;
             case "ThirdInput":
                 this.thirdCircle = circle;
+                break;
             case "FourthInput":
                 this.fourthCircle = circle;
+                break;
             case "Output":
                 this.outputCircle = circle;
+                break;
         }
     }
 
@@ -228,14 +263,19 @@ public class And extends LogicGate {
         switch(type){
             case "FirstInput":
                 this.firstInput = value;
+                break;
             case "SecondInput":
                 this.secondInput = value;
+                break;
             case "ThirdInput":
                 this.thirdInput = value;
+                break;
             case "FourthInput":
                 this.fourthInput = value;
+                break;
             case "Output":
                 this.output = value;
+                break;
         }
         
     }

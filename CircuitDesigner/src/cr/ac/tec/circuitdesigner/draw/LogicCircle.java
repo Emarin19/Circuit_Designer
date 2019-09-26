@@ -20,68 +20,75 @@ import cr.ac.tec.circuitdesigner.nodes.LogicGate;
  * @author Emanuel Marín
  */
 public class LogicCircle extends Circle implements Serializable {
-    
     private Delta dragDelta = new Delta();
     private LogicGate gate;
     private Text textValue;
     private String type;
+    private DoubleProperty x;
+    private DoubleProperty y;
+    private Boolean isCorrect = false;
+    private double px;
+    private double py;
     
-    public LogicCircle(Color color, DoubleProperty x, DoubleProperty y, LogicGate gate, String type) {
+    //Constructor circulo de enlace
+    public LogicCircle(DoubleProperty x, DoubleProperty y, LogicGate gate, String type) {
       super(x.get(), y.get(), 5);
-      setFill(color);
+      setFill(Color.CADETBLUE);
       x.bind(centerXProperty());
       y.bind(centerYProperty());
       this.gate = gate;
       this.type = type;
+      this.x = x;
+      this.y = y;
       enableDrag();
     }
     
-    public LogicCircle(Color color, DoubleProperty x, DoubleProperty y, LogicGate gate, String type, Text textvalue) {
+    //Constructor circulo acompañante
+    public LogicCircle(DoubleProperty x, DoubleProperty y) {
       super(x.get(), y.get(), 5);
-      setFill(color);
+      setFill(Color.CADETBLUE);
       x.bind(centerXProperty());
       y.bind(centerYProperty());
-      this.gate = gate;
-      this.type = type;
-      this.textValue = textValue;
-      enableDrag();
+      this.x = x;
+      this.y = y;
     }
     
-    public LogicCircle(Color color, DoubleProperty x, DoubleProperty y) {
-      super(x.get(), y.get(), 5);
-      setFill(color);
-      x.bind(centerXProperty());
-      y.bind(centerYProperty());
-    }
-    
+    //Constructor para node de valores de verdad
     public LogicCircle(DoubleProperty x, DoubleProperty y, String type, Text textValue){
         super(x.get(), y.get(),10);
         setFill(Color.DODGERBLUE);
         this.type = type;
         this.textValue = textValue;
         enableSingleDrag();
+        this.x = x;
+        this.y = y;
     }
     
     private void enableDrag() {
-      final Delta dragDelta = new Delta();
-      setOnMousePressed(new EventHandler<MouseEvent>() {
-        @Override public void handle(MouseEvent mouseEvent) {
-            System.out.println("MousePressed");
-            System.out.println(gate.getName());
-            System.out.println(type);
-            setUserData(gate.getValue(type));
-            System.out.println(getUserData());
-            
-            setMouseTransparent(true);
-            dragDelta.x = getCenterX() - mouseEvent.getX();
-            dragDelta.y = getCenterY() - mouseEvent.getY();
-            getScene().setCursor(Cursor.HAND);
-            mouseEvent.setDragDetect(true);
-        }
+      dragDelta = new Delta();
+      setOnMousePressed((MouseEvent mouseEvent) -> {
+          System.out.println(gate.getName());
+          System.out.println(type);
+          setUserData(gate.getInput_Output(type));
+          System.out.println(getUserData());
+          
+          setMouseTransparent(true);
+          dragDelta.x = getCenterX() - mouseEvent.getX();
+          dragDelta.y = getCenterY() - mouseEvent.getY();
+          getScene().setCursor(Cursor.HAND);
+          mouseEvent.setDragDetect(true);
       });
       setOnMouseReleased(new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent mouseEvent) {
             System.out.println("Mouse Released");
+            System.out.println(isIsCorrect());
+            if(isIsCorrect()){
+                System.out.println("Bind");
+            }
+            else if(isIsCorrect()==false){
+                setDefaultPosition();
+            }
+            else{}
             getScene().setCursor(Cursor.HAND);
             setMouseTransparent(false);
         }
@@ -107,64 +114,52 @@ public class LogicCircle extends Circle implements Serializable {
       setOnMouseDragEntered(new EventHandler<MouseDragEvent>() {
         @Override public void handle(MouseDragEvent mouseEvent) {
             System.out.println(gate.toString());
-
             Object obj = mouseEvent.getGestureSource();
-            
             if(obj instanceof LogicCircle){
                 if(((LogicCircle) obj).getType().equals("Valor")){
-                    if(type.equals("Salida")){
+                    if(type.equals("Output")){
+                        ((LogicCircle) obj).setIsCorrect(false);
                         Main.getController().getMessage().setText("Can´t be connected");
                         Main.getController().getMessage().setUnFocusColor(Color.RED);
-                        //OnMouseRealesded restablecer la ubicación de circulo
-                    }
-                    if(type.equals("FirstInput")){
-                        System.out.println("Seteando primer entrada");
-                        gate.setFirstInput((Boolean) ((LogicCircle) obj).getUserData());
-                        System.out.println(gate.getFirstInput());
-                        gate.operate();
-                        System.out.println("Salida actual " + gate.getOutput());
-                        Main.getController().getMessage().setText("Connected");
-                        Main.getController().getMessage().setUnFocusColor(Color.web("#1aef86"));
-                    }
-                    if(type.equals("SecondInput")){
-                        System.out.println("Seteando segunda entrada");
-                        gate.setSecondInput((Boolean) ((LogicCircle) obj).getUserData());
-                        System.out.println(gate.getSecondInput());
-                        gate.operate();
-                        System.out.println("Salida actual " + gate.getOutput());
-                        Main.getController().getMessage().setText("Connected");
-                        Main.getController().getMessage().setUnFocusColor(Color.web("#1aef86"));
-                    }
-                }
-                else if(((LogicCircle) obj).getType().equals("Salida") && type.equals("Salida")){
-                    Main.getController().getMessage().setText("Can´t be connected");
-                    Main.getController().getMessage().setUnFocusColor(Color.RED);
-                    //OnMouseRealesed poner en las misma coordenadas iniciales
-                }
-                else{
-                    if(((LogicCircle) obj).getType().equals("Salida")){
-                        
-                        ((LogicCircle) obj).getGate().getOutputsReferences().add(gate);
-                        gate.getInputsReferences().add(((LogicCircle) obj).getGate());
-                        gate.setValue(type, (Boolean) ((LogicCircle) obj).getUserData());
-                        gate.operate();
-                        ((LogicCircle) obj).getGate().operate();
-                        Main.getController().getMessage().setText("Connected");
-                        Main.getController().getMessage().setUnFocusColor(Color.web("#1aef86"));
-                        
                     }
                     else{
-                        System.out.println("Hola soy de tipo "  + ((LogicCircle) obj).getType());
-                        ((LogicCircle) obj).getGate().getInputsReferences().add(gate);
-                        gate.getOutputsReferences().add(((LogicCircle) obj).getGate());
-                        ((LogicCircle) obj).getGate().setValue(((LogicCircle) obj).getType(), gate.getOutput());
-                        gate.operate();
-                        ((LogicCircle) obj).getGate().operate();
+                        ((LogicCircle) obj).setIsCorrect(true);
+                        gate.setInput_Output(type, (Boolean) ((LogicCircle) obj).getUserData());
+                        gate.operate(gate.getType());
+                        Main.getController().getMessage().setText("Connected");
+                        Main.getController().getMessage().setUnFocusColor(Color.web("#1AEF86"));
+                        System.out.println("Salida actual " + gate.getOutput());
+                    }
+                }
+                else if(((LogicCircle) obj).getType().equals("Output") && type.equals("Output")){
+                    ((LogicCircle) obj).setIsCorrect(false);
+                    Main.getController().getMessage().setText("Can´t be connected");
+                    Main.getController().getMessage().setUnFocusColor(Color.RED);
+                }
+                else{
+                    if(((LogicCircle) obj).getType().equals("Output")){
+                        ((LogicCircle) obj).setIsCorrect(true);
+                        ((LogicCircle) obj).getGate().getOutputsReferences().add(gate);
+                        ((LogicCircle) obj).getGate().operate(((LogicCircle) obj).getGate().getType());
+                        gate.getInputsReferences().add(((LogicCircle) obj).getGate());
+                        gate.setInput_Output(type, ((LogicCircle) obj).getGate().getInput_Output(((LogicCircle) obj).getType()));
+                        gate.operate(gate.getType());
                         Main.getController().getMessage().setText("Connected");
                         Main.getController().getMessage().setUnFocusColor(Color.web("#1aef86"));
+                    }
+                    else{
+                        ((LogicCircle) obj).setIsCorrect(true);
+                        ((LogicCircle) obj).getGate().getInputsReferences().add(gate);
+                        gate.getOutputsReferences().add(((LogicCircle) obj).getGate());
+                        gate.operate(type);
+                        ((LogicCircle) obj).getGate().setInput_Output(((LogicCircle) obj).getType(), gate.getInput_Output(type));
+                        ((LogicCircle) obj).getGate().operate(((LogicCircle) obj).getGate().getType());
+                        Main.getController().getMessage().setText("Connected");
+                        Main.getController().getMessage().setUnFocusColor(Color.web("#1AEF86"));
                     }
                 }
             }
+            
             
             if (!mouseEvent.isPrimaryButtonDown()) {
                 getScene().setCursor(Cursor.HAND);
@@ -196,85 +191,81 @@ public class LogicCircle extends Circle implements Serializable {
 
     private void enableSingleDrag() {
         setOnMousePressed(new EventHandler<MouseEvent>() {
-        @Override public void handle(MouseEvent mouseEvent) {
-            
-            if(mouseEvent.getButton()==MouseButton.SECONDARY){
-                Object obj = mouseEvent.getSource();
-                Main.getController().getPane().getChildren().removeAll((LogicCircle)obj, textValue);
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(mouseEvent.getButton()==MouseButton.SECONDARY){
+                    Object obj = mouseEvent.getSource();
+                    Main.getController().getPane().getChildren().removeAll((LogicCircle)obj, textValue);
+                }
+                else{
+                    setMouseTransparent(true);
+                    dragDelta.x = getCenterX() - mouseEvent.getX();
+                    dragDelta.y = getCenterY() - mouseEvent.getY();
+                    getScene().setCursor(Cursor.HAND);
+                    mouseEvent.setDragDetect(true);
+                }
             }
-            else{
-                setMouseTransparent(true);
-                dragDelta.x = getCenterX() - mouseEvent.getX();
-                dragDelta.y = getCenterY() - mouseEvent.getY();
-                getScene().setCursor(Cursor.HAND);
-                mouseEvent.setDragDetect(true);
-            }
-        }
-      });
+        });
         setOnMouseReleased(new EventHandler<MouseEvent>() {
-        @Override public void handle(MouseEvent mouseEvent) {
-            setMouseTransparent(false);
-        }
-      });
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                System.out.println("Mouse Released");
+                System.out.println(isIsCorrect());
+                if(isIsCorrect()){
+                    System.out.println("Bind");
+                }
+                else if(isIsCorrect()==false){
+                    setDefaultPosition();
+                }
+                else{}
+                setMouseTransparent(false);
+                //Pendiente algo
+            }
+        });
         setOnMouseDragged(new EventHandler<MouseEvent>() {
-        @Override public void handle(MouseEvent mouseEvent) {
-            mouseEvent.setDragDetect(false);
-            double newX = mouseEvent.getX() + dragDelta.x;
-            if (newX > 0 && newX < getScene().getWidth()) {
-                setCenterX(newX);
-            }  
-            double newY = mouseEvent.getY() + dragDelta.y;
-            if (newY > 0 && newY < getScene().getHeight()) {
-                setCenterY(newY);
-            }  
-        }
-      });
-        setOnDragDetected(new EventHandler <MouseEvent>(){
-        @Override public void handle(MouseEvent event){
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                mouseEvent.setDragDetect(false);
+                double newX = mouseEvent.getX() + dragDelta.x;
+                if (newX > 0 && newX < getScene().getWidth()) {
+                    setCenterX(newX);
+                }
+                double newY = mouseEvent.getY() + dragDelta.y;
+                if (newY > 0 && newY < getScene().getHeight()) {
+                    setCenterY(newY);
+                }
+            }
+        });
+        setOnDragDetected((MouseEvent event) -> {
             startFullDrag();
-        }
-      });
-        setOnMouseDragEntered(new EventHandler<MouseDragEvent>() {
-        @Override public void handle(MouseDragEvent mouseEvent) {
-            System.out.println("You entered");
+        });
+        setOnMouseDragEntered((MouseDragEvent mouseEvent) -> {
             Object obj = mouseEvent.getGestureSource();
             if(obj instanceof LogicCircle){
                 System.out.println(((LogicCircle) obj).getGate().getName());
-                if(((LogicCircle) obj).getGate().getType().equals("Salida")){
+                if(((LogicCircle) obj).getType().equals("Output")){
+                    ((LogicCircle) obj).setIsCorrect(false);
                     Main.getController().getMessage().setText("Can´t be connected");
                     Main.getController().getMessage().setUnFocusColor(Color.RED);
                 }
                 else{
-                    
-                    ((LogicCircle) obj).getGate().setValue(((LogicCircle) obj).getType(), (Boolean) getUserData());
-                    ((LogicCircle) obj).getGate().operate();
+                    ((LogicCircle) obj).setIsCorrect(true);
+                    ((LogicCircle) obj).getGate().setInput_Output(((LogicCircle) obj).getType(), (Boolean) getUserData());
+                    ((LogicCircle) obj).getGate().operate(((LogicCircle) obj).getGate().getType());
+                    Main.getController().getMessage().setText("Connected");
+                    Main.getController().getMessage().setUnFocusColor(Color.web("#1AEF86"));
                 }
             }
             if (!mouseEvent.isPrimaryButtonDown()) {
                 getScene().setCursor(Cursor.HAND);
             }
-        }
-      });
-        setOnMouseDragOver(new EventHandler<MouseDragEvent>(){
-          @Override public void handle(MouseDragEvent mouseEvent){
-             
-          }
-      });
-        setOnMouseExited(new EventHandler<MouseEvent>() {
-        @Override public void handle(MouseEvent mouseEvent) {
-          if (!mouseEvent.isPrimaryButtonDown()) {
-            getScene().setCursor(Cursor.DEFAULT);
-          }
-        }
-      }); 
+        });
+        setOnMouseExited((MouseEvent mouseEvent) -> {
+            if (!mouseEvent.isPrimaryButtonDown()) {
+                getScene().setCursor(Cursor.DEFAULT);
+            }
+        }); 
         
-    }
-    
-    /**
-     * @return the gate
-     */
-    public LogicGate getGate() {
-        return gate;
     }
     
     /**
@@ -282,6 +273,116 @@ public class LogicCircle extends Circle implements Serializable {
      */
     public String getType() {
         return type;
+    }
+
+    /**
+     * @return the x
+     */
+    public DoubleProperty getX() {
+        return x;
+    }
+
+    /**
+     * @param x the x to set
+     */
+    public void setX(DoubleProperty x) {
+        this.x = x;
+    }
+
+    /**
+     * @return the y
+     */
+    public DoubleProperty getY() {
+        return y;
+    }
+
+    /**
+     * @param y the y to set
+     */
+    public void setY(DoubleProperty y) {
+        this.y = y;
+    }
+    
+     /**
+     * @return the isCorrect
+     */
+    public Boolean isIsCorrect() {
+        return isCorrect;
+    }
+
+    /**
+     * @param isCorrect the isCorrect to set
+     */
+    public void setIsCorrect(Boolean isCorrect) {
+        this.isCorrect = isCorrect;
+    }
+    
+    private void setDefaultPosition() {
+        if(type.equals("Output")){
+            setCenterX(gate.getGateImage().getLayoutX()+97.5);
+            setCenterY(gate.getGateImage().getLayoutY()+25);
+        }
+        else if(type.equals("Valor")){
+            setCenterX(100);
+            setCenterY(20);
+        }
+        else{
+            switch(gate.getType()){
+                case "1":
+                    setCenterX(gate.getGateImage().getLayoutX()-0.5);
+                    setCenterY(gate.getGateImage().getLayoutY()+25);
+                    break;
+                case "2":
+                    if(type.equals("FirstInput")){
+                        setCenterX(gate.getGateImage().getLayoutX()-0.5);
+                        setCenterY(gate.getGateImage().getLayoutY()+13);
+                    }
+                    else{
+                        setCenterX(gate.getGateImage().getLayoutX()-0.5);
+                        setCenterY(gate.getGateImage().getLayoutY()+37);
+                    }
+                    break;
+                case "3":
+                    if(type.equals("FirstInput")){
+                        setCenterX(gate.getGateImage().getLayoutX()-1.5);
+                        setCenterY(gate.getGateImage().getLayoutY()+7);
+                    }
+                    else if(type.equals("SecondInput")){
+                        setCenterX(gate.getGateImage().getLayoutX()-1.5);
+                        setCenterY(gate.getGateImage().getLayoutY()+25);
+                    }
+                    else{
+                        setCenterX(gate.getGateImage().getLayoutX()-1.5);
+                        setCenterY(gate.getGateImage().getLayoutY()+43);
+                    }
+                    break;
+                case "4":
+                    if(type.equals("FirstInput")){
+                        setCenterX(gate.getGateImage().getLayoutX()-1.5);
+                        setCenterY(gate.getGateImage().getLayoutY()+3.5);
+                    }
+                    else if(type.equals("SecondInput")){
+                        setCenterX(gate.getGateImage().getLayoutX()-1.5);
+                        setCenterY(gate.getGateImage().getLayoutY()+17);
+                    }
+                    else if(type.equals("ThirdInput")){
+                        setCenterX(gate.getGateImage().getLayoutX()-1.5);
+                        setCenterY(gate.getGateImage().getLayoutY()+32);
+                    }
+                    else{
+                        setCenterX(gate.getGateImage().getLayoutX()-1.5);
+                        setCenterY(gate.getGateImage().getLayoutY()+47);
+                    }
+                    break;
+            }
+        }
+    }
+    
+    /**
+     * @return the gate
+     */
+    public LogicGate getGate() {
+        return gate;
     }
 
 }

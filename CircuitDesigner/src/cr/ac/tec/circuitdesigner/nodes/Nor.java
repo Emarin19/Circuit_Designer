@@ -166,7 +166,7 @@ public class Nor extends LogicGate {
     }
     
     @Override
-    public void operate() {
+    public void operate(String type) {
         Boolean first = getFirstInput();
         Boolean second = getSecondInput();
         

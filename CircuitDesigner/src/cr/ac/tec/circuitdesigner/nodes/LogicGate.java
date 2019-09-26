@@ -25,7 +25,7 @@ public abstract class LogicGate implements Serializable {
     
     //Delete
     public abstract String operate(ArrayList inputs);
-    public abstract void operate();
+    public abstract void operate(String type);
     
     public abstract LinkedList getInputsReferences();
     public abstract LinkedList getOutputsReferences();
