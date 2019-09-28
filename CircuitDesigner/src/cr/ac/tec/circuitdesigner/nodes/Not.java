@@ -140,17 +140,19 @@ public class Not extends LogicGate{
     
     @Override
     public void operate(String type) {
-        Boolean first = getFirstInput();
-        Boolean second = getSecondInput();
         
-        if(first == null){
-            this.output = null;
-        }
-        if (first){
-            this.output = false;
-        }
-        else{
-            this.output = true;
+        switch(type){
+            case "1":
+                if(input == null){
+                    this.output = null;
+                }
+                else if(input){
+                    this.output = false;
+                }
+                else if(input == false){
+                    this.output = true;
+                }
+                break;
         }
     }
     
@@ -220,6 +222,4 @@ public class Not extends LogicGate{
                 return null;
         }
     }
-
-    
 }
