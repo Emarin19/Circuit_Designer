@@ -16,8 +16,8 @@ public class Not extends LogicGate{
     private GateImage gateImageView;
     private String type;
     
-    private LinkedList <LogicGate> inputsReferences = new LinkedList<>();
-    private LinkedList <LogicGate> outputsReferences = new LinkedList<>();
+    private final LinkedList <LogicGate> inputsReferences = new LinkedList<>();
+    private final LinkedList <LogicGate> outputsReferences = new LinkedList<>();
 
     private Boolean input;
     private Boolean second;
@@ -111,33 +111,31 @@ public class Not extends LogicGate{
     
     @Override
     public String operate(ArrayList inputs) {
-        
-        Boolean finalValue = false;
-        int first = (int) inputs.get(0);
-        if(first == 1){
-            finalValue = true;
+        LogicGate gate = inputsReferences.getValue(0);
+        String value = null;
+        switch(gate.getName()){
+            case "AND":
+                value = gate.operate(inputs);
+                if(value.equals("1,")){
+                    value = "0,";
+                }
+                else{
+                    value = "1,";
+                }
+                break;
+            case "OR":
+                value = gate.operate(inputs);
+                if(value.equals("1,")){
+                    value = "1,";
+                }
+                else{
+                    value = "0,";
+                }
+                break;
+                
         }
-        else{
-            finalValue = false;
-        }
-        
-        for(int i=1; i<inputs.size(); i++){
-            int value = (int) inputs.get(i);
-            if(value == 1){
-                finalValue = finalValue&&true;
-            }
-            else{
-                finalValue = finalValue&&false;
-            }
-        }
-        
-        if(finalValue){
-            return "1,";
-        }
-        else{
-            return "0,";
-        }
-        
+        return value;
+
     }
     
     @Override
@@ -145,11 +143,14 @@ public class Not extends LogicGate{
         Boolean first = getFirstInput();
         Boolean second = getSecondInput();
         
-        if(first == null || second == null){
+        if(first == null){
             this.output = null;
         }
+        if (first){
+            this.output = false;
+        }
         else{
-            this.output = (first&&second);
+            this.output = true;
         }
     }
     
@@ -198,10 +199,12 @@ public class Not extends LogicGate{
     @Override
     public void setInput_Output(String type, Boolean value) {
         switch(type){
-            case "Input":
+            case "FirstInput":
                 this.input = value;
+                break;
             case "Output":
                 this.output = value;
+                break;
         }
         
     }
@@ -209,7 +212,7 @@ public class Not extends LogicGate{
     @Override
     public Boolean getInput_Output(String type) {
         switch(type){
-            case "Input":
+            case "FirstInput":
                 return input;
             case "Output":
                 return output;

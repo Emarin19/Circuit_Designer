@@ -9,19 +9,19 @@ import cr.ac.tec.circuitdesigner.draw.LogicCircle;
 import cr.ac.tec.circuitdesigner.factory.GateImage;
 import java.util.ArrayList;
 import cr.ac.tec.circuitdesigner.linkedlist.LinkedList;
-import cr.ac.tec.circuitdesigner.linkedlist.ListObserver;
+
 
 /**
  *
- * @author Emanuel
+ * @author Emanuel Marín
  */
 public class Nand extends LogicGate {
     
     private GateImage gateImageView;
     private String type;
     
-    private LinkedList <LogicGate> inputsReferences = new LinkedList<>();
-    private LinkedList <LogicGate> outputsReferences = new LinkedList<>();
+    private final LinkedList <LogicGate> inputsReferences = new LinkedList<>();
+    private final LinkedList <LogicGate> outputsReferences = new LinkedList<>();
 
     private Boolean firstInput;
     private Boolean secondInput;
@@ -154,10 +154,10 @@ public class Nand extends LogicGate {
         }
         
         if(finalValue){
-            return "1,";
+            return "0,";
         }
         else{
-            return "0,";
+            return "1,";
         }
         
     }
@@ -171,7 +171,13 @@ public class Nand extends LogicGate {
             this.output = null;
         }
         else{
-            this.output = (first&&second);
+            if(first&&second){
+                this.output = false;
+            }
+            else{
+                this.output = true;
+            }
+            
         }
     }
 

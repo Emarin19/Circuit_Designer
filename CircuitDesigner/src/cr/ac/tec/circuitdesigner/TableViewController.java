@@ -34,22 +34,23 @@ public class TableViewController implements Initializable {
     
     private LogicGate gateOutput;
     
-    private ArrayList<String>cellDatas = new ArrayList<>();
+    private final ArrayList<String>cellDatas = new ArrayList<>();
     
     private TableView<ObservableList<String>> tableView = new TableView<>();
         
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //tableValues();
-        //createTable();
+        tableValues();
+        createTable();
     }
     
     private void tableValues() {
-        System.out.println("Here");
         circuit = Builder.getCircuit();
         String values = "";
         int num_inputs = 0;
@@ -62,19 +63,45 @@ public class TableViewController implements Initializable {
 
         for(int i=0; i<circuit.getSize(); i++){
             gate = circuit.getValue(i);
-            if(gate.getType().equals("2")){
+            
+            //Determino si es una compuerta de salida o de entrada de acuerdo a sus listas de referencias
+            if(gate.getInputsReferences().getSize()!=0 && gate.getOutputsReferences().getSize()==0){
+                gateOutput = gate;
+            }
+            
+            if(gate.getType().equals("1")){
+                if(gate.getInputsReferences().getSize() == 0){
+                    num_inputs = num_inputs+1;
+                }
+                if(gate.getOutputsReferences().getSize() == 0){
+                    num_outputs = num_outputs+1;
+                } 
+            }
+            else if(gate.getType().equals("2")){
                 if(gate.getInputsReferences().getSize() == 0){
                     num_inputs = num_inputs+2;
                 }
                 if(gate.getOutputsReferences().getSize() == 0){
                     num_outputs = num_outputs+1;
                 }
-                if(gate.getInputsReferences().getSize()!=0 && gate.getOutputsReferences().getSize()==0){
-                    gateOutput = gate;
+            }
+            else if(gate.getType().equals("3")){
+                if(gate.getInputsReferences().getSize() == 0){
+                    num_inputs = num_inputs+3;
+                }
+                if(gate.getOutputsReferences().getSize() == 0){
+                    num_outputs = num_outputs+1;
+                }
+            }
+            else{
+                if(gate.getInputsReferences().getSize() == 0){
+                    num_inputs = num_inputs+4;
+                }
+                if(gate.getOutputsReferences().getSize() == 0){
+                    num_outputs = num_outputs+1;
                 }
             }
         }
-        
         int combinations = (int) Math.pow(2, num_inputs);
       
         for(int i=0; i<num_inputs; i++){
@@ -92,17 +119,12 @@ public class TableViewController implements Initializable {
                 values += String.valueOf(num_bin.get(j) + ",");
             }
             values += gateOutput.operate(num_bin);
-            
         }
         
         total_columns = (num_inputs+num_outputs);
-        
-        System.out.println(values);
         cellDatas.add(values);
         cellDatas.add(String.valueOf(combinations));
-        System.out.println(cellDatas.get(1));
         cellDatas.add(String.valueOf(total_columns));
-        System.out.println(cellDatas.get(2));
     }
 
     private void createTable() {

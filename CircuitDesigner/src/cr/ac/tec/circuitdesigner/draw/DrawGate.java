@@ -14,6 +14,7 @@ import javafx.scene.input.MouseButton;
 import cr.ac.tec.circuitdesigner.nodes.LogicGate;
 import cr.ac.tec.circuitdesigner.storage.Deserialize;
 import cr.ac.tec.circuitdesigner.storage.Serialize;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 
@@ -412,6 +413,7 @@ public class DrawGate {
         startFirstInput = new LogicCircle(startFirstInputX,startFirstInputY, node.getCurrentGate(), "FirstInput");
         first = new Text();
         first.setText("I" + ++In);
+        first.setFont(Font.font(10));
         first.xProperty().bind(startFirstInput.translateXProperty());
         first.yProperty().bind(startFirstInput.translateYProperty());
         first.setLayoutX(startFirstInput.getCenterX());
@@ -431,6 +433,7 @@ public class DrawGate {
         startFirstInput = new LogicCircle(startFirstInputX,startFirstInputY, node.getCurrentGate(), "FirstInput");
         first = new Text();
         first.setText("I" + ++In);
+        first.setFont(Font.font(10));
         first.xProperty().bind(startFirstInput.translateXProperty());
         first.yProperty().bind(startFirstInput.translateYProperty());
         first.setLayoutX(startFirstInput.getCenterX());
@@ -448,6 +451,7 @@ public class DrawGate {
         startSecondInput = new LogicCircle(startSecondInputX,startSecondInputY, node.getCurrentGate(), "SecondInput");
         second = new Text();
         second.setText("I" + ++In);
+        second.setFont(Font.font(10));
         second.xProperty().bind(startSecondInput.translateXProperty());
         second.yProperty().bind(startSecondInput.translateYProperty());
         second.setLayoutX(startSecondInput.getCenterX());
@@ -467,6 +471,7 @@ public class DrawGate {
         startFirstInput = new LogicCircle(startFirstInputX,startFirstInputY, node.getCurrentGate(), "FirstInput");
         first = new Text();
         first.setText("I" + ++In);
+        first.setFont(Font.font(10));
         first.xProperty().bind(startFirstInput.translateXProperty());
         first.yProperty().bind(startFirstInput.translateYProperty());
         first.setLayoutX(startFirstInput.getCenterX());
@@ -484,6 +489,7 @@ public class DrawGate {
         startSecondInput = new LogicCircle(startSecondInputX,startSecondInputY, node.getCurrentGate(), "SecondInput");
         second = new Text();
         second.setText("I" + ++In);
+        second.setFont(Font.font(10));
         second.xProperty().bind(startSecondInput.translateXProperty());
         second.yProperty().bind(startSecondInput.translateYProperty());
         second.setLayoutX(startSecondInput.getCenterX());
@@ -501,6 +507,7 @@ public class DrawGate {
         startThirdInput = new LogicCircle(startThirdInputX,startThirdInputY, node.getCurrentGate(), "ThirdInput");
         third = new Text();
         third.setText("I" + ++In);
+        third.setFont(Font.font(10));
         third.xProperty().bind(startThirdInput.translateXProperty());
         third.yProperty().bind(startThirdInput.translateYProperty());
         third.setLayoutX(startThirdInput.getCenterX());
@@ -521,6 +528,7 @@ public class DrawGate {
         startFirstInput = new LogicCircle(startFirstInputX,startFirstInputY, node.getCurrentGate(), "FirstInput");
         first = new Text();
         first.setText("I" + ++In);
+        first.setFont(Font.font(10));
         first.xProperty().bind(startFirstInput.translateXProperty());
         first.yProperty().bind(startFirstInput.translateYProperty());
         first.setLayoutX(startFirstInput.getCenterX());
@@ -538,6 +546,7 @@ public class DrawGate {
         startSecondInput = new LogicCircle(startSecondInputX,startSecondInputY, node.getCurrentGate(), "SecondInput");
         second = new Text();
         second.setText("I" + ++In);
+        second.setFont(Font.font(10));
         second.xProperty().bind(startSecondInput.translateXProperty());
         second.yProperty().bind(startSecondInput.translateYProperty());
         second.setLayoutX(startSecondInput.getCenterX());
@@ -555,6 +564,7 @@ public class DrawGate {
         startThirdInput = new LogicCircle(startThirdInputX,startThirdInputY, node.getCurrentGate(), "ThirdInput");
         third = new Text();
         third.setText("I" + ++In);
+        third.setFont(Font.font(10));
         third.xProperty().bind(startThirdInput.translateXProperty());
         third.yProperty().bind(startThirdInput.translateYProperty());
         third.setLayoutX(startThirdInput.getCenterX());
@@ -572,6 +582,7 @@ public class DrawGate {
         startFourthInput = new LogicCircle(startFourthInputX,startFourthInputY, node.getCurrentGate(), "FourthInput");
         fourth = new Text();
         fourth.setText("I" + ++In);
+        fourth.setFont(Font.font(10));
         fourth.xProperty().bind(startFourthInput.translateXProperty());
         fourth.yProperty().bind(startFourthInput.translateYProperty());
         fourth.setLayoutX(startFourthInput.getCenterX());
@@ -591,6 +602,7 @@ public class DrawGate {
         startOutput = new LogicCircle(startX, startY, node.getCurrentGate(), "Output");
         out = new Text();
         out.setText("O" + ++Out);
+        out.setFont(Font.font(10));
         out.xProperty().bind(startOutput.translateXProperty());
         out.yProperty().bind(startOutput.translateYProperty());
         out.setLayoutX(startOutput.getCenterX()-10);
@@ -644,6 +656,7 @@ public class DrawGate {
         startFirstInput = new LogicCircle(startFirstInputX,startFirstInputY, node.getCurrentGate(), "FirstInput");
         first = new Text();
         first.setText("I" + ++In);
+        first.setFont(Font.font(10));
         first.xProperty().bind(startFirstInput.translateXProperty());
         first.yProperty().bind(startFirstInput.translateYProperty());
         first.setLayoutX(startFirstInput.getCenterX());
@@ -664,6 +677,7 @@ public class DrawGate {
         startFirstInput = new LogicCircle(startFirstInputX,startFirstInputY, node.getCurrentGate(), "FirstInput");
         first = new Text();
         first.setText("I" + ++In);
+        first.setFont(Font.font(10));
         first.xProperty().bind(startFirstInput.translateXProperty());
         first.yProperty().bind(startFirstInput.translateYProperty());
         first.setLayoutX(startFirstInput.getCenterX());
@@ -681,6 +695,7 @@ public class DrawGate {
         startSecondInput = new LogicCircle(startSecondInputX,startSecondInputY, node.getCurrentGate(), "SecondInput");
         second = new Text();
         second.setText("I" + ++In);
+        second.setFont(Font.font(10));
         second.xProperty().bind(startSecondInput.translateXProperty());
         second.yProperty().bind(startSecondInput.translateYProperty());
         second.setLayoutX(startSecondInput.getCenterX());
@@ -700,6 +715,7 @@ public class DrawGate {
         startFirstInput = new LogicCircle(startFirstInputX,startFirstInputY, node.getCurrentGate(), "FirstInput");
         first = new Text();
         first.setText("I" + ++In);
+        first.setFont(Font.font(10));
         first.xProperty().bind(startFirstInput.translateXProperty());
         first.yProperty().bind(startFirstInput.translateYProperty());
         first.setLayoutX(startFirstInput.getCenterX());
@@ -707,7 +723,7 @@ public class DrawGate {
         endFirstInput = new LogicCircle(endFirstInputX,endFirstInputY);
         endFirstInput.setVisible(false);
         lineFirstInput = new LogicLine(startFirstInputX,startFirstInputY,endFirstInputX,endFirstInputY);
-        Main.getController().getPane().getChildren().addAll(startFirstInput, endFirstInput, lineFirstInput);
+        Main.getController().getPane().getChildren().addAll(startFirstInput, endFirstInput, lineFirstInput,first);
         
         //SecondInput
         DoubleProperty startSecondInputX = new SimpleDoublePosition(serial.getSecondCircleX());
@@ -717,6 +733,7 @@ public class DrawGate {
         startSecondInput = new LogicCircle(startSecondInputX,startSecondInputY, node.getCurrentGate(), "SecondInput");
         second = new Text();
         second.setText("I" + ++In);
+        second.setFont(Font.font(10));
         second.xProperty().bind(startSecondInput.translateXProperty());
         second.yProperty().bind(startSecondInput.translateYProperty());
         second.setLayoutX(startSecondInput.getCenterX());
@@ -724,7 +741,7 @@ public class DrawGate {
         endSecondInput = new LogicCircle(endSecondInputX,endSecondInputY);
         endSecondInput.setVisible(false);
         lineSecondInput = new LogicLine(startSecondInputX,startSecondInputY,endSecondInputX,endSecondInputY);
-        Main.getController().getPane().getChildren().addAll(startSecondInput, endSecondInput, lineSecondInput);
+        Main.getController().getPane().getChildren().addAll(startSecondInput, endSecondInput, lineSecondInput,second);
         
         //ThirdInput
         DoubleProperty startThirdInputX = new SimpleDoublePosition(serial.getThirdCircleX());
@@ -734,6 +751,7 @@ public class DrawGate {
         startThirdInput = new LogicCircle(startThirdInputX,startThirdInputY, node.getCurrentGate(), "ThirdInput");
         third = new Text();
         third.setText("I" + ++In);
+        third.setFont(Font.font(10));
         third.xProperty().bind(startThirdInput.translateXProperty());
         third.yProperty().bind(startThirdInput.translateYProperty());
         third.setLayoutX(startThirdInput.getCenterX());
@@ -741,7 +759,7 @@ public class DrawGate {
         endThirdInput = new LogicCircle(endThirdInputX,endThirdInputY);
         endThirdInput.setVisible(false);
         lineThirdInput = new LogicLine(startThirdInputX,startThirdInputY,endThirdInputX,endThirdInputY);
-        Main.getController().getPane().getChildren().addAll(startThirdInput, endThirdInput, lineThirdInput);
+        Main.getController().getPane().getChildren().addAll(startThirdInput, endThirdInput, lineThirdInput,third);
     }
 
     private void setFourInputsAgain() {
@@ -753,6 +771,7 @@ public class DrawGate {
         startFirstInput = new LogicCircle(startFirstInputX,startFirstInputY, node.getCurrentGate(), "FirstInput");
         first = new Text();
         first.setText("I" + ++In);
+        first.setFont(Font.font(10));
         first.xProperty().bind(startFirstInput.translateXProperty());
         first.yProperty().bind(startFirstInput.translateYProperty());
         first.setLayoutX(startFirstInput.getCenterX());
@@ -760,7 +779,7 @@ public class DrawGate {
         endFirstInput = new LogicCircle(endFirstInputX,endFirstInputY);
         endFirstInput.setVisible(false);
         lineFirstInput = new LogicLine(startFirstInputX,startFirstInputY,endFirstInputX,endFirstInputY);
-        Main.getController().getPane().getChildren().addAll(startFirstInput, endFirstInput, lineFirstInput);
+        Main.getController().getPane().getChildren().addAll(startFirstInput, endFirstInput, lineFirstInput,first);
         
         //SecondInput
         DoubleProperty startSecondInputX = new SimpleDoublePosition(serial.getSecondCircleX());
@@ -770,6 +789,7 @@ public class DrawGate {
         startSecondInput = new LogicCircle(startSecondInputX,startSecondInputY, node.getCurrentGate(), "SecondInput");
         second = new Text();
         second.setText("I" + ++In);
+        second.setFont(Font.font(10));
         second.xProperty().bind(startSecondInput.translateXProperty());
         second.yProperty().bind(startSecondInput.translateYProperty());
         second.setLayoutX(startSecondInput.getCenterX());
@@ -777,7 +797,7 @@ public class DrawGate {
         endSecondInput = new LogicCircle(endSecondInputX,endSecondInputY);
         endSecondInput.setVisible(false);
         lineSecondInput = new LogicLine(startSecondInputX,startSecondInputY,endSecondInputX,endSecondInputY);
-        Main.getController().getPane().getChildren().addAll(startSecondInput, endSecondInput, lineSecondInput);
+        Main.getController().getPane().getChildren().addAll(startSecondInput, endSecondInput, lineSecondInput,second);
         
         //ThirdInput
         DoubleProperty startThirdInputX = new SimpleDoublePosition(serial.getThirdCircleX());
@@ -787,6 +807,7 @@ public class DrawGate {
         startThirdInput = new LogicCircle(startThirdInputX,startThirdInputY, node.getCurrentGate(), "ThirdInput");
         third = new Text();
         third.setText("I" + ++In);
+        third.setFont(Font.font(10));
         third.xProperty().bind(startThirdInput.translateXProperty());
         third.yProperty().bind(startThirdInput.translateYProperty());
         third.setLayoutX(startThirdInput.getCenterX());
@@ -794,7 +815,7 @@ public class DrawGate {
         endThirdInput = new LogicCircle(endThirdInputX,endThirdInputY);
         endThirdInput.setVisible(false);
         lineThirdInput = new LogicLine(startThirdInputX,startThirdInputY,endThirdInputX,endThirdInputY);
-        Main.getController().getPane().getChildren().addAll(startThirdInput, endThirdInput, lineThirdInput);
+        Main.getController().getPane().getChildren().addAll(startThirdInput, endThirdInput, lineThirdInput,third);
         
         //FourthInput
         DoubleProperty startFourthInputX = new SimpleDoublePosition(serial.getFourthCircleX());
@@ -804,6 +825,7 @@ public class DrawGate {
         startFourthInput = new LogicCircle(startFourthInputX,startFourthInputY, node.getCurrentGate(), "FourthInput");
         fourth = new Text();
         fourth.setText("I" + ++In);
+        fourth.setFont(Font.font(10));
         fourth.xProperty().bind(startFourthInput.translateXProperty());
         fourth.yProperty().bind(startFourthInput.translateYProperty());
         fourth.setLayoutX(startFourthInput.getCenterX());
@@ -811,7 +833,7 @@ public class DrawGate {
         endFourthInput = new LogicCircle(endFourthInputX,endFourthInputY);
         endFourthInput.setVisible(false);
         lineFourthInput = new LogicLine(startFourthInputX,startFourthInputY,endFourthInputX,endFourthInputY);
-        Main.getController().getPane().getChildren().addAll(startFourthInput, endFourthInput, lineFourthInput);
+        Main.getController().getPane().getChildren().addAll(startFourthInput, endFourthInput, lineFourthInput,fourth);
     }
     
     private void setOutputAgain() {
@@ -822,6 +844,7 @@ public class DrawGate {
         startOutput = new LogicCircle(startX, startY, node.getCurrentGate(), "Output");
         out = new Text();
         out.setText("O" + ++Out);
+        out.setFont(Font.font(10));
         out.xProperty().bind(startOutput.translateXProperty());
         out.yProperty().bind(startOutput.translateYProperty());
         out.setLayoutX(startOutput.getCenterX()-10);

@@ -10,7 +10,7 @@ import cr.ac.tec.circuitdesigner.draw.LogicCircle;
 import cr.ac.tec.circuitdesigner.factory.GateImage;
 import java.util.ArrayList;
 import cr.ac.tec.circuitdesigner.linkedlist.LinkedList;
-import cr.ac.tec.circuitdesigner.linkedlist.ListObserver;
+
 
 /**
  *

@@ -14,7 +14,6 @@ import java.util.Observer;
 public class ListObserver implements Observer, Serializable {
     @Override
     public void update(Observable o, Object arg) {
-       System.out.println("Una nueva compuerta ha sido agregado a la lista " + arg.getClass());
     }
     
 }

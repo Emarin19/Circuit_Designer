@@ -23,14 +23,14 @@ public class DrawValue {
     public void setValue(boolean value){
         textValue = new Text();
         if(value){
-            DoubleProperty circleX = new SimpleDoubleProperty(50);
-            DoubleProperty circleY = new SimpleDoubleProperty(50);
+            DoubleProperty circleX = new SimpleDoubleProperty(200);
+            DoubleProperty circleY = new SimpleDoubleProperty(20);
             textValue.setText("1");
             Value = new LogicCircle(circleX, circleY, "Valor", textValue);
         }
         else{
-            DoubleProperty circleX = new SimpleDoubleProperty(100);
-            DoubleProperty circleY = new SimpleDoubleProperty(50);
+            DoubleProperty circleX = new SimpleDoubleProperty(250);
+            DoubleProperty circleY = new SimpleDoubleProperty(20);
             textValue.setText("0");
             Value = new LogicCircle(circleX, circleY, "Valor", textValue);
         }

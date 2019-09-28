@@ -153,12 +153,11 @@ public class And extends LogicGate {
         else{
             return "0,";
         }
-  
+       
     }
 
     @Override
     public void operate(String type) {
-        System.out.println("Operando");
         switch(type){
             case "1":
                 if(firstInput == null){

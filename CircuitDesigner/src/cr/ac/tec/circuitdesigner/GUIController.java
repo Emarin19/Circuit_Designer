@@ -223,7 +223,7 @@ public class GUIController implements Initializable {
     
     @FXML
     void runCircuit(ActionEvent event) {
-        /*circuit = Facade.getCircuit();
+        circuit = Builder.getCircuit();
         if(circuit.isEmpty()){
             message.setText("Circuit has not been created");
             message.setUnFocusColor(Color.RED);
@@ -234,7 +234,6 @@ public class GUIController implements Initializable {
             if(gateOutputs.getSize() == 1){
                 gate = (LogicGate) gateOutputs.getValue(0);
                 Boolean value = gate.getOutput();
-                System.out.println(value);
                 if(value == null){
                     message.setText("");
                     message.setUnFocusColor(Color.RED);
@@ -255,7 +254,6 @@ public class GUIController implements Initializable {
             }
         
             else{
-                System.out.println("Es aqui");
                 for(int i=0; i<gateOutputs.getSize(); i++){
                     String values;
                     try{
@@ -266,12 +264,12 @@ public class GUIController implements Initializable {
                     }
                 }
             }
-        }*/  
+        }  
     }
     
     @FXML
     void generateTable(ActionEvent event) {
-        /*circuit = Facade.getCircuit();
+        circuit = Builder.getCircuit();
         if(circuit.getSize() == 0){
             message.setText("Circuit has not been created");
             message.setUnFocusColor(Color.RED);
@@ -292,7 +290,7 @@ public class GUIController implements Initializable {
                 message.setText("Could not load the table, check the connections between the gates");
                 message.setUnFocusColor(Color.RED);
             } 
-        }*/
+        }
     }
     
     @FXML
@@ -370,10 +368,7 @@ public class GUIController implements Initializable {
     @FXML
     void about(ActionEvent event) {
         System.out.println(Builder.getCircuit().getSize());
-        for(int i=0; i<Builder.getCircuit().getSize(); i++){
-            System.out.println(Builder.getCircuit().getValue(i));
-        }
-        System.out.println("Information"); 
+        System.out.println("About");
     }
     
     @FXML
@@ -401,12 +396,10 @@ public class GUIController implements Initializable {
         if(gridOption.isSelected()){
             checkboxGrid.setSelected(true);
             gridpane.setVisible(true);
-            System.out.println("Grid");
         }
         else{
             checkboxGrid.setSelected(false);
             gridpane.setVisible(false);
-            System.out.println("No grid");
         }
     }
     
@@ -453,11 +446,9 @@ public class GUIController implements Initializable {
     }
 
     private void loadGate(MouseEvent event, int num) {
-        System.out.println(num);
         switch(num){
             case 2:
                 if(event.getSource().equals(AND)){
-                    System.out.println("Here");
                     message.setText("AND Gate");
                     message.setUnFocusColor(Color.web("#1AEF86"));
                     Builder build = new Builder("AND.png",2);

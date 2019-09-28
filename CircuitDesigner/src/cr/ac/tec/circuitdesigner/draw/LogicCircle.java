@@ -67,10 +67,7 @@ public class LogicCircle extends Circle implements Serializable {
     private void enableDrag() {
       dragDelta = new Delta();
       setOnMousePressed((MouseEvent mouseEvent) -> {
-          System.out.println(gate.getName());
-          System.out.println(type);
           setUserData(gate.getInput_Output(type));
-          System.out.println(getUserData());
           
           setMouseTransparent(true);
           dragDelta.x = getCenterX() - mouseEvent.getX();
@@ -80,10 +77,7 @@ public class LogicCircle extends Circle implements Serializable {
       });
       setOnMouseReleased(new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent mouseEvent) {
-            System.out.println("Mouse Released");
-            System.out.println(isIsCorrect());
             if(isIsCorrect()){
-                System.out.println("Bind");
             }
             else if(isIsCorrect()==false){
                 setDefaultPosition();
@@ -113,7 +107,6 @@ public class LogicCircle extends Circle implements Serializable {
       });
       setOnMouseDragEntered(new EventHandler<MouseDragEvent>() {
         @Override public void handle(MouseDragEvent mouseEvent) {
-            System.out.println(gate.toString());
             Object obj = mouseEvent.getGestureSource();
             if(obj instanceof LogicCircle){
                 if(((LogicCircle) obj).getType().equals("Valor")){
@@ -128,7 +121,6 @@ public class LogicCircle extends Circle implements Serializable {
                         gate.operate(gate.getType());
                         Main.getController().getMessage().setText("Connected");
                         Main.getController().getMessage().setUnFocusColor(Color.web("#1AEF86"));
-                        System.out.println("Salida actual " + gate.getOutput());
                     }
                 }
                 else if(((LogicCircle) obj).getType().equals("Output") && type.equals("Output")){
@@ -209,17 +201,13 @@ public class LogicCircle extends Circle implements Serializable {
         setOnMouseReleased(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                System.out.println("Mouse Released");
-                System.out.println(isIsCorrect());
                 if(isIsCorrect()){
-                    System.out.println("Bind");
                 }
                 else if(isIsCorrect()==false){
                     setDefaultPosition();
                 }
                 else{}
                 setMouseTransparent(false);
-                //Pendiente algo
             }
         });
         setOnMouseDragged(new EventHandler<MouseEvent>() {
@@ -242,7 +230,6 @@ public class LogicCircle extends Circle implements Serializable {
         setOnMouseDragEntered((MouseDragEvent mouseEvent) -> {
             Object obj = mouseEvent.getGestureSource();
             if(obj instanceof LogicCircle){
-                System.out.println(((LogicCircle) obj).getGate().getName());
                 if(((LogicCircle) obj).getType().equals("Output")){
                     ((LogicCircle) obj).setIsCorrect(false);
                     Main.getController().getMessage().setText("Can´t be connected");
@@ -323,7 +310,7 @@ public class LogicCircle extends Circle implements Serializable {
             setCenterY(gate.getGateImage().getLayoutY()+25);
         }
         else if(type.equals("Valor")){
-            setCenterX(100);
+            setCenterX(225);
             setCenterY(20);
         }
         else{
