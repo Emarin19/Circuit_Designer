@@ -1,8 +1,7 @@
 
-package cr.ac.tec.circuitdesigner.table;
+package cr.ac.tec.circuitdesigner;
 
-import cr.ac.tec.circuitdesigner.Facade;
-import cr.ac.tec.circuitdesigner.Facade;
+import cr.ac.tec.circuitdesigner.draw.Builder;
 import cr.ac.tec.circuitdesigner.pruebas.DecimalToBinary;
 import java.net.URL;
 import java.util.ArrayList;
@@ -45,15 +44,13 @@ public class TableViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        tableValues();
-        createTable();
+        //tableValues();
+        //createTable();
     }
     
     private void tableValues() {
-        
-        circuit = Facade.getCircuit();
-        
-        
+        System.out.println("Here");
+        circuit = Builder.getCircuit();
         String values = "";
         int num_inputs = 0;
         int num_outputs = 0;

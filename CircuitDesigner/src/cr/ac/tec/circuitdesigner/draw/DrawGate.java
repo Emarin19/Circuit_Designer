@@ -4,7 +4,6 @@ package cr.ac.tec.circuitdesigner.draw;
 import cr.ac.tec.circuitdesigner.factory.GateImage;
 import cr.ac.tec.circuitdesigner.Main;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -406,10 +405,10 @@ public class DrawGate {
     }
     
     private void setInputNot() {
-        DoubleProperty startFirstInputX = new SimpleDoubleProperty(node.getLayoutX()-0.5);
-        DoubleProperty startFirstInputY = new SimpleDoubleProperty(node.getLayoutY()+25);
-        DoubleProperty endFirstInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
-        DoubleProperty endFirstInputY = new SimpleDoubleProperty(node.getLayoutY()+25);
+        DoubleProperty startFirstInputX = new SimpleDoublePosition(node.getLayoutX()-0.5);
+        DoubleProperty startFirstInputY = new SimpleDoublePosition(node.getLayoutY()+25);
+        DoubleProperty endFirstInputX = new SimpleDoublePosition(node.getLayoutX()+2);
+        DoubleProperty endFirstInputY = new SimpleDoublePosition(node.getLayoutY()+25);
         startFirstInput = new LogicCircle(startFirstInputX,startFirstInputY, node.getCurrentGate(), "FirstInput");
         first = new Text();
         first.setText("I" + ++In);
@@ -425,10 +424,10 @@ public class DrawGate {
 
     private void setTwoInputs() {
         //FirstInput
-        DoubleProperty startFirstInputX = new SimpleDoubleProperty(node.getLayoutX()-0.5);
-        DoubleProperty startFirstInputY = new SimpleDoubleProperty(node.getLayoutY()+13);
-        DoubleProperty endFirstInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
-        DoubleProperty endFirstInputY = new SimpleDoubleProperty(node.getLayoutY()+13);
+        DoubleProperty startFirstInputX = new SimpleDoublePosition(node.getLayoutX()-0.5);
+        DoubleProperty startFirstInputY = new SimpleDoublePosition(node.getLayoutY()+13);
+        DoubleProperty endFirstInputX = new SimpleDoublePosition(node.getLayoutX()+2);
+        DoubleProperty endFirstInputY = new SimpleDoublePosition(node.getLayoutY()+13);
         startFirstInput = new LogicCircle(startFirstInputX,startFirstInputY, node.getCurrentGate(), "FirstInput");
         first = new Text();
         first.setText("I" + ++In);
@@ -442,10 +441,10 @@ public class DrawGate {
         Main.getController().getPane().getChildren().addAll(startFirstInput, endFirstInput, lineFirstInput,first);
         
         //SecondInput
-        DoubleProperty startSecondInputX = new SimpleDoubleProperty(node.getLayoutX()-0.5);
-        DoubleProperty startSecondInputY = new SimpleDoubleProperty(node.getLayoutY()+37);
-        DoubleProperty endSecondInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
-        DoubleProperty endSecondInputY = new SimpleDoubleProperty(node.getLayoutY()+37);
+        DoubleProperty startSecondInputX = new SimpleDoublePosition(node.getLayoutX()-0.5);
+        DoubleProperty startSecondInputY = new SimpleDoublePosition(node.getLayoutY()+37);
+        DoubleProperty endSecondInputX = new SimpleDoublePosition(node.getLayoutX()+2);
+        DoubleProperty endSecondInputY = new SimpleDoublePosition(node.getLayoutY()+37);
         startSecondInput = new LogicCircle(startSecondInputX,startSecondInputY, node.getCurrentGate(), "SecondInput");
         second = new Text();
         second.setText("I" + ++In);
@@ -461,10 +460,10 @@ public class DrawGate {
 
     private void setThreeInputs() {
         //FirstInput
-        DoubleProperty startFirstInputX = new SimpleDoubleProperty(node.getLayoutX()-1.5);
-        DoubleProperty startFirstInputY = new SimpleDoubleProperty(node.getLayoutY()+7);
-        DoubleProperty endFirstInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
-        DoubleProperty endFirstInputY = new SimpleDoubleProperty(node.getLayoutY()+7);
+        DoubleProperty startFirstInputX = new SimpleDoublePosition(node.getLayoutX()-1.5);
+        DoubleProperty startFirstInputY = new SimpleDoublePosition(node.getLayoutY()+7);
+        DoubleProperty endFirstInputX = new SimpleDoublePosition(node.getLayoutX()+2);
+        DoubleProperty endFirstInputY = new SimpleDoublePosition(node.getLayoutY()+7);
         startFirstInput = new LogicCircle(startFirstInputX,startFirstInputY, node.getCurrentGate(), "FirstInput");
         first = new Text();
         first.setText("I" + ++In);
@@ -478,10 +477,10 @@ public class DrawGate {
         Main.getController().getPane().getChildren().addAll(startFirstInput, endFirstInput, lineFirstInput);
         
         //SecondInput
-        DoubleProperty startSecondInputX = new SimpleDoubleProperty(node.getLayoutX()-1.5);
-        DoubleProperty startSecondInputY = new SimpleDoubleProperty(node.getLayoutY()+25);
-        DoubleProperty endSecondInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
-        DoubleProperty endSecondInputY = new SimpleDoubleProperty(node.getLayoutY()+25);
+        DoubleProperty startSecondInputX = new SimpleDoublePosition(node.getLayoutX()-1.5);
+        DoubleProperty startSecondInputY = new SimpleDoublePosition(node.getLayoutY()+25);
+        DoubleProperty endSecondInputX = new SimpleDoublePosition(node.getLayoutX()+2);
+        DoubleProperty endSecondInputY = new SimpleDoublePosition(node.getLayoutY()+25);
         startSecondInput = new LogicCircle(startSecondInputX,startSecondInputY, node.getCurrentGate(), "SecondInput");
         second = new Text();
         second.setText("I" + ++In);
@@ -495,10 +494,10 @@ public class DrawGate {
         Main.getController().getPane().getChildren().addAll(startSecondInput, endSecondInput, lineSecondInput);
         
         //ThirdInput
-        DoubleProperty startThirdInputX = new SimpleDoubleProperty(node.getLayoutX()-1.5);
-        DoubleProperty startThirdInputY = new SimpleDoubleProperty(node.getLayoutY()+43);
-        DoubleProperty endThirdInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
-        DoubleProperty endThirdInputY = new SimpleDoubleProperty(node.getLayoutY()+43);
+        DoubleProperty startThirdInputX = new SimpleDoublePosition(node.getLayoutX()-1.5);
+        DoubleProperty startThirdInputY = new SimpleDoublePosition(node.getLayoutY()+43);
+        DoubleProperty endThirdInputX = new SimpleDoublePosition(node.getLayoutX()+2);
+        DoubleProperty endThirdInputY = new SimpleDoublePosition(node.getLayoutY()+43);
         startThirdInput = new LogicCircle(startThirdInputX,startThirdInputY, node.getCurrentGate(), "ThirdInput");
         third = new Text();
         third.setText("I" + ++In);
@@ -515,10 +514,10 @@ public class DrawGate {
 
     private void setFourInputs() {
         //FirstInput
-        DoubleProperty startFirstInputX = new SimpleDoubleProperty(node.getLayoutX()-1.5);
-        DoubleProperty startFirstInputY = new SimpleDoubleProperty(node.getLayoutY()+3.5);
-        DoubleProperty endFirstInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
-        DoubleProperty endFirstInputY = new SimpleDoubleProperty(node.getLayoutY()+3.5);
+        DoubleProperty startFirstInputX = new SimpleDoublePosition(node.getLayoutX()-1.5);
+        DoubleProperty startFirstInputY = new SimpleDoublePosition(node.getLayoutY()+3.5);
+        DoubleProperty endFirstInputX = new SimpleDoublePosition(node.getLayoutX()+2);
+        DoubleProperty endFirstInputY = new SimpleDoublePosition(node.getLayoutY()+3.5);
         startFirstInput = new LogicCircle(startFirstInputX,startFirstInputY, node.getCurrentGate(), "FirstInput");
         first = new Text();
         first.setText("I" + ++In);
@@ -532,10 +531,10 @@ public class DrawGate {
         Main.getController().getPane().getChildren().addAll(startFirstInput, endFirstInput, lineFirstInput);
         
         //SecondInput
-        DoubleProperty startSecondInputX = new SimpleDoubleProperty(node.getLayoutX()-1.5);
-        DoubleProperty startSecondInputY = new SimpleDoubleProperty(node.getLayoutY()+17);
-        DoubleProperty endSecondInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
-        DoubleProperty endSecondInputY = new SimpleDoubleProperty(node.getLayoutY()+17);
+        DoubleProperty startSecondInputX = new SimpleDoublePosition(node.getLayoutX()-1.5);
+        DoubleProperty startSecondInputY = new SimpleDoublePosition(node.getLayoutY()+17);
+        DoubleProperty endSecondInputX = new SimpleDoublePosition(node.getLayoutX()+2);
+        DoubleProperty endSecondInputY = new SimpleDoublePosition(node.getLayoutY()+17);
         startSecondInput = new LogicCircle(startSecondInputX,startSecondInputY, node.getCurrentGate(), "SecondInput");
         second = new Text();
         second.setText("I" + ++In);
@@ -549,10 +548,10 @@ public class DrawGate {
         Main.getController().getPane().getChildren().addAll(startSecondInput, endSecondInput, lineSecondInput);
         
         //ThirdInput
-        DoubleProperty startThirdInputX = new SimpleDoubleProperty(node.getLayoutX()-1.5);
-        DoubleProperty startThirdInputY = new SimpleDoubleProperty(node.getLayoutY()+32);
-        DoubleProperty endThirdInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
-        DoubleProperty endThirdInputY = new SimpleDoubleProperty(node.getLayoutY()+32);
+        DoubleProperty startThirdInputX = new SimpleDoublePosition(node.getLayoutX()-1.5);
+        DoubleProperty startThirdInputY = new SimpleDoublePosition(node.getLayoutY()+32);
+        DoubleProperty endThirdInputX = new SimpleDoublePosition(node.getLayoutX()+2);
+        DoubleProperty endThirdInputY = new SimpleDoublePosition(node.getLayoutY()+32);
         startThirdInput = new LogicCircle(startThirdInputX,startThirdInputY, node.getCurrentGate(), "ThirdInput");
         third = new Text();
         third.setText("I" + ++In);
@@ -566,10 +565,10 @@ public class DrawGate {
         Main.getController().getPane().getChildren().addAll(startThirdInput, endThirdInput, lineThirdInput);
         
         //FourthInput
-        DoubleProperty startFourthInputX = new SimpleDoubleProperty(node.getLayoutX()-1.5);
-        DoubleProperty startFourthInputY = new SimpleDoubleProperty(node.getLayoutY()+47);
-        DoubleProperty endFourthInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
-        DoubleProperty endFourthInputY = new SimpleDoubleProperty(node.getLayoutY()+47);
+        DoubleProperty startFourthInputX = new SimpleDoublePosition(node.getLayoutX()-1.5);
+        DoubleProperty startFourthInputY = new SimpleDoublePosition(node.getLayoutY()+47);
+        DoubleProperty endFourthInputX = new SimpleDoublePosition(node.getLayoutX()+2);
+        DoubleProperty endFourthInputY = new SimpleDoublePosition(node.getLayoutY()+47);
         startFourthInput = new LogicCircle(startFourthInputX,startFourthInputY, node.getCurrentGate(), "FourthInput");
         fourth = new Text();
         fourth.setText("I" + ++In);
@@ -585,10 +584,10 @@ public class DrawGate {
     }
     
     private void setOutput() {
-        DoubleProperty startX = new SimpleDoubleProperty(node.getLayoutX()+97.5);
-        DoubleProperty startY = new SimpleDoubleProperty(node.getLayoutY()+25);
-        DoubleProperty endX = new SimpleDoubleProperty(node.getLayoutX()+95);
-        DoubleProperty endY = new SimpleDoubleProperty(node.getLayoutY()+25);
+        DoubleProperty startX = new SimpleDoublePosition(node.getLayoutX()+97.5);
+        DoubleProperty startY = new SimpleDoublePosition(node.getLayoutY()+25);
+        DoubleProperty endX = new SimpleDoublePosition(node.getLayoutX()+95);
+        DoubleProperty endY = new SimpleDoublePosition(node.getLayoutY()+25);
         startOutput = new LogicCircle(startX, startY, node.getCurrentGate(), "Output");
         out = new Text();
         out.setText("O" + ++Out);
@@ -638,10 +637,10 @@ public class DrawGate {
     }
     
     private void setInputNotAgain() {
-        DoubleProperty startFirstInputX = new SimpleDoubleProperty(serial.getFirstCircleX());
-        DoubleProperty startFirstInputY = new SimpleDoubleProperty(serial.getFirstCircleY());
-        DoubleProperty endFirstInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
-        DoubleProperty endFirstInputY = new SimpleDoubleProperty(node.getLayoutY()+25);
+        DoubleProperty startFirstInputX = new SimpleDoublePosition(serial.getFirstCircleX());
+        DoubleProperty startFirstInputY = new SimpleDoublePosition(serial.getFirstCircleY());
+        DoubleProperty endFirstInputX = new SimpleDoublePosition(node.getLayoutX()+2);
+        DoubleProperty endFirstInputY = new SimpleDoublePosition(node.getLayoutY()+25);
         startFirstInput = new LogicCircle(startFirstInputX,startFirstInputY, node.getCurrentGate(), "FirstInput");
         first = new Text();
         first.setText("I" + ++In);
@@ -658,10 +657,10 @@ public class DrawGate {
     
     private void setTwoInputsAgain() {
         //FirstInput
-        DoubleProperty startFirstInputX = new SimpleDoubleProperty(serial.getFirstCircleX());
-        DoubleProperty startFirstInputY = new SimpleDoubleProperty(serial.getFirstCircleY());
-        DoubleProperty endFirstInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
-        DoubleProperty endFirstInputY = new SimpleDoubleProperty(node.getLayoutY()+13);
+        DoubleProperty startFirstInputX = new SimpleDoublePosition(serial.getFirstCircleX());
+        DoubleProperty startFirstInputY = new SimpleDoublePosition(serial.getFirstCircleY());
+        DoubleProperty endFirstInputX = new SimpleDoublePosition(node.getLayoutX()+2);
+        DoubleProperty endFirstInputY = new SimpleDoublePosition(node.getLayoutY()+13);
         startFirstInput = new LogicCircle(startFirstInputX,startFirstInputY, node.getCurrentGate(), "FirstInput");
         first = new Text();
         first.setText("I" + ++In);
@@ -675,10 +674,10 @@ public class DrawGate {
         Main.getController().getPane().getChildren().addAll(startFirstInput, endFirstInput, lineFirstInput,first);
         
         //SecondInput
-        DoubleProperty startSecondInputX = new SimpleDoubleProperty(serial.getSecondCircleX());
-        DoubleProperty startSecondInputY = new SimpleDoubleProperty(serial.getSecondCircleY());
-        DoubleProperty endSecondInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
-        DoubleProperty endSecondInputY = new SimpleDoubleProperty(node.getLayoutY()+37);
+        DoubleProperty startSecondInputX = new SimpleDoublePosition(serial.getSecondCircleX());
+        DoubleProperty startSecondInputY = new SimpleDoublePosition(serial.getSecondCircleY());
+        DoubleProperty endSecondInputX = new SimpleDoublePosition(node.getLayoutX()+2);
+        DoubleProperty endSecondInputY = new SimpleDoublePosition(node.getLayoutY()+37);
         startSecondInput = new LogicCircle(startSecondInputX,startSecondInputY, node.getCurrentGate(), "SecondInput");
         second = new Text();
         second.setText("I" + ++In);
@@ -694,10 +693,10 @@ public class DrawGate {
 
     private void setThreeInputsAgain() {
         //FirstInput
-        DoubleProperty startFirstInputX = new SimpleDoubleProperty(serial.getFirstCircleX());
-        DoubleProperty startFirstInputY = new SimpleDoubleProperty(serial.getFirstCircleY());
-        DoubleProperty endFirstInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
-        DoubleProperty endFirstInputY = new SimpleDoubleProperty(node.getLayoutY()+7);
+        DoubleProperty startFirstInputX = new SimpleDoublePosition(serial.getFirstCircleX());
+        DoubleProperty startFirstInputY = new SimpleDoublePosition(serial.getFirstCircleY());
+        DoubleProperty endFirstInputX = new SimpleDoublePosition(node.getLayoutX()+2);
+        DoubleProperty endFirstInputY = new SimpleDoublePosition(node.getLayoutY()+7);
         startFirstInput = new LogicCircle(startFirstInputX,startFirstInputY, node.getCurrentGate(), "FirstInput");
         first = new Text();
         first.setText("I" + ++In);
@@ -711,10 +710,10 @@ public class DrawGate {
         Main.getController().getPane().getChildren().addAll(startFirstInput, endFirstInput, lineFirstInput);
         
         //SecondInput
-        DoubleProperty startSecondInputX = new SimpleDoubleProperty(serial.getSecondCircleX());
-        DoubleProperty startSecondInputY = new SimpleDoubleProperty(serial.getSecondCircleY());
-        DoubleProperty endSecondInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
-        DoubleProperty endSecondInputY = new SimpleDoubleProperty(node.getLayoutY()+25);
+        DoubleProperty startSecondInputX = new SimpleDoublePosition(serial.getSecondCircleX());
+        DoubleProperty startSecondInputY = new SimpleDoublePosition(serial.getSecondCircleY());
+        DoubleProperty endSecondInputX = new SimpleDoublePosition(node.getLayoutX()+2);
+        DoubleProperty endSecondInputY = new SimpleDoublePosition(node.getLayoutY()+25);
         startSecondInput = new LogicCircle(startSecondInputX,startSecondInputY, node.getCurrentGate(), "SecondInput");
         second = new Text();
         second.setText("I" + ++In);
@@ -728,10 +727,10 @@ public class DrawGate {
         Main.getController().getPane().getChildren().addAll(startSecondInput, endSecondInput, lineSecondInput);
         
         //ThirdInput
-        DoubleProperty startThirdInputX = new SimpleDoubleProperty(serial.getThirdCircleX());
-        DoubleProperty startThirdInputY = new SimpleDoubleProperty(serial.getThirdCircleY());
-        DoubleProperty endThirdInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
-        DoubleProperty endThirdInputY = new SimpleDoubleProperty(node.getLayoutY()+43);
+        DoubleProperty startThirdInputX = new SimpleDoublePosition(serial.getThirdCircleX());
+        DoubleProperty startThirdInputY = new SimpleDoublePosition(serial.getThirdCircleY());
+        DoubleProperty endThirdInputX = new SimpleDoublePosition(node.getLayoutX()+2);
+        DoubleProperty endThirdInputY = new SimpleDoublePosition(node.getLayoutY()+43);
         startThirdInput = new LogicCircle(startThirdInputX,startThirdInputY, node.getCurrentGate(), "ThirdInput");
         third = new Text();
         third.setText("I" + ++In);
@@ -747,10 +746,10 @@ public class DrawGate {
 
     private void setFourInputsAgain() {
         //FirstInput
-        DoubleProperty startFirstInputX = new SimpleDoubleProperty(serial.getFirstCircleX());
-        DoubleProperty startFirstInputY = new SimpleDoubleProperty(serial.getFirstCircleY());
-        DoubleProperty endFirstInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
-        DoubleProperty endFirstInputY = new SimpleDoubleProperty(node.getLayoutY()+3.5);
+        DoubleProperty startFirstInputX = new SimpleDoublePosition(serial.getFirstCircleX());
+        DoubleProperty startFirstInputY = new SimpleDoublePosition(serial.getFirstCircleY());
+        DoubleProperty endFirstInputX = new SimpleDoublePosition(node.getLayoutX()+2);
+        DoubleProperty endFirstInputY = new SimpleDoublePosition(node.getLayoutY()+3.5);
         startFirstInput = new LogicCircle(startFirstInputX,startFirstInputY, node.getCurrentGate(), "FirstInput");
         first = new Text();
         first.setText("I" + ++In);
@@ -764,10 +763,10 @@ public class DrawGate {
         Main.getController().getPane().getChildren().addAll(startFirstInput, endFirstInput, lineFirstInput);
         
         //SecondInput
-        DoubleProperty startSecondInputX = new SimpleDoubleProperty(serial.getSecondCircleX());
-        DoubleProperty startSecondInputY = new SimpleDoubleProperty(serial.getSecondCircleY());
-        DoubleProperty endSecondInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
-        DoubleProperty endSecondInputY = new SimpleDoubleProperty(node.getLayoutY()+17);
+        DoubleProperty startSecondInputX = new SimpleDoublePosition(serial.getSecondCircleX());
+        DoubleProperty startSecondInputY = new SimpleDoublePosition(serial.getSecondCircleY());
+        DoubleProperty endSecondInputX = new SimpleDoublePosition(node.getLayoutX()+2);
+        DoubleProperty endSecondInputY = new SimpleDoublePosition(node.getLayoutY()+17);
         startSecondInput = new LogicCircle(startSecondInputX,startSecondInputY, node.getCurrentGate(), "SecondInput");
         second = new Text();
         second.setText("I" + ++In);
@@ -781,10 +780,10 @@ public class DrawGate {
         Main.getController().getPane().getChildren().addAll(startSecondInput, endSecondInput, lineSecondInput);
         
         //ThirdInput
-        DoubleProperty startThirdInputX = new SimpleDoubleProperty(serial.getThirdCircleX());
-        DoubleProperty startThirdInputY = new SimpleDoubleProperty(serial.getThirdCircleY());
-        DoubleProperty endThirdInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
-        DoubleProperty endThirdInputY = new SimpleDoubleProperty(node.getLayoutY()+32);
+        DoubleProperty startThirdInputX = new SimpleDoublePosition(serial.getThirdCircleX());
+        DoubleProperty startThirdInputY = new SimpleDoublePosition(serial.getThirdCircleY());
+        DoubleProperty endThirdInputX = new SimpleDoublePosition(node.getLayoutX()+2);
+        DoubleProperty endThirdInputY = new SimpleDoublePosition(node.getLayoutY()+32);
         startThirdInput = new LogicCircle(startThirdInputX,startThirdInputY, node.getCurrentGate(), "ThirdInput");
         third = new Text();
         third.setText("I" + ++In);
@@ -798,10 +797,10 @@ public class DrawGate {
         Main.getController().getPane().getChildren().addAll(startThirdInput, endThirdInput, lineThirdInput);
         
         //FourthInput
-        DoubleProperty startFourthInputX = new SimpleDoubleProperty(serial.getFourthCircleX());
-        DoubleProperty startFourthInputY = new SimpleDoubleProperty(serial.getFourthCircleY());
-        DoubleProperty endFourthInputX = new SimpleDoubleProperty(node.getLayoutX()+2);
-        DoubleProperty endFourthInputY = new SimpleDoubleProperty(node.getLayoutY()+47);
+        DoubleProperty startFourthInputX = new SimpleDoublePosition(serial.getFourthCircleX());
+        DoubleProperty startFourthInputY = new SimpleDoublePosition(serial.getFourthCircleY());
+        DoubleProperty endFourthInputX = new SimpleDoublePosition(node.getLayoutX()+2);
+        DoubleProperty endFourthInputY = new SimpleDoublePosition(node.getLayoutY()+47);
         startFourthInput = new LogicCircle(startFourthInputX,startFourthInputY, node.getCurrentGate(), "FourthInput");
         fourth = new Text();
         fourth.setText("I" + ++In);
@@ -816,10 +815,10 @@ public class DrawGate {
     }
     
     private void setOutputAgain() {
-        DoubleProperty startX = new SimpleDoubleProperty(serial.getOutputCircleX());
-        DoubleProperty startY = new SimpleDoubleProperty(serial.getOutputCircleY());
-        DoubleProperty endX = new SimpleDoubleProperty(node.getLayoutX()+95);
-        DoubleProperty endY = new SimpleDoubleProperty(node.getLayoutY()+25);
+        DoubleProperty startX = new SimpleDoublePosition(serial.getOutputCircleX());
+        DoubleProperty startY = new SimpleDoublePosition(serial.getOutputCircleY());
+        DoubleProperty endX = new SimpleDoublePosition(node.getLayoutX()+95);
+        DoubleProperty endY = new SimpleDoublePosition(node.getLayoutY()+25);
         startOutput = new LogicCircle(startX, startY, node.getCurrentGate(), "Output");
         out = new Text();
         out.setText("O" + ++Out);

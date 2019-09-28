@@ -1,5 +1,5 @@
 
-package cr.ac.tec.circuitdesigner.table;
+package cr.ac.tec.circuitdesigner;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -223,7 +223,7 @@ public class GUIController implements Initializable {
     
     @FXML
     void runCircuit(ActionEvent event) {
-        circuit = Facade.getCircuit();
+        /*circuit = Facade.getCircuit();
         if(circuit.isEmpty()){
             message.setText("Circuit has not been created");
             message.setUnFocusColor(Color.RED);
@@ -266,12 +266,12 @@ public class GUIController implements Initializable {
                     }
                 }
             }
-        }  
+        }*/  
     }
     
     @FXML
     void generateTable(ActionEvent event) {
-        circuit = Facade.getCircuit();
+        /*circuit = Facade.getCircuit();
         if(circuit.getSize() == 0){
             message.setText("Circuit has not been created");
             message.setUnFocusColor(Color.RED);
@@ -292,7 +292,7 @@ public class GUIController implements Initializable {
                 message.setText("Could not load the table, check the connections between the gates");
                 message.setUnFocusColor(Color.RED);
             } 
-        }
+        }*/
     }
     
     @FXML
